@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="Hexo is a prominent framework for building personal websites, with a good compatibility with Markdown, MathJax and NPM packages. As a matural ecosystem, there’re hundreds of easy-to-use themes and plu">
@@ -29,8 +29,9 @@
 <meta property="og:description" content="Hexo is a prominent framework for building personal websites, with a good compatibility with Markdown, MathJax and NPM packages. As a matural ecosystem, there’re hundreds of easy-to-use themes and plu">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://misa-xu.github.io/hexo-next/gitpage.png">
+<meta property="og:image" content="https://misa-xu.github.io/hexo-next/deploy_input.png">
 <meta property="article:published_time" content="2020-07-30T06:33:33.000Z">
-<meta property="article:modified_time" content="2020-07-30T08:18:41.096Z">
+<meta property="article:modified_time" content="2020-07-30T09:07:37.953Z">
 <meta property="article:author" content="Misa XU">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
@@ -83,7 +84,7 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <div class="container">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -140,7 +141,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">2</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">1</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -232,7 +233,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-30 14:33:33 / Modified: 16:18:41" itemprop="dateCreated datePublished" datetime="2020-07-30T14:33:33+08:00">2020-07-30</time>
+              <time title="Created: 2020-07-30 14:33:33 / Modified: 17:07:37" itemprop="dateCreated datePublished" datetime="2020-07-30T14:33:33+08:00">2020-07-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,17 +261,41 @@
 <p>In this article, I will not repeat the contents that have already been well-informed on the official website; Just links towards such contents will be provided. Instead, I will introduce some add-on functions and emphasize on the points where I used to get stuck in.</p>
 <a id="more"></a>
 
-<h1 id="Create-Repository"><a href="#Create-Repository" class="headerlink" title="Create Repository"></a>Create Repository</h1><p>Create a new Repository named <code>&lt;user-name&gt;.github.io</code><br><code>&lt;Your Repo&gt; / Settings / Options / Github Pages</code>, set the <code>Source</code> be <code>Master Branch</code><br><img src="gitpage.png"></p>
-<h1 id="Configurate-Development-Environment"><a href="#Configurate-Development-Environment" class="headerlink" title="Configurate Development Environment"></a>Configurate Development Environment</h1><p>Make sure Node.js and NPM are ready.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo init &lt;project-name&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;projectname&gt;</span><br><span class="line">npm install</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<h1 id="Create-Repository"><a href="#Create-Repository" class="headerlink" title="Create Repository"></a>Create Repository</h1><ol>
+<li>Create a new Repository named <code>&lt;user-name&gt;.github.io</code>.</li>
+<li>Find the section <code>&lt;Your Repo&gt; / Settings / Options / Github Pages</code>, set the <code>Source</code> be <code>Master Branch</code><br><img src="gitpage.png"></li>
+</ol>
+<h1 id="Configurate-Development-Environment"><a href="#Configurate-Development-Environment" class="headerlink" title="Configurate Development Environment"></a>Configurate Development Environment</h1><ol>
+<li>Make sure Node.js and NPM are ready; Install <code>Hexo</code> globally.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure></li>
+<li>Create a hexo project.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;project-name&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;projectname&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></li>
+<li>Download the theme <code>NexT</code>.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure></li>
+<li>Apply the theme <code>NexT</code>.<br>Under the root directory of the project, you will find <code>_config.yml</code> inside it. In <code>line 101</code>, set the theme to <code>next</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: next</span><br></pre></td></tr></table></figure></li>
+<li>Update <code>NexT</code>.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> themes/next</span><br><span class="line">git pull</span><br></pre></td></tr></table></figure></li>
+<li>Configurate <code>NexT</code>.<br>Please Visite <a target="_blank" rel="noopener" href="https://theme-next.iissnan.com/">https://theme-next.iissnan.com/</a> for details.</li>
+</ol>
+<h1 id="Commonly-used-Commands"><a href="#Commonly-used-Commands" class="headerlink" title="Commonly-used Commands"></a>Commonly-used Commands</h1><p>Please Visit <a target="_blank" rel="noopener" href="https://hexo.io/docs/commands.html">https://hexo.io/docs/commands.html</a> for further details.</p>
+<h2 id="Create-New-Page"><a href="#Create-New-Page" class="headerlink" title="Create New Page"></a>Create New Page</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<p>Creates a new <code>.md</code> file. If the title contains spaces, surround it with quotation marks. <code>[layout]</code> is optional. If a customized layout is preferred, put it under <code>&lt;root-dir&gt;/scaffolds</code> and passing the name of it when creating.</p>
+<h2 id="Run-Website-Locally"><a href="#Run-Website-Locally" class="headerlink" title="Run Website Locally"></a>Run Website Locally</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s --debug</span><br></pre></td></tr></table></figure>
+<p>The command above will set up a localhost server for testing. The port number by default is <code>4000</code>, change it by passing <code>-p &lt;port-number&gt;</code> if required; <code>--debug</code> is also optional.</p>
+<div class="note info">
+            <p>During running, all changes in <code>_config.yml</code> of <code>NexT</code>, and in <code>&lt;root-dir&gt;/sources/</code> will be rendered instantly.</p>
+          </div>
+<h2 id="Generate-Static-files"><a href="#Generate-Static-files" class="headerlink" title="Generate Static files"></a>Generate Static files</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g --debug</span><br></pre></td></tr></table></figure>
+<p>All static files will be put in <code>&lt;root-dir&gt;/public</code></p>
+<h2 id="Clean-the-output"><a href="#Clean-the-output" class="headerlink" title="Clean the output"></a>Clean the output</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+<p>This will remove the <code>db.json</code> and and <code>&lt;root-dir&gt;/public/</code></p>
+<h2 id="Deploy-to-Github"><a href="#Deploy-to-Github" class="headerlink" title="Deploy to Github"></a>Deploy to Github</h2><h3 id="Define-Deploy-Behavior-to-Github"><a href="#Define-Deploy-Behavior-to-Github" class="headerlink" title="Define Deploy Behavior to Github"></a>Define Deploy Behavior to Github</h3><h4 id="Install-Library"><a href="#Install-Library" class="headerlink" title="Install Library"></a>Install Library</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
+<h4 id="Configurate"><a href="#Configurate" class="headerlink" title="Configurate"></a>Configurate</h4><p><code>_config.yml</code> under <code>&lt;root-dir&gt;</code>, find the <code>deploy</code> section in the end of the file</p>
+<h4 id="Basic-Settings"><a href="#Basic-Settings" class="headerlink" title="Basic Settings"></a>Basic Settings</h4><p>Just define the colum <code>repo</code> as the address of your repository</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: https://github.com/Misa-XU/misa-xu.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p><img src="deploy_input.png"></p>
+<h4 id="Skip-the-Authentication-Process"><a href="#Skip-the-Authentication-Process" class="headerlink" title="Skip the Authentication Process"></a>Skip the Authentication Process</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo:</span><br><span class="line">    github: git@github.com:misa-xu/misa-xu.github.io.git <span class="comment"># Github SSH</span></span><br><span class="line">    <span class="comment"># github: https://github.com/cylong1016/cylong1016.github.io.git # Github HTTPS</span></span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<h2 id="page"><a href="#page" class="headerlink" title="page"></a>page</h2><p><a target="_blank" rel="noopener" href="https://hexo.io/docs/front-matter">https://hexo.io/docs/front-matter</a></p>
 <p>post_asset_folder: true</p>
 <p>$$\sqrt{2}$$</p>
-<h1 id="Define-Deploy-Behavior-to-Github"><a href="#Define-Deploy-Behavior-to-Github" class="headerlink" title="Define Deploy Behavior to Github"></a>Define Deploy Behavior to Github</h1><h2 id="Install-Library"><a href="#Install-Library" class="headerlink" title="Install Library"></a>Install Library</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git</span><br></pre></td></tr></table></figure>
-<h2 id="Configurate"><a href="#Configurate" class="headerlink" title="Configurate"></a>Configurate</h2><p><code>_config.yml</code> under <code>&lt;root-folder&gt;</code>, find the <code>deploy</code> section in the end of the file</p>
-<h3 id="Basic-Settings"><a href="#Basic-Settings" class="headerlink" title="Basic Settings"></a>Basic Settings</h3><p>Just define the colum <code>repo</code> as the address of your repository</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: https://github.com/Misa-XU/misa-xu.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo:</span><br><span class="line">    github: git@github.com:cylong1016/cylong1016.github.io.git <span class="comment"># Github SSH</span></span><br><span class="line">    <span class="comment"># github: https://github.com/cylong1016/cylong1016.github.io.git # Github HTTPS</span></span><br><span class="line">    coding: git@git.coding.net:cylong1016/cylong1016.git <span class="comment"># Coding SSH</span></span><br><span class="line">    <span class="comment"># coding: https://git.coding.net/cylong1016/cylong1016.git # Coding HTTPS</span></span><br><span class="line">  branch: master</span><br><span class="line"></span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -286,13 +311,6 @@
 
 
         
-    <div class="post-nav">
-      <div class="post-nav-item"></div>
-      <div class="post-nav-item">
-    <a href="/hello-world/" rel="next" title="Hello World">
-      Hello World <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
       </footer>
     
   </article>
@@ -351,7 +369,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-Repository"><span class="nav-number">1.</span> <span class="nav-text">Create Repository</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Configurate-Development-Environment"><span class="nav-number">2.</span> <span class="nav-text">Configurate Development Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Define-Deploy-Behavior-to-Github"><span class="nav-number">3.</span> <span class="nav-text">Define Deploy Behavior to Github</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-Library"><span class="nav-number">3.1.</span> <span class="nav-text">Install Library</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configurate"><span class="nav-number">3.2.</span> <span class="nav-text">Configurate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Basic-Settings"><span class="nav-number">3.2.1.</span> <span class="nav-text">Basic Settings</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-Repository"><span class="nav-number">1.</span> <span class="nav-text">Create Repository</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Configurate-Development-Environment"><span class="nav-number">2.</span> <span class="nav-text">Configurate Development Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Commonly-used-Commands"><span class="nav-number">3.</span> <span class="nav-text">Commonly-used Commands</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-New-Page"><span class="nav-number">3.1.</span> <span class="nav-text">Create New Page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Run-Website-Locally"><span class="nav-number">3.2.</span> <span class="nav-text">Run Website Locally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Generate-Static-files"><span class="nav-number">3.3.</span> <span class="nav-text">Generate Static files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Clean-the-output"><span class="nav-number">3.4.</span> <span class="nav-text">Clean the output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deploy-to-Github"><span class="nav-number">3.5.</span> <span class="nav-text">Deploy to Github</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-Deploy-Behavior-to-Github"><span class="nav-number">3.5.1.</span> <span class="nav-text">Define Deploy Behavior to Github</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Install-Library"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">Install Library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configurate"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Basic-Settings"><span class="nav-number">3.5.1.3.</span> <span class="nav-text">Basic Settings</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skip-the-Authentication-Process"><span class="nav-number">3.5.1.4.</span> <span class="nav-text">Skip the Authentication Process</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#page"><span class="nav-number">3.6.</span> <span class="nav-text">page</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -367,7 +385,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">1</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -435,12 +453,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
 <script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
 
 
 <script src="/js/schemes/pisces.js"></script>
