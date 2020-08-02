@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://misa-xu.github.io/cmake/</loc>
+    
+    <lastmod>2020-08-02T16:08:30.501Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://misa-xu.github.io/categories/index.html</loc>
+    
+    <lastmod>2020-08-02T16:06:59.670Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://misa-xu.github.io/about/index.html</loc>
+    
+    <lastmod>2020-08-02T16:06:54.747Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://misa-xu.github.io/tags/index.html</loc>
+    
+    <lastmod>2020-08-02T16:06:49.217Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://misa-xu.github.io/eigen/</loc>
     
     <lastmod>2020-08-02T15:59:19.045Z</lastmod>
@@ -12,27 +40,6 @@
     <loc>https://misa-xu.github.io/hexo-next/</loc>
     
     <lastmod>2020-07-30T13:14:11.587Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://misa-xu.github.io/tags/index.html</loc>
-    
-    <lastmod>2020-07-30T09:14:45.480Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://misa-xu.github.io/categories/index.html</loc>
-    
-    <lastmod>2020-07-30T09:14:38.581Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://misa-xu.github.io/about/index.html</loc>
-    
-    <lastmod>2020-07-30T09:14:27.449Z</lastmod>
     
   </url>
   

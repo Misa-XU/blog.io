@@ -868,4 +868,17 @@ Hey Jude, Don't Be Afraid
         <tag>Linear Algebra</tag>
       </tags>
   </entry>
+  <entry>
+    <title>cmake</title>
+    <url>/cmake/</url>
+    <content><![CDATA[
+]]></content>
+      <categories>
+        <category>Tools</category>
+      </categories>
+      <tags>
+        <tag>cmake</tag>
+        <tag>VSCode</tag>
+      </tags>
+  </entry>
 </search>
