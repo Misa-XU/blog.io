@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/m180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/m32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/m16.png">
+  <link rel="mask-icon" href="/images/m.svg" color="#222">
+  <meta name="google-site-verification" content="hHVOWX6ywxhEyB-iQlybbme_bBraiGIpQom994FhXWw">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Eigen is a very versatile library in C++ that helps to solve matrix-related problems in efficient approaches. The functions it supports includes but not limited to:  Process arbitrary fixed-size or">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eigen Tutorial">
+<meta property="og:url" content="https://misa-xu.github.io/eigen/index.html">
+<meta property="og:site_name" content="Яedσ З000">
+<meta property="og:description" content="Eigen is a very versatile library in C++ that helps to solve matrix-related problems in efficient approaches. The functions it supports includes but not limited to:  Process arbitrary fixed-size or">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-30T13:08:01.000Z">
+<meta property="article:modified_time" content="2020-08-02T15:59:19.045Z">
+<meta property="article:author" content="Misa XU">
+<meta property="article:tag" content="Eigen">
+<meta property="article:tag" content="Computer Graphics">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://misa-xu.github.io/eigen/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Eigen Tutorial | Яedσ З000</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Яedσ З000</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Living so free is a tragedy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-code fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-bug fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-map-signs fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://misa-xu.github.io/eigen/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Misa XU">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Яedσ З000">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Eigen Tutorial
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-30 21:08:01" itemprop="dateCreated datePublished" datetime="2020-07-30T21:08:01+08:00">2020-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-02 23:59:19" itemprop="dateModified" datetime="2020-08-02T23:59:19+08:00">2020-08-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/Math/" itemprop="url" rel="index"><span itemprop="name">Math</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/Math/Computer-Graphics/" itemprop="url" rel="index"><span itemprop="name">Computer Graphics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Eigen is a very versatile library in C++ that helps to solve matrix-related problems in efficient approaches. The functions it supports includes but not limited to:</p>
+<ul>
+<li>Process arbitrary fixed-size or dynamic-size (unknown in compile-time) dense matrices and sparse matrices of all standard numeric types.</li>
+<li>Perform matrix decompositions and geometry transforms.</li>
+<li>Other extendable modules like non-linear optimization, a polynomial solver, FFT etc.</li>
+</ul>
+<p>For further details, please visit <a target="_blank" rel="noopener" href="http://eigen.tuxfamily.org/dox/" class="uri">http://eigen.tuxfamily.org/dox/</a></p>
+<a id="more"></a>
+<h1 id="installation">Installation</h1>
+<p>Eigen is a <strong>header-only</strong> library. There is only two steps before using it:</p>
+<ol type="1">
+<li>Download the latest released package</li>
+<li>Unzip, and add the path into include directory</li>
+</ol>
+<div class="note info">
+            <p>A library is called <strong>header-only</strong> if the full definitions of all macros, functions and classes comprising the library are visible to the compiler in a header file form.</p>
+          </div>
+<h1 id="modules-and-headers">Modules and Headers</h1>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Module</th>
+<th style="text-align: left;">Header File</th>
+<th style="text-align: left;">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Core</td>
+<td style="text-align: left;"><code>&lt;Eigen/Core&gt;</code></td>
+<td style="text-align: left;">Definition of Matrix and Array classes; basic linear algebra operations, and array manipulation</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Geometry</td>
+<td style="text-align: left;"><code>&lt;Eigen/Geometry&gt;</code></td>
+<td style="text-align: left;">Geometry-featured transformations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LU</td>
+<td style="text-align: left;"><code>&lt;Eigen/LU&gt;</code></td>
+<td style="text-align: left;">Inverse, determinant, LU decompositions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cholesky</td>
+<td style="text-align: left;"><code>&lt;Eigen/Cholesky&gt;</code></td>
+<td style="text-align: left;">LLT and LDLT Cholesky factorization</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Householder</td>
+<td style="text-align: left;"><code>&lt;Eigen/Householder&gt;</code></td>
+<td style="text-align: left;">Householder transformations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SVD</td>
+<td style="text-align: left;"><code>&lt;Eigen/SVD&gt;</code></td>
+<td style="text-align: left;">SVD decompositions with least-squares solver</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QR</td>
+<td style="text-align: left;"><code>&lt;Eigen/QR&gt;</code></td>
+<td style="text-align: left;">QR decomposition</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Eigenvalues</td>
+<td style="text-align: left;"><Eigen/Eigenvalues></td>
+<td style="text-align: left;">Eigenvalue, eigenvector decompositions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sparse</td>
+<td style="text-align: left;"><code>&lt;Eigen/Sparse&gt;</code></td>
+<td style="text-align: left;">Sparse matrix storage and its basic linear algebra</td>
+</tr>
+</tbody>
+</table>
+<div class="note info">
+            <p>A Householder transformation (also called <strong>Householder reflection</strong> or <strong>elementary reflector</strong>) is a <strong>linear transformation</strong> that describes a reflection about a plane or hyperplane containing the origin</p>
+          </div>
+<p>There are two all-in-one headers that commonly used by developers for convenience. Depending on the context, one may choose:</p>
+<ul>
+<li><code>&lt;Eigen/Dense&gt;</code>: <code>Core</code>, <code>Geometry</code>, <code>LU</code>, <code>Cholesky</code>, <code>SVD</code>, <code>QR</code>, and <code>Eigenvalues</code></li>
+<li><code>&lt;Eigen/Eigen&gt;</code>: <code>Dense</code> and <code>Sparse</code> (the whole library)</li>
+</ul>
+<h1 id="matrix-class">Matrix Class</h1>
+<h2 id="dense-and-sparse-matrix">Dense and Sparse Matrix</h2>
+<p><strong>Dense matrix</strong> is the commonly used in most cases, which stores whole matrix in memory.</p>
+<p>Under some contexts, for example finite, element analysis, where developers are expected to deal with very large matrices but only a few non-zero coefficients, one may store the non-zero coefficients only, in order to reduce memory consumption and improve performance. Such matrix is called a <strong>Sparse matrix</strong>.</p>
+<p>Here we mainly focus on the construction and usage of dense matrix. For details of sparse matrix, please visit <a target="_blank" rel="noopener" href="https://eigen.tuxfamily.org/dox/group__TutorialSparse.html" class="uri">https://eigen.tuxfamily.org/dox/group__TutorialSparse.html</a>.</p>
+<h2 id="matrix-and-array">Matrix and Array</h2>
+<p>The APIs of <code>Array</code> class provide <strong>coefficient-wise</strong> operations, while the APIs of the <code>Matrix</code> class provide <strong>linear algebra</strong> operations.</p>
+<h2 id="template-parameters">Template parameters</h2>
+<p>The templates of <code>Matrix</code> and <code>Array</code> are shown below. <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Matrix&lt;<span class="keyword">typename</span> Scalar,</span><br><span class="line">       <span class="keyword">int</span> RowsAtCompileTime,</span><br><span class="line">       <span class="keyword">int</span> ColsAtCompileTime,</span><br><span class="line">       <span class="keyword">int</span> Options = <span class="number">0</span>,</span><br><span class="line">       <span class="keyword">int</span> MaxRowsAtCompileTime = RowsAtCompileTime,</span><br><span class="line">       <span class="keyword">int</span> MaxColsAtCompileTime = ColsAtCompileTime&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The parameters of Array is as same as above.</span></span><br><span class="line">Array&lt;<span class="keyword">typename</span> _Scalar, <span class="keyword">int</span> _Rows, <span class="keyword">int</span> _Cols, <span class="keyword">int</span> _Options, <span class="keyword">int</span> _MaxRows, <span class="keyword">int</span> _MaxCols&gt; </span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>Scalar</code> is the scalar type. Eigen currently supports all standard floating-point types (<code>float</code>, <code>double</code>, <code>complex&lt;float&gt;</code>, <code>complex&lt;double&gt;</code>, <code>long double</code>), as well as all native integer types (<code>int</code>, <code>unsigned int</code>, <code>short, etc</code>.), and <code>bool</code>.</li>
+<li><code>RowsAtCompileTime</code> and <code>ColsAtCompileTime</code> are the number of rows and columns at compile time. When developer cannot tell to the compiler the exact dimensions of the matrix, he could fill with the special value <code>Dynamic</code>, and indicates the size in constructor.</li>
+<li><code>Options</code> is a bit field to indicate the storage order; By default, it is <code>ColMajor</code>.</li>
+<li><code>MaxRowsAtCompileTime</code> and <code>MaxColsAtCompileTime</code> may be useful if a small dynamic-size matrix is required. After specifing these two params, compiler will allocate a memory on stack according to the upper bound, then avoid dynamic memory allocation.</li>
+</ul>
+<h2 id="storage-order">Storage Order</h2>
+<ul>
+<li><code>RowMajor</code> and <code>ColMajor</code> matrices can be mixed in expressions.</li>
+<li>Other libraries may require a certain storage order. In such cases, user could construct the objects with the expcted order in the whole program.</li>
+<li>Algorithms traversing a matrix <code>row by row</code> will go faster in a row-major matrix because of better data locality; Column-by-column traversal, similarly.</li>
+<li>The default in Eigen is <code>ColMajor</code>. Naturally, <code>Eigen</code> work best with column-major matrices.</li>
+</ul>
+<h2 id="fixed-size-and-dynamic-size">Fixed-size and Dynamic-size</h2>
+<ol type="1">
+<li>A fixed-size matrix is just a plain array, which is treated as a local variable and allocated on the <code>stack</code>; So a large fixed-size matrix may cause a stack overflow. For matrices with small sizes (typically smaller than <span class="math inline">\(4 \times 4\)</span>, up to <span class="math inline">\(16 \times 16\)</span>), fixed-size usually performs better, as there's no run-time cost, and it is easy to be optimized with loop unwinding.</li>
+<li>Dynamic-size matrices are allocated on heap; Their number of rows and columns are stored as member variables. Eigen will be more aggressive trying to vectorize (use SIMD instructions) when operating dynamic-size matrices.</li>
+<li>Fixed-size matrices allow compiler to do more rigorous checking towards the validity of the operation, at the costs of longer compilation time and larger executable.</li>
+</ol>
+<div class="note info">
+            <p><strong>Loop unrolling</strong>, also known as loop unwinding, is a loop transformation technique that attempts to optimize a program's execution speed at the expense of its binary size, which is an approach known as space–time tradeoff.</p><p>For example, suppose a normal loop:</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x; </span><br><span class="line"><span class="keyword">for</span> (x = <span class="number">0</span>; x &lt; <span class="number">100</span>; x++)</span><br><span class="line">&#123; </span><br><span class="line">  <span class="keyword">delete</span>(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>After loop unrolling:<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x; </span><br><span class="line"><span class="keyword">for</span> (x = <span class="number">0</span>; x &lt; <span class="number">100</span>; x += <span class="number">5</span> )</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="keyword">delete</span>(x);</span><br><span class="line">     <span class="keyword">delete</span>(x + <span class="number">1</span>);</span><br><span class="line">     <span class="keyword">delete</span>(x + <span class="number">2</span>);</span><br><span class="line">     <span class="keyword">delete</span>(x + <span class="number">3</span>);</span><br><span class="line">     <span class="keyword">delete</span>(x + <span class="number">4</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+          </div>
+<h2 id="convenience-typedefs">Convenience typedefs</h2>
+<p>Eigen defines the following <code>Matrix</code> typedefs:</p>
+<ul>
+<li><code>MatrixNt</code> for <code>Matrix&lt;t, N, N&gt;</code>.</li>
+<li><code>VectorNt</code> for <code>Matrix&lt;t, N, 1&gt;</code>.</li>
+<li><code>RowVectorNt</code> for <code>Matrix&lt;t, 1, N&gt;</code>.</li>
+</ul>
+<p>Where <code>N</code> can be any one of <code>2</code>, <code>3</code>, <code>4</code>, or <code>X</code> (for Dynamic); <code>t</code> can be any one of <code>i</code> (int), <code>f</code> (float), <code>d</code> (double), <code>cf</code> (complex<float>), or <code>cd</code> (complex<double>).</p>
+<p>For example:</p>
+<ul>
+<li><code>MatrixXd</code> means <code>typedef Matrix&lt;double, Dynamic, Dynamic&gt; MatrixXd;</code></li>
+<li><code>Vector3f</code> means <code>typedef Matrix&lt;float, 3, 1&gt; Vector3f;</code></li>
+</ul>
+<p>Some commonly used predefined type of <code>Array</code> includes</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Typedef</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Array&lt;float,Dynamic,1&gt;</code></td>
+<td><code>ArrayXf</code></td>
+</tr>
+<tr class="even">
+<td><code>Array&lt;float,3,1&gt;</code></td>
+<td><code>Array3f</code></td>
+</tr>
+<tr class="odd">
+<td><code>Array&lt;double,Dynamic,Dynamic&gt;</code></td>
+<td><code>ArrayXXd</code></td>
+</tr>
+<tr class="even">
+<td><code>Array&lt;double,3,3&gt;</code></td>
+<td><code>Array33d</code></td>
+</tr>
+<tr class="odd">
+<td><code>Array&lt;int,1,Dynamic&gt;</code></td>
+<td><code>RowArrayXi</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="constructor">Constructor</h2>
+<h3 id="default-constructor">Default constructor</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Matrix3f a;</span><br><span class="line">MatrixXf b;</span><br></pre></td></tr></table></figure>
+<p>Fixed-size matrix <code>a</code> is a 3-by-3 matrix, with a plain <code>float[9]</code> array of uninitialized coefficients; Dynamic-size matrix <code>b</code> is a <strong>null matrix</strong> with no memory allocated.</p>
+<h3 id="constructor-with-sizes">Constructor with sizes</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MatrixXf <span class="title">a</span><span class="params">(<span class="number">10</span>,<span class="number">15</span>)</span></span>;</span><br><span class="line"><span class="function">VectorXf <span class="title">b</span><span class="params">(<span class="number">30</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>For matrices, pass the number of rows first then number of columns; For vectors, pass the length only. They will allocate the memory with the given size and leave the coefficients uninitialized.</p>
+<div class="note primary">
+            <p>In order to offer a uniform API across fixed-size and dynamic-size matrices, it is allowed to pass the sizes to the constructor for fixed-size matrix.</p><p><code>Matrix3f a(3,3);</code> is a legal no-operation.</p>
+          </div>
+<h3 id="constructor-with-coefficients">Constructor with coefficients</h3>
+<p><code>Vector2d</code>, <code>Vector3d</code>, and <code>Vector4d</code>, it is allowed to pass the coefficients directly.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vector2d <span class="title">a</span><span class="params">(<span class="number">5.0</span>, <span class="number">6.0</span>)</span></span>;</span><br><span class="line"><span class="function">Vector3d <span class="title">b</span><span class="params">(<span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>)</span></span>;</span><br><span class="line"><span class="function">Vector4d <span class="title">c</span><span class="params">(<span class="number">5.0</span>, <span class="number">6.0</span>, <span class="number">7.0</span>, <span class="number">8.0</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="initializer">Initializer</h2>
+<h3 id="comma-initializer">Comma initializer</h3>
+<p>Eigen offers a comma initializer which allows users to pass values using <code>&lt;&lt;</code>; Values are seperated by <code>,</code>. The size of the matrix needs to be defined beforehand; Otherwise, compiler will complain if the size of matrix mismatchs the number of coefficients.</p>
+<h4 id="comma-with-numeric-values">Comma with numeric values</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Matrix3f m;</span><br><span class="line">m &lt;&lt; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>;</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[m = \begin{bmatrix} 
+1 &amp; 2 &amp; 3 \\
+4 &amp; 5 &amp; 6 \\
+7 &amp; 8 &amp; 9
+\end{bmatrix}\]</span></p>
+<h4 id="comma-with-vectors-or-matrices.">Comma with vectors or matrices.</h4>
+<p>This will join vectors or matrices together.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">RowVectorXd <span class="title">vec1</span><span class="params">(<span class="number">3</span>)</span></span>;</span><br><span class="line">vec1 &lt;&lt; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>;</span><br><span class="line"><span class="function">RowVectorXd <span class="title">vec2</span><span class="params">(<span class="number">4</span>)</span></span>;</span><br><span class="line">vec2 &lt;&lt; <span class="number">1</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>;</span><br><span class="line"><span class="function">RowVectorXd <span class="title">joined</span><span class="params">(<span class="number">7</span>)</span></span>;</span><br><span class="line">joined &lt;&lt; vec1, vec2;</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[joined = \begin{bmatrix} 1 &amp; 2 &amp; 3 &amp; 1 &amp; 4 &amp; 9 &amp; 16 \end{bmatrix}\]</span></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MatrixXf <span class="title">matA</span><span class="params">(<span class="number">2</span>, <span class="number">2</span>)</span></span>;</span><br><span class="line">matA &lt;&lt; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>;</span><br><span class="line"><span class="function">MatrixXf <span class="title">matB</span><span class="params">(<span class="number">4</span>, <span class="number">4</span>)</span></span>;</span><br><span class="line">matB &lt;&lt; matA, matA/<span class="number">10</span>, matA/<span class="number">10</span>, matA;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; matB &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[matB = 
+\begin{bmatrix} 
+1 &amp; 2 &amp; 0.1 &amp; 0.2 \\
+3 &amp; 4 &amp; 0.3 &amp; 0.4 \\
+0.1 &amp; 0.2 &amp; 1 &amp; 2 \\
+0.3 &amp; 0.4 &amp; 3 &amp; 4
+\end{bmatrix}\]</span></p>
+<h4 id="temporary-objects">Temporary Objects</h4>
+<p>Comma initializer can be used to construct temporary objects. <code>finished()</code> after initialization is required to indicate the accomplishment of it. <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MatrixXf mat = MatrixXf::Random(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">mat = (MatrixXf(<span class="number">2</span>,<span class="number">2</span>) &lt;&lt; <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>).finished() * mat;</span><br></pre></td></tr></table></figure></p>
+<h3 id="pre-defined-matrices-and-arrays">Pre-defined matrices and arrays</h3>
+<p>The Matrix and Array classes have static methods like <code>Zero()</code>, <code>Random()</code>, <code>Constant()</code> etc. for initializing special matrices accordingly. Depending on the size at compile time, the syntax of initialization varies. Suppose <code>XX</code> is a data type and <code>xx</code> is an object. <code>Func</code> will return an object and <code>setFunc()</code> will modify the values in place.</p>
+<ul>
+<li>For <code>fixed-size</code> objects, <code>XX::Func([values])</code>, <code>xx::setFunc([values])</code></li>
+<li>For 1D <code>dynamic-size</code> objects, <code>XX::Func(length, [values])</code>, <code>xx::setFunc(length, [values])</code></li>
+<li>For 2D <code>dynamic-size</code> objects, <code>XX::Func(rows, cols, [values])</code>, <code>xx::setFunc(rows, cols, [values])</code></li>
+</ul>
+<p><code>Func</code> could be</p>
+<ul>
+<li><code>Zero()</code></li>
+<li><code>Ones()</code></li>
+<li><code>Constant(value)</code></li>
+<li><code>Random() \\ within range [-1, 1]</code></li>
+<li><code>LinSpaced(size, low, high) \\only available for 1D objects</code></li>
+<li><code>Identity() \\only available for 2D objects</code></li>
+</ul>
+<h3 id="basis-vectors">Basis Vectors</h3>
+<p>It return an expression of the i-th unit (basis) vector.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fixed-Size Vectors</th>
+<th>Dynamic-Size Vectors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>XX::UnitX()</code> <span class="math inline">\(=&gt;\begin{bmatrix} 1 &amp; \{,0\}^* \end{bmatrix}\)</span> <br><code>XX::UnitY()</code> <span class="math inline">\(=&gt;\begin{bmatrix} 0 &amp; 1 &amp; \{,0\}^* \end{bmatrix}\)</span> <br><code>XX::UnitZ()</code> <span class="math inline">\(=&gt;\begin{bmatrix} 0 &amp; 0 &amp; 1 &amp; \{,0\}^* \end{bmatrix}\)</span></td>
+<td><code>XX::Unit(size, i)</code> <br> e.g. <code>VectorXf::Unit(4,1)</code> <span class="math inline">\(=&gt;\begin{bmatrix} 0 &amp; 1 &amp; 0 &amp; 0 \end{bmatrix}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="accessor">Accessor</h2>
+<p>Those accessors could be used as both <em>lvalues</em> and <em>rvalues</em>. As usual with other expressions, it has no runtime cost before evaluation. More detailed information are demostrated in</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://eigen.tuxfamily.org/dox/group__QuickRefPage.html" class="uri">http://eigen.tuxfamily.org/dox/group__QuickRefPage.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://eigen.tuxfamily.org/dox/group__TutorialBlockOperations.html" class="uri">http://eigen.tuxfamily.org/dox/group__TutorialBlockOperations.html</a></li>
+</ul>
+<h3 id="coefficient-accessor">Coefficient Accessor</h3>
+<p>Both operator <code>()</code> and<code>[]</code> is overloaded for accessing the coefficients; Same as normal array index in C++, it is zero-based. For vectors, both <code>()</code> and <code>[]</code> is valid; For matrices, since <code>m[i, j]</code> will be treated as <code>m[j]</code>, only <code>()</code> is valid.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MatrixXf <span class="title">a</span><span class="params">(<span class="number">2</span>, <span class="number">2</span>)</span></span>;</span><br><span class="line">a(<span class="number">0</span>, <span class="number">1</span>) = <span class="number">3.0</span>;</span><br><span class="line"><span class="function">VectorXd <span class="title">v</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">v(<span class="number">1</span>) = <span class="number">5.0</span>;</span><br><span class="line">v[<span class="number">0</span>] = <span class="number">2.0</span>; </span><br></pre></td></tr></table></figure>
+<h3 id="block">Block</h3>
+<p>A block is a rectangular part of matrix or array. It could be selected along a corner or a boundary. For each type of selection, only one example is listed for simplicity's sake.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Operation</strong></th>
+<th style="text-align: left;">Dynamic-size</th>
+<th style="text-align: left;">Fixed-size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Block of size <code>(p,q)</code> starting at <code>(i,j)</code></td>
+<td style="text-align: left;"><code>m.block(i,j,p,q)</code></td>
+<td style="text-align: left;"><code>m.block&lt;p,q&gt;(i,j)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Corner: Top-Left</td>
+<td style="text-align: left;"><code>m.topLeftCorner(p,q)</code></td>
+<td style="text-align: left;"><code>m.topLeftCorner&lt;p,q&gt;()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Half: Upper <code>q</code> Rows</td>
+<td style="text-align: left;"><code>m.topRows(q)</code></td>
+<td style="text-align: left;"><code>m.topRows&lt;q&gt;()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Half: Left <code>p</code> Columns</td>
+<td style="text-align: left;"><code>m.leftCols(p)</code></td>
+<td style="text-align: left;"><code>m.leftCols&lt;p&gt;()</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="rows-and-columns">Rows and Columns</h3>
+<p>Individual columns or rows could be selected by</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m.col(idx); <span class="comment">// the idx-th column</span></span><br><span class="line">m.row(idx); <span class="comment">// the idx-th row</span></span><br></pre></td></tr></table></figure>
+<h3 id="sub-vectors">Sub-vectors</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Operation</strong></th>
+<th style="text-align: left;">Dynamic-size</th>
+<th style="text-align: left;">Fixed-size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">First <code>n</code> elements of vector</td>
+<td style="text-align: left;"><code>v.head(n)</code></td>
+<td style="text-align: left;"><code>v.head&lt;n&gt;()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Last <code>n</code> elements of vector</td>
+<td style="text-align: left;"><code>v.tail(n)</code></td>
+<td style="text-align: left;"><code>v.tail&lt;n&gt;()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>n</code> elements starting at <code>i</code></td>
+<td style="text-align: left;"><code>vector.segment(i, n)</code></td>
+<td style="text-align: left;"><code>vector.segment&lt;n&gt;(i)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="diagonals">Diagonals</h3>
+<ul>
+<li><code>m.diagonal([idx])</code></li>
+</ul>
+<h2 id="slicing-and-map">Slicing and Map</h2>
+<h3 id="map">Map</h3>
+<p>It can be used to process non-eigen data without any overhead.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt; <span class="keyword">typename</span> PlainObjectType, </span><br><span class="line">     <span class="keyword">int</span> MapOptions, </span><br><span class="line">     <span class="keyword">typename</span> StrideType &gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>PlainObjectType</code>: the type after mapping</li>
+<li><code>MapOptions</code>: specifies the pointer alignment in bytes. It can be: <code>Aligned128</code>, <code>Aligned64</code>, <code>Aligned32</code>, <code>Aligned16</code>, <code>Aligned8</code> or <code>Unaligned</code>. By default is Unaligned.</li>
+<li><code>StrideType</code>: optional. By default, Map assumes the memory layout of an ordinary, contiguous array. This can be overridden by specifying strides. The type passed here must be a specialization of the Stride template.</li>
+</ul>
+<h3 id="stride">Stride</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Stride&lt; <span class="keyword">int</span> _OuterStrideAtCompileTime, </span><br><span class="line">        <span class="keyword">int</span> _InnerStrideAtCompileTime&gt;</span><br><span class="line">InnerStride&lt;_InnerStrideAtCompileTime = Dynamic&gt;</span><br><span class="line">OuterStride&lt;_OuterStrideAtCompileTime = Dynamic&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>InnerStride</code> is the pointer increment between two consecutive entries within a given row of a row-major matrix or within a given column of a column-major matrix.</li>
+<li><code>OuterStride</code> is the pointer increment between two consecutive rows of a row-major matrix or between two consecutive columns of a column-major matrix.</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> <span class="built_in">array</span>[<span class="number">24</span>]; <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">24</span>; ++i) <span class="built_in">array</span>[i] = i;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; Map&lt;MatrixXi, <span class="number">0</span>, Stride&lt;Dynamic,<span class="number">2</span>&gt; &gt;</span><br><span class="line">         (<span class="built_in">array</span>, <span class="number">3</span>, <span class="number">3</span>, Stride&lt;Dynamic,<span class="number">2</span>&gt;(<span class="number">8</span>, <span class="number">2</span>))</span><br><span class="line">     &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p>The output will be <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>  <span class="number">8</span> <span class="number">16</span></span><br><span class="line"><span class="number">2</span> <span class="number">10</span> <span class="number">18</span></span><br><span class="line"><span class="number">4</span> <span class="number">12</span> <span class="number">20</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="slicing">Slicing</h3>
+<ul>
+<li>For fixed-size <code>matrix</code>: <code>Map(dataPtr, stride)</code></li>
+<li>For dynamic-size <code>vector</code>: <code>Map(dataPtr, size, stride)</code></li>
+<li>For dynamic-size <code>matrix</code>: <code>Map(dataPtr, rows, cols, stride)</code></li>
+</ul>
+<h1 id="operation">Operation</h1>
+<h2 id="arithmetic">Arithmetic</h2>
+<p>Eigen doesn't provide implicit type promotion; Therefore, the scalar type of left-hand side and right-hand side must match.</p>
+<h3 id="addition-and-subtraction">Addition and Subtraction</h3>
+<h4 id="array-array-and-matrix-matrix">Array-Array and Matrix-Matrix</h4>
+<ul>
+<li>binary operator: <code>+</code> as in <code>a + b</code>; <code>-</code> as in <code>a - b</code></li>
+<li>unary operator: <code>-</code> as in <code>- a</code></li>
+<li>compound operator: <code>+=</code> as in <code>a += b</code>; <code>-=</code> as in <code>a -= b</code></li>
+</ul>
+<h4 id="array-scalar">Array-Scalar</h4>
+<p>The operators are same as above. <div class="note info">
+            <p>A 'matrix-scalar' addition and subtraction is not supported; You are expected to explicitly convert the data type into <code>array</code> first.</p>
+          </div></p>
+<h3 id="multiplication-and-division">Multiplication and Division</h3>
+<h4 id="matrix-scalar-and-array-scalar-multiplication-and-division">Matrix-Scalar and Array-Scalar Multiplication and Division</h4>
+<ul>
+<li>binary operator: <code>*</code> as in <code>matrix * scalar</code> or <code>scalar * matrix</code>; <code>/</code> as in <code>matrix / scalar</code></li>
+<li>compound operator: <code>*=</code> as in <code>matrix *= scalar</code>; <code>/=</code> as in <code>matrix /= scalar</code></li>
+</ul>
+<h4 id="matrix-matrix">Matrix-Matrix</h4>
+<ul>
+<li>binary operator: <code>*</code> as in <code>a*b</code></li>
+<li>compound operator <code>*=</code> as in <code>a*=b</code> (which is equivalent to <code>a = a*b</code>)</li>
+</ul>
+<h4 id="coefficient-wise-multiplication-and-division">Coefficient-wise Multiplication and Division</h4>
+<ul>
+<li><code>Array</code> class naturally provides coefficient-wise product and divition with operator <code>*</code> and <code>/</code>.</li>
+<li><code>Matrix</code> have <code>.cwiseProduct(.)</code> only.</li>
+</ul>
+<h2 id="coefficient-wise-operations">Coefficient-wise Operations</h2>
+<h3 id="array-array-and-array-scalar-comparison">Array-Array and Array-Scalar Comparison</h3>
+<ul>
+<li><code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code></li>
+<li><code>.min(.)</code>, <code>.max(.)</code></li>
+</ul>
+<h3 id="matrix-matrix-and-matrix-scalar-comparison">Matrix-Matrix and Matrix-Scalar Comparison</h3>
+<ul>
+<li><code>.cwiseMin(.)</code>, <code>.cwiseMax(.)</code></li>
+<li><code>.cwiseEqual(.)</code>, <code>.cwiseNotEqual(.)</code></li>
+</ul>
+<div class="note info">
+            <p><code>.min(.)</code> and <code>.max(.)</code> construct an array whose coefficients are the minimum/maximum of the given two arrays.</p>
+          </div>
+<h3 id="other-stl-like-operatons">Other STL-like operatons</h3>
+<p>Below could be applied to both <code>Matrix</code> and <code>Array</code></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Array</th>
+<th>Matrix</th>
+<th>Array</th>
+<th>Matrix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a.abs()</code>, <code>abs(a)</code></td>
+<td><code>m.cwiseAbs()</code></td>
+<td><code>a.abs2()</code>, <code>abs2(a)</code></td>
+<td><code>m.cwiseAbs2()</code></td>
+</tr>
+<tr class="even">
+<td><code>a.inverse()</code>, <code>inverse(a)</code></td>
+<td><code>m.cwiseInverse()</code></td>
+<td><code>a.conjugate()</code>, <code>conj(a)</code></td>
+<td><code>m.conjugate()</code></td>
+</tr>
+<tr class="odd">
+<td><code>a.real()</code>, <code>real(a)</code></td>
+<td><code>real(m)</code></td>
+<td><code>a.imag()</code>, <code>imag(a)</code></td>
+<td><code>imag(m)</code></td>
+</tr>
+<tr class="even">
+<td><code>a.sqrt()</code>, <code>sqrt(a)</code></td>
+<td><code>m.cwiseSqrt()</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Below are <code>Array</code> only</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Array</th>
+<th>Array</th>
+<th>Array</th>
+<th>Array</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a.exp()</code>, <code>exp(a)</code></td>
+<td><code>a.log()</code>, <code>log(a)</code></td>
+<td><code>a.log1p()</code>, <code>log1p(a)</code></td>
+<td><code>a.log10()</code>, <code>log10(a)</code></td>
+</tr>
+<tr class="even">
+<td><code>a.pow(e)</code>, <code>pow(a,e)</code></td>
+<td><code>a.rsqrt()</code>, <code>rsqrt(a)</code></td>
+<td><code>a.square()</code>, <code>square(a)</code></td>
+<td><code>a.cube()</code>, <code>cube(a)</code></td>
+</tr>
+<tr class="odd">
+<td><code>a.sin()</code>, <code>sin(a)</code></td>
+<td><code>a.cos()</code>, <code>cos(a)</code></td>
+<td><code>a.tan()</code>, <code>tan(a)</code></td>
+<td><code>a.asin()</code>, <code>asin(a)</code></td>
+</tr>
+<tr class="even">
+<td><code>a.acos()</code>, <code>acos(a)</code></td>
+<td><code>a.atan()</code>, <code>atan(a)</code></td>
+<td><code>a.sinh()</code>, <code>sinh(a)</code></td>
+<td><code>a.cosh()</code>, <code>cosh(a)</code></td>
+</tr>
+<tr class="odd">
+<td><code>a.tanh()</code>, <code>tanh(a)</code></td>
+<td><code>a.ceil()</code>, <code>ceil(a)</code></td>
+<td><code>a.floor()</code>, <code>floor(a)</code></td>
+<td><code>a.round()</code>, <code>round(a)</code></td>
+</tr>
+<tr class="even">
+<td><code>a.isFinite()</code>, <code>isfinite(a)</code></td>
+<td><code>a.isInf()</code>, <code>isinf(a)</code></td>
+<td><code>a.isNaN()</code>, <code>isnan(a)</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="linear-algebra">Linear Algebra</h2>
+<h3 id="dot-and-cross-product">Dot and Cross Product</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vector3f m, n;</span><br><span class="line">m.dot(n); <span class="comment">// dot product of m and n</span></span><br><span class="line">m.cross(n); <span class="comment">//cross product of m and n</span></span><br></pre></td></tr></table></figure>
+<div class="note info">
+            <p>Cross product is only for vectors of size <strong>3</strong>.</p>
+          </div>
+<h3 id="transpose-conjugate-and-adjoint">Transpose, Conjugate, and Adjoint</h3>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Normal</th>
+<th>Modifying In-place</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Transpose $ a^T $</td>
+<td><code>.transpose()</code></td>
+<td><code>.transposeInPlace()</code></td>
+</tr>
+<tr class="even">
+<td>Conjugate $ {a} $</td>
+<td><code>.conjugate()</code></td>
+<td><code>.conjugateInPlace()</code></td>
+</tr>
+<tr class="odd">
+<td>Adjoint $ a^* $</td>
+<td><code>.adjoint()</code></td>
+<td><code>.adjointInPlace()</code></td>
+</tr>
+<tr class="even">
+<td>Reverse $ a^{-1} $</td>
+<td><code>.reverse()</code></td>
+<td><code>.reverseInPlace()</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="norm-and-trace">Norm and Trace</h3>
+<ul>
+<li><code>.squaredNorm()</code> and <code>.norm()</code>
+<ul>
+<li>For vectors, <span class="math inline">\(\ell^{2}\)</span> norm.</li>
+<li>For matrices, &quot;<strong>Frobenius</strong>&quot; or &quot;<strong>Hilbert-Schmidt</strong>&quot; norm.</li>
+</ul></li>
+<li><code>.lpNorm&lt;p&gt;()</code>
+<ul>
+<li><code>p</code> could be integers or <code>Infinity</code> for computing <span class="math inline">\(l^{\infty}\)</span> norm.</li>
+</ul></li>
+<li><code>.trace()</code></li>
+</ul>
+<h3 id="decompositions-and-problem-solving">Decompositions and Problem Solving</h3>
+<p>Please visit <a target="_blank" rel="noopener" href="http://eigen.tuxfamily.org/dox/group__DenseLinearSolvers__chapter.html" class="uri">http://eigen.tuxfamily.org/dox/group__DenseLinearSolvers__chapter.html</a></p>
+<h2 id="reduction">Reduction</h2>
+<div class="note info">
+            <p>Reduction operations are operations that reduce a matrix or vector into a single value.</p>
+          </div>
+<p>Given an array or matrix, below will return single values.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Matrix3f m;</span><br><span class="line">m.sum(); <span class="comment">// sum of coefficients</span></span><br><span class="line">m.mean(); <span class="comment">// mean of coefficients</span></span><br><span class="line">m.prod(); <span class="comment">// product of coefficients</span></span><br><span class="line">m.maxCoeff(); <span class="comment">// max coefficient</span></span><br><span class="line">m.minCoeff(); <span class="comment">// min coefficient</span></span><br></pre></td></tr></table></figure>
+<p>Furthermore, for <code>minCoeff</code> and <code>maxCoeff</code>, the index of the value is also accessible by passing the address. <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Matrix3f m = Matrix3f::Random();</span><br><span class="line"><span class="built_in">std</span>::<span class="keyword">ptrdiff_t</span> i, j;</span><br><span class="line"><span class="keyword">float</span> minOfM = m.minCoeff(&amp;i,&amp;j);</span><br></pre></td></tr></table></figure></p>
+<h3 id="boolean-reductions">Boolean Reductions</h3>
+<ul>
+<li><code>.all()</code> returns <code>true</code> if all of the coefficients are evaluated to <code>true</code> .</li>
+<li><code>.any()</code> returns <code>true</code> if at least one of the coefficients are evaluated to <code>true</code>.</li>
+<li><code>.count()</code> returns the number of coefficients are evaluated to <code>true</code>.</li>
+</ul>
+<h2 id="broadcasting-and-partial-reduction">Broadcasting and Partial Reduction</h2>
+<h3 id="partial-reduction">Partial Reduction</h3>
+<p>Partial reductions apply the reduction operations on each column or row, and return a column or row vector with the corresponding values.</p>
+<p>For example,</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Eigen::MatrixXf <span class="title">mat</span><span class="params">(<span class="number">2</span>,<span class="number">4</span>)</span></span>;</span><br><span class="line">mat &lt;&lt; <span class="number">1</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">9</span>,</span><br><span class="line">       <span class="number">3</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">2</span>;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; mat.colwise().maxCoeff() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">//output will be [3 2 7 9]</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; mat.rowwise().maxCoeff() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// output will be [9 // 7]</span></span><br></pre></td></tr></table></figure>
+<h3 id="broadcasting">Broadcasting</h3>
+<p>Broadcasting could be applied to <code>Matrix-Vector</code> and <code>Array-ArrayXN</code> (equivalent for vector under <code>Array</code> context) expression that interprets the <code>Vector</code> as a matrix via replicating.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mat &lt;&lt; <span class="number">1</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">9</span>,</span><br><span class="line">       <span class="number">3</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">2</span>;</span><br><span class="line">v &lt;&lt; <span class="number">0</span>,</span><br><span class="line">     <span class="number">1</span>;</span><br><span class="line">mat.colwise() += v;</span><br></pre></td></tr></table></figure>
+<p>This expression means</p>
+<p><span class="math display">\[\begin{bmatrix} 1 &amp; 2 &amp; 6 &amp; 9 \\ 3 &amp; 1 &amp; 7 &amp; 2 \end{bmatrix} + \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 \\ 1 &amp; 1 &amp; 1 &amp; 1 \end{bmatrix} = \begin{bmatrix} 1 &amp; 2 &amp; 6 &amp; 9 \\ 4 &amp; 2 &amp; 8 &amp; 3\end{bmatrix}\]</span></p>
+<div class="note warning">
+            <p>The vector operand must be of type <code>Vector</code> or <code>ArrayXN</code>; Otherwise, a compile-time error will be raised.</p>
+          </div>
+<h2 id="replication">Replication</h2>
+<p><code>Replicate&lt; MatrixType, RowFactor, ColFactor &gt;</code> describes the multiple replication of a matrix or vector.</p>
+<ul>
+<li><code>MatrixType</code>, the type of the object we are replicating</li>
+<li><code>RowFactor</code>, number of repetitions at compile time along the vertical direction, can be <code>Dynamic</code>.</li>
+<li><code>ColFactor</code>, number of repetitions at compile time along the horizontal direction, can be <code>Dynamic</code>.</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MatrixXi <span class="title">m</span><span class="params">(<span class="number">2</span>, <span class="number">3</span>)</span></span>;</span><br><span class="line">m &lt;&lt; <span class="number">7</span>, <span class="number">6</span>,  <span class="number">9</span>,</span><br><span class="line">    <span class="number">-2</span>, <span class="number">6</span>, <span class="number">-6</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; m.replicate&lt;<span class="number">3</span>,<span class="number">2</span>&gt;() &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p><code>m.replicate&lt;3,2&gt;()</code> or <code>m.replicate(3, 2)</code> will be</p>
+<p><span class="math display">\[\begin{bmatrix} 7 &amp; 6 &amp; 9 &amp; 7 &amp; 6 &amp; 9 \\ -2 &amp; 6 &amp; -6 &amp; -2 &amp; 6 &amp; -6 \\ 7 &amp; 6 &amp; 9 &amp; 7 &amp; 6 &amp; 9 \\ -2 &amp; 6 &amp; -6 &amp; -2 &amp; 6 &amp; -6 \\ 7 &amp; 6 &amp; 9 &amp; 7 &amp; 6 &amp; 9 \\ -2 &amp; 6 &amp; -6 &amp; -2 &amp; 6 &amp; -6 \end{bmatrix}\]</span></p>
+<p>This can also combine with <code>broadcasting</code>. <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vector3i <span class="title">v</span><span class="params">(<span class="number">7</span>, <span class="number">2</span>, <span class="number">6</span>)</span></span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; v.rowwise().replicate(<span class="number">5</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure></p>
+<p>The output will be <span class="math display">\[\begin{bmatrix} 7 &amp; 7 &amp; 7 &amp; 7 &amp; 7 \\ -2 &amp; -2 &amp; -2 &amp; -2 &amp; -2 \\ 6 &amp; 6 &amp; 6 &amp; 6 &amp; 6 \end{bmatrix}\]</span></p>
+<h2 id="array-matrix-conversion">Array-Matrix Conversion</h2>
+<p>Mixing matrices and arrays in an expression is forbidden with Eigen; Therefore, eigen provides explict type conversion approaches <code>.matrix()</code> and <code>.array()</code>; Both <code>.matrix()</code> and <code>.array()</code> can be used as <em>rvalues</em> or <em>lvalues</em>.</p>
+<div class="note info">
+            <p>An exception is that it is valid to assign a matrix expression to an array variable, or to assign an array expression to a matrix variable.</p>
+          </div>
+<h2 id="resize">Resize</h2>
+<div class="note warning">
+            <p>Trying to resize a fixed-size matrix will trigger an assertion failure.</p>
+          </div>
+<h3 id="get-the-shape-info">Get the Shape info</h3>
+<p>The shape of a matrix can be retrieved via <code>rows()</code>, <code>cols()</code> and <code>size()</code>. These methods return the number of rows, the number of columns and the number of coefficients, respectively.</p>
+<h3 id="reshape-by-api">Reshape by API</h3>
+<p><code>resize(nRows, nCols)</code> could change the shape of a dynamic matrix. If the size become consistent, <code>resize</code> is a no-operation; Otherwise, the values of the coefficients may change. If you want to keep the values invariant, use <code>conservativeResize()</code> instead.</p>
+<h3 id="reshape-by-assignment">Reshape by assignment</h3>
+<p><strong>Assignment</strong> is the action of copying a matrix into another, using operator <code>=</code>. If the left-hand size is a dynamic matrix, Eigen may resize it implicitly in order to match the size of the matrix on the right-hand side.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MatrixXf <span class="title">a</span><span class="params">(<span class="number">2</span>,<span class="number">2</span>)</span></span>;</span><br><span class="line"><span class="function">MatrixXf <span class="title">b</span><span class="params">(<span class="number">3</span>,<span class="number">3</span>)</span></span>;</span><br><span class="line">a = b; <span class="comment">//it is valid and then a become a 3 x 3 matrix</span></span><br></pre></td></tr></table></figure>
+<h1 id="expression-object-and-aliasing">Expression Object and Aliasing</h1>
+<h2 id="expression-object">Expression Object</h2>
+<p>In Eigen, arithmetic operators such as operator <code>+</code> don't perform computation by themselves, they just return an &quot;expression object&quot; describing the computation to be performed. The actual computation happens later, when the whole expression is required to be evaluated, typically in operator <code>=</code>. Then optimizing compiler will output a perfectly optimized code. Thus, you should not be afraid of using relatively large arithmetic expressions with Eigen.</p>
+<p>For example,</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VectorXf a(50), b(50), c(50), d(50);</span><br><span class="line">a = <span class="number">3</span>*b + <span class="number">4</span>*c + <span class="number">5</span>*d;</span><br></pre></td></tr></table></figure>
+<p>Eigen will do one loop only, which will look like this:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">50</span>; ++i)</span><br><span class="line">  a[i] = <span class="number">3</span>*b[i] + <span class="number">4</span>*c[i] + <span class="number">5</span>*d[i];</span><br></pre></td></tr></table></figure>
+<h2 id="alias">Alias</h2>
+<p>In Eigen, aliasing refers to assignment statements that the same matrix/array/vector appears on both left and right size of the assignment operator <code>=</code>. <code>.eval()</code> may be required to avoid aliasing by evaluating the right-hand side fully into a temporary matrix/array/vector and then assign it to the left-hand side.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Matrix2i a; a &lt;&lt; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>;</span><br><span class="line">a = a.transpose(); <span class="comment">// !!! do NOT do this !!!</span></span><br></pre></td></tr></table></figure>
+<p>Then <code>a</code> will become</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">3</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>Aliasing cannot be detected at compile time. Most operations in Eigen assume that there are no aliasing problem, except for <code>Squared Matrix multiplication</code>; By default, if matA is a squared matrix, <code>matA * matA</code> will be interpreted as</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tmp = matA*matA;</span><br><span class="line">matA = tmp;</span><br></pre></td></tr></table></figure>
+<p>If you're sure that matrix product can be safely evaluated into the destination matrix without aliasing issue, then you can use the <code>.noalias()</code> function to avoid the temporary, like <code>matB.noalias() = matA * matA</code>. This allows Eigen to evaluate the matrix product <code>matA * matA</code> directly into <code>matB</code>.</p>
+<h1 id="geometric-module">Geometric Module</h1>
+<p><code>Geometry</code> module provides two different kinds of geometric transformations:</p>
+<ul>
+<li>Abstract transformations, which are not represented as matrices, such as <code>rotation</code>, <code>translation</code>, <code>scaling</code>. But it's valid to operate with matrix/vectors or convert them into matrices.</li>
+<li><code>Transform</code>, Projective or affine transformation matrices</li>
+<li>It's allowed to construct <code>Transform</code> from abstract transformations, for example, <code>Transform t (AngleAxis(angle,axis))</code></li>
+</ul>
+<h2 id="accessor-1">Accessor</h2>
+<ul>
+<li>Transform matrix <code>t.matrix()</code> =&gt; <span class="math inline">\((N + 1) \times (N + 1)\)</span> matrix</li>
+<li>Coefficients <code>t(i,j)</code>, <code>t.matrix()(i,j)</code> =&gt; scalar type</li>
+<li>Translation part <code>t.translation()</code> =&gt; <span class="math inline">\(N \times 1\)</span> vector</li>
+<li>Linear part <code>t.linear()</code> =&gt; <span class="math inline">\(N \times N\)</span> matrix</li>
+<li>Rotation <code>t.rotation()</code> =&gt; <span class="math inline">\(N \times N\)</span> matrix</li>
+</ul>
+<h2 id="compatibility-with-opengl">Compatibility with OpenGL</h2>
+<ul>
+<li>For manipulating OpenGL <code>4x4</code> matrices then <code>Affine3X</code> are what you want.</li>
+<li>Transform::data() method could pass the transformation matrix to OpenGL.</li>
+</ul>
+<h2 id="conversion">Conversion</h2>
+<p>Any transformations can be converted to any other types of the same nature, or to a more generic type. For example:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AngleAxisf aa;  aa = Quaternionf(..);</span><br><span class="line">AngleAxisf aa;  aa = Matrix3f(..);</span><br><span class="line">Affine3f m;     m  = Translation3f(..);     </span><br></pre></td></tr></table></figure>
+<h2 id="operations">Operations</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>2D rotation with <code>angle</code></td>
+<td><code>Rotation2D&lt;float&gt; rot2(angle)</code></td>
+</tr>
+<tr class="even">
+<td>3D rotation with <code>angle</code> and normalized <code>axis</code></td>
+<td><code>AngleAxis&lt;float&gt; aa(angle, axis)</code></td>
+</tr>
+<tr class="odd">
+<td>3D rotation with <code>quaternion</code></td>
+<td><code>Quaternion&lt;float&gt; q;</code> <br> <code>q = AngleAxis&lt;float&gt;(angle, axis)</code></td>
+</tr>
+<tr class="even">
+<td>Scaling</td>
+<td><code>Scaling(sx, sy)</code> <br> <code>Scaling(sx, sy, sz)</code> <br> <code>Scaling(s)</code> <br> <code>Scaling(vecN)</code></td>
+</tr>
+<tr class="odd">
+<td>Translation</td>
+<td><code>Translation&lt;float,2&gt;(tx, ty)</code> <br> <code>Translation&lt;float,3&gt;(tx, ty, tz)</code> <br> <code>Translation&lt;float,N&gt;(s)</code> <br> <code>Translation&lt;float,N&gt;(vecN)</code></td>
+</tr>
+<tr class="even">
+<td>Affine transformation</td>
+<td><code>Transform&lt;float,N,Affine&gt; t = composition_of_others</code></td>
+</tr>
+<tr class="odd">
+<td>Slerp</td>
+<td><code>rot1.slerp(alpha,rot2)</code></td>
+</tr>
+<tr class="even">
+<td>Normalize</td>
+<td><code>vector.normalized()</code></td>
+</tr>
+<tr class="odd">
+<td>Hnormalize</td>
+<td><code>hnormalized()</code>, divided by the last coefficient first then normalize it</td>
+</tr>
+<tr class="even">
+<td>Homogeneous</td>
+<td><code>v.homogeneous()</code>, add <code>1</code> at the end</td>
+</tr>
+</tbody>
+</table>
+<div class="note info">
+            <p>To transform a set of vectors, use <code>rotation matrix</code>; Otherwise, usa <code>Quaternion</code> as it is compact, fast and stable.</p>
+          </div>
+<p>For further details please visit <a target="_blank" rel="noopener" href="http://eigen.tuxfamily.org/dox/group__Geometry__Module.html" class="uri">http://eigen.tuxfamily.org/dox/group__Geometry__Module.html</a></p>
+<h2 id="composition">Composition</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Translation</td>
+<td><code>t.translate(vector)</code></td>
+<td><code>t.pretranslate(vector)</code></td>
+</tr>
+<tr class="even">
+<td>Rotation</td>
+<td><code>t.rotate(rotation)</code></td>
+<td><code>t.prerotate(rotation)</code></td>
+</tr>
+<tr class="odd">
+<td>Scaling</td>
+<td><code>t.scale(vector)</code>, <code>t.scale(s)</code></td>
+<td><code>t.prescale(vector)</code>, <code>t.prescale(s)</code></td>
+</tr>
+<tr class="even">
+<td>2D Shear</td>
+<td><code>t.shear(sx,sy)</code></td>
+<td><code>t.preshear(sx,sy)</code></td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Eigen/" rel="tag"># Eigen</a>
+              <a href="/tags/Computer-Graphics/" rel="tag"># Computer Graphics</a>
+              <a href="/tags/Linear-Algebra/" rel="tag"># Linear Algebra</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/hexo-next/" rel="prev" title="Hexo NexT and Github Pages">
+      <i class="fa fa-chevron-left"></i> Hexo NexT and Github Pages
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#installation"><span class="nav-number">1.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#modules-and-headers"><span class="nav-number">2.</span> <span class="nav-text">Modules and Headers</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#matrix-class"><span class="nav-number">3.</span> <span class="nav-text">Matrix Class</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dense-and-sparse-matrix"><span class="nav-number">3.1.</span> <span class="nav-text">Dense and Sparse Matrix</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#matrix-and-array"><span class="nav-number">3.2.</span> <span class="nav-text">Matrix and Array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#template-parameters"><span class="nav-number">3.3.</span> <span class="nav-text">Template parameters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#storage-order"><span class="nav-number">3.4.</span> <span class="nav-text">Storage Order</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fixed-size-and-dynamic-size"><span class="nav-number">3.5.</span> <span class="nav-text">Fixed-size and Dynamic-size</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#convenience-typedefs"><span class="nav-number">3.6.</span> <span class="nav-text">Convenience typedefs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#constructor"><span class="nav-number">3.7.</span> <span class="nav-text">Constructor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#default-constructor"><span class="nav-number">3.7.1.</span> <span class="nav-text">Default constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-with-sizes"><span class="nav-number">3.7.2.</span> <span class="nav-text">Constructor with sizes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-with-coefficients"><span class="nav-number">3.7.3.</span> <span class="nav-text">Constructor with coefficients</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#initializer"><span class="nav-number">3.8.</span> <span class="nav-text">Initializer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#comma-initializer"><span class="nav-number">3.8.1.</span> <span class="nav-text">Comma initializer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#comma-with-numeric-values"><span class="nav-number">3.8.1.1.</span> <span class="nav-text">Comma with numeric values</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#comma-with-vectors-or-matrices."><span class="nav-number">3.8.1.2.</span> <span class="nav-text">Comma with vectors or matrices.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#temporary-objects"><span class="nav-number">3.8.1.3.</span> <span class="nav-text">Temporary Objects</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-defined-matrices-and-arrays"><span class="nav-number">3.8.2.</span> <span class="nav-text">Pre-defined matrices and arrays</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#basis-vectors"><span class="nav-number">3.8.3.</span> <span class="nav-text">Basis Vectors</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#accessor"><span class="nav-number">3.9.</span> <span class="nav-text">Accessor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#coefficient-accessor"><span class="nav-number">3.9.1.</span> <span class="nav-text">Coefficient Accessor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#block"><span class="nav-number">3.9.2.</span> <span class="nav-text">Block</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rows-and-columns"><span class="nav-number">3.9.3.</span> <span class="nav-text">Rows and Columns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sub-vectors"><span class="nav-number">3.9.4.</span> <span class="nav-text">Sub-vectors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#diagonals"><span class="nav-number">3.9.5.</span> <span class="nav-text">Diagonals</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#slicing-and-map"><span class="nav-number">3.10.</span> <span class="nav-text">Slicing and Map</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map"><span class="nav-number">3.10.1.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stride"><span class="nav-number">3.10.2.</span> <span class="nav-text">Stride</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slicing"><span class="nav-number">3.10.3.</span> <span class="nav-text">Slicing</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#operation"><span class="nav-number">4.</span> <span class="nav-text">Operation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#arithmetic"><span class="nav-number">4.1.</span> <span class="nav-text">Arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#addition-and-subtraction"><span class="nav-number">4.1.1.</span> <span class="nav-text">Addition and Subtraction</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#array-array-and-matrix-matrix"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">Array-Array and Matrix-Matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#array-scalar"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">Array-Scalar</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multiplication-and-division"><span class="nav-number">4.1.2.</span> <span class="nav-text">Multiplication and Division</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#matrix-scalar-and-array-scalar-multiplication-and-division"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">Matrix-Scalar and Array-Scalar Multiplication and Division</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#matrix-matrix"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">Matrix-Matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#coefficient-wise-multiplication-and-division"><span class="nav-number">4.1.2.3.</span> <span class="nav-text">Coefficient-wise Multiplication and Division</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#coefficient-wise-operations"><span class="nav-number">4.2.</span> <span class="nav-text">Coefficient-wise Operations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#array-array-and-array-scalar-comparison"><span class="nav-number">4.2.1.</span> <span class="nav-text">Array-Array and Array-Scalar Comparison</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#matrix-matrix-and-matrix-scalar-comparison"><span class="nav-number">4.2.2.</span> <span class="nav-text">Matrix-Matrix and Matrix-Scalar Comparison</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#other-stl-like-operatons"><span class="nav-number">4.2.3.</span> <span class="nav-text">Other STL-like operatons</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linear-algebra"><span class="nav-number">4.3.</span> <span class="nav-text">Linear Algebra</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dot-and-cross-product"><span class="nav-number">4.3.1.</span> <span class="nav-text">Dot and Cross Product</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transpose-conjugate-and-adjoint"><span class="nav-number">4.3.2.</span> <span class="nav-text">Transpose, Conjugate, and Adjoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#norm-and-trace"><span class="nav-number">4.3.3.</span> <span class="nav-text">Norm and Trace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#decompositions-and-problem-solving"><span class="nav-number">4.3.4.</span> <span class="nav-text">Decompositions and Problem Solving</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reduction"><span class="nav-number">4.4.</span> <span class="nav-text">Reduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#boolean-reductions"><span class="nav-number">4.4.1.</span> <span class="nav-text">Boolean Reductions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#broadcasting-and-partial-reduction"><span class="nav-number">4.5.</span> <span class="nav-text">Broadcasting and Partial Reduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#partial-reduction"><span class="nav-number">4.5.1.</span> <span class="nav-text">Partial Reduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#broadcasting"><span class="nav-number">4.5.2.</span> <span class="nav-text">Broadcasting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#replication"><span class="nav-number">4.6.</span> <span class="nav-text">Replication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#array-matrix-conversion"><span class="nav-number">4.7.</span> <span class="nav-text">Array-Matrix Conversion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resize"><span class="nav-number">4.8.</span> <span class="nav-text">Resize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get-the-shape-info"><span class="nav-number">4.8.1.</span> <span class="nav-text">Get the Shape info</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reshape-by-api"><span class="nav-number">4.8.2.</span> <span class="nav-text">Reshape by API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reshape-by-assignment"><span class="nav-number">4.8.3.</span> <span class="nav-text">Reshape by assignment</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#expression-object-and-aliasing"><span class="nav-number">5.</span> <span class="nav-text">Expression Object and Aliasing</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#expression-object"><span class="nav-number">5.1.</span> <span class="nav-text">Expression Object</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#alias"><span class="nav-number">5.2.</span> <span class="nav-text">Alias</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#geometric-module"><span class="nav-number">6.</span> <span class="nav-text">Geometric Module</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#accessor-1"><span class="nav-number">6.1.</span> <span class="nav-text">Accessor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compatibility-with-opengl"><span class="nav-number">6.2.</span> <span class="nav-text">Compatibility with OpenGL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conversion"><span class="nav-number">6.3.</span> <span class="nav-text">Conversion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#operations"><span class="nav-number">6.4.</span> <span class="nav-text">Operations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#composition"><span class="nav-number">6.5.</span> <span class="nav-text">Composition</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Misa XU"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Misa XU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Misa-Xu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Misa-Xu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:giokosan@gmail.com" title="E-Mail → mailto:giokosan@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-dragon"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misa XU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6f5c8bef0c06ea413171',
+      clientSecret: 'c859b172fcc560853c460394d80de30ee80bd7fa',
+      repo        : 'misa-xu.github.io',
+      owner       : 'Misa-XU',
+      admin       : ['Misa-XU'],
+      id          : '58c1a80894ce597b6d6d0aa9398ca94e',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
