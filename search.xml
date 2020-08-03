@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>cmake</title>
+    <url>/cmake/</url>
+    <content><![CDATA[
+]]></content>
+      <categories>
+        <category>Tools</category>
+      </categories>
+      <tags>
+        <tag>cmake</tag>
+        <tag>VSCode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo NexT and Github Pages</title>
     <url>/hexo-next/</url>
     <content><![CDATA[<p><code>Hexo</code> is a prominent framework for building personal websites, with a good compatibility with <code>Markdown</code>, <code>MathJax</code> and NPM packages. As a matural ecosystem, there're hundreds of easy-to-use themes and plugins with detailed documentations available on the official website.</p>
@@ -866,19 +879,6 @@ Hey Jude, Don't Be Afraid
         <tag>Eigen</tag>
         <tag>Computer Graphics</tag>
         <tag>Linear Algebra</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cmake</title>
-    <url>/cmake/</url>
-    <content><![CDATA[
-]]></content>
-      <categories>
-        <category>Tools</category>
-      </categories>
-      <tags>
-        <tag>cmake</tag>
-        <tag>VSCode</tag>
       </tags>
   </entry>
 </search>
