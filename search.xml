@@ -93,7 +93,6 @@ l &amp;= m - n \label{eq5}
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">plugins: hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
 <h3 id="usage-2">Usage</h3>
 <p>For each <code>generate</code> operation, a sitemap called <code>sitemap.xml</code> will be automatically created under <code>&lt;root-dir&gt;/public/</code></p>
-<h2 id="section"></h2>
 <h1 id="build-the-content">Build The Content</h1>
 <h2 id="catogories-tags-and-about">Catogories, Tags, and About</h2>
 <h3 id="create">Create</h3>
@@ -157,6 +156,24 @@ Hey Jude, Don't Be Afraid
       </categories>
       <tags>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Norm</title>
+    <url>/norm/</url>
+    <content><![CDATA[<p>In mathematics, a norm is a function from a vector space over the real or complex numbers to the nonnegative real numbers that satisfies certain properties pertaining to scalability and additivity, and takes the value zero only if the input vector is zero.</p>
+<p>The Euclidean norm or 2-norm is a specific norm on a Euclidean vector space, that is strongly related to the Euclidean distance, and equals the square root of the inner product of a vector with itself.</p>
+<p>Given a vector space V over a field 𝔽 of the real numbers ℝ or complex numbers ℂ, a norm on V is a nonnegative-valued function p : V → ℝ with the following properties:[2]</p>
+<p>For all a ∈ 𝔽 and all u, v ∈ V,</p>
+<p>p(u + v) ≤ p(u) + p(v) (being subadditive or satisfying the triangle inequality). p(av) = |a| p(v) (being absolutely homogeneous or absolutely scalable). If p(v) = 0 then v = 0 is the zero vector (being positive definite or being point-separating).</p>
+]]></content>
+      <categories>
+        <category>Math</category>
+        <category>Linear Algebra</category>
+      </categories>
+      <tags>
+        <tag>Linear Algebra</tag>
+        <tag>Norm</tag>
       </tags>
   </entry>
   <entry>
@@ -872,13 +889,11 @@ Hey Jude, Don't Be Afraid
 ]]></content>
       <categories>
         <category>Tools</category>
-        <category>Math</category>
-        <category>Computer Graphics</category>
       </categories>
       <tags>
+        <tag>Linear Algebra</tag>
         <tag>Eigen</tag>
         <tag>Computer Graphics</tag>
-        <tag>Linear Algebra</tag>
       </tags>
   </entry>
 </search>
