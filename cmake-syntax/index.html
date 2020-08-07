@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/m180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/m32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/m16.png">
+  <link rel="mask-icon" href="/images/m.svg" color="#222">
+  <meta name="google-site-verification" content="hHVOWX6ywxhEyB-iQlybbme_bBraiGIpQom994FhXWw">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="This article is the supplementary material of Build using CMake. Command Invocations A CMake source file is just a sequence of Command Invocations. A command invocation is an identifier followed by">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Syntax of CMake">
+<meta property="og:url" content="https://misa-xu.github.io/cmake-syntax/index.html">
+<meta property="og:site_name" content="Яedσ З000">
+<meta property="og:description" content="This article is the supplementary material of Build using CMake. Command Invocations A CMake source file is just a sequence of Command Invocations. A command invocation is an identifier followed by">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-06T14:29:11.000Z">
+<meta property="article:modified_time" content="2020-08-06T14:36:51.732Z">
+<meta property="article:author" content="Misa XU">
+<meta property="article:tag" content="CMake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://misa-xu.github.io/cmake-syntax/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Syntax of CMake | Яedσ З000</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Яedσ З000</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Living so free is a tragedy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-code fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-bug fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-map-signs fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://misa-xu.github.io/cmake-syntax/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Misa XU">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Яedσ З000">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Syntax of CMake
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-06 22:29:11 / Modified: 22:36:51" itemprop="dateCreated datePublished" datetime="2020-08-06T22:29:11+08:00">2020-08-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>This article is the supplementary material of <a href="cmake/">Build using CMake</a>.</p>
+<h1 id="command-invocations">Command Invocations</h1>
+<p>A CMake source file is just a sequence of <strong>Command Invocations</strong>. A <code>command invocation</code> is an identifier followed by paren-enclosed arguments. Arguments are seperated by <code>space</code>. For examlpe:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(hello world.c)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="argument">Argument</h1>
+<p>There are three types of arguments. Brackets and Qouted Arguments are used for constructing long, usually multi-line arguments, typically, the text of message.</p>
+<h2 id="bracket-argument">Bracket Argument</h2>
+<p>This syntax is inspired by the <code>long bracket syntax</code> of <code>Lua</code>. The format of open bracket is <code>'[' '='* '['</code> whereas the format of close bracket is <code>']' '='*  ']'</code>. The <code>=</code> could repeat zero or multiple times; The bracket with same number of <code>=</code> will be paired together.</p>
+<p>All text between the paired brackets will be treated as exactly one bracket argument. No nest, No Evaluation will be performed. For example:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message</span>([=[</span><br><span class="line">No \-escape sequences <span class="keyword">or</span> <span class="variable">$&#123;variable&#125;</span> references are evaluated.</span><br><span class="line">This is always one argument even though it contains a ; character.</span><br><span class="line">The text does <span class="keyword">not</span> end <span class="keyword">on</span> a closing bracket of length <span class="number">0</span> like ]].</span><br><span class="line">]=])</span><br></pre></td></tr></table></figure>
+<h2 id="quoted-argument">Quoted Argument</h2>
+<p>A quoted argument is all the text between a pair of double-quote characters. Different from bracket argument, both <code>Escape Sequences</code> and <code>Variable References</code> will be evaluated here. The line continuation character <code>\</code> is optional here. For example:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message</span>(<span class="string">&quot;</span></span><br><span class="line"><span class="string">This is always one argument even though it contains a ; character. \</span></span><br><span class="line"><span class="string">Both \\-escape sequences and $&#123;variable&#125; references are evaluated.</span></span><br><span class="line"><span class="string">The text does not end on an escaped double-quote like \&quot;.</span></span><br><span class="line"><span class="string">&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="unquoted-argument">Unquoted Argument</h2>
+<p>An unquoted argument is not enclosed by any quoting syntax. It may not contain any whitespace, <code>(</code>, <code>)</code>, <code>#</code>, <code>&quot;</code>, or <code>\</code> except when escaped by a backslash. Both Escape Sequences and Variable References are evaluated. An unquoted argument may be treated as zero or a list arguments that splitted by <code>;</code> (not <code>\;</code>), which is same as <code>List</code>. For example:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(arg</span><br><span class="line">    NoSpace</span><br><span class="line">    Escaped\ Space</span><br><span class="line">    This;Divides;Into;Five;Arguments</span><br><span class="line">    Escaped\;Semicolon</span><br><span class="line">    )</span><br><span class="line">  <span class="keyword">message</span>(<span class="string">&quot;$&#123;arg&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure>
+<p>The output will be <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NoSpace</span><br><span class="line">Escaped Space</span><br><span class="line">This</span><br><span class="line">Divides</span><br><span class="line">Into</span><br><span class="line">Five</span><br><span class="line">Arguments</span><br><span class="line">Escaped;Semicolon</span><br></pre></td></tr></table></figure></p>
+<h1 id="lists">Lists</h1>
+<p>A list of elements is represented as a string by concatenating the elements separated by <code>;</code>. For example, the <code>set()</code> command stores multiple values into the destination variable as a list:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(srcs a.c b.c c.c) <span class="comment"># sets &quot;srcs&quot; to &quot;a.c;b.c;c.c&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Lists are meant for simple use cases such as a list of source files and should not be used for complex data processing tasks. Most commands that construct lists do not escape ; characters in list elements, thus flattening nested lists:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(x a <span class="string">&quot;b;c&quot;</span>) <span class="comment"># sets &quot;x&quot; to &quot;a;b;c&quot;, not &quot;a;b\;c&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="variable">Variable</h1>
+<p>Variables are the basic unit of storage in the CMake Language. They are always of string type, though some commands may interpret them as values of other types. Variable are <code>case-sensitive</code>; It's recommended to use alphanumeric characters with <code>_</code> and <code>-</code> only.</p>
+<div class="note info">
+            <p><strong>Reserved Words</strong></p><ol type="1"><li>Begin with <code>CMAKE_</code> or <code>_CMAKE_</code> (upper-, lower-, or mixed-case)</li><li>Begin with <code>_</code> followed by the name of any CMake Command.</li></ol><p>Please visit <a target="_blank" rel="noopener" href="https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html#manual:cmake-commands(7)" class="uri">https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html#manual:cmake-commands(7)</a> for the list of cmake commands.</p>
+          </div>
+<h2 id="set-and-unset">Set and Unset</h2>
+<p>Signatures <code>&lt;value&gt;...</code> expect zero or more arguments. Multiple arguments will be joined as a semicolon-separated list to form the actual variable value to be set. Zero arguments will cause normal variables to be unset.</p>
+<h3 id="set-normal-variable">Set Normal Variable</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... [PARENT_SCOPE])</span><br></pre></td></tr></table></figure>
+<p>If the <code>PARENT_SCOPE</code> option is given, then the variable will be set in the scope above the current scope.</p>
+<h3 id="set-cache-entry">Set Cache Entry</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... CACHE &lt;type&gt; &lt;docstring&gt; [FORCE])</span><br></pre></td></tr></table></figure>
+<p>Sets the given cache <variable> (cache entry). Since cache entries are meant to provide user-settable values this does not overwrite existing cache entries by default. Use the FORCE option to overwrite existing entries.</p>
+<ul>
+<li><code>Type</code> should be one of the following:
+<ul>
+<li><code>BOOL</code>: Boolean <strong>ON/OFF</strong> value. cmake-gui offers a <code>checkbox</code>.</li>
+<li><code>FILEPATH</code>: Path to a <strong>file</strong> on disk. cmake-gui offers a <code>file dialog</code>.</li>
+<li><code>PATH</code>: Path to a <strong>directory</strong> on disk. cmake-gui offers a <code>file dialog</code>.</li>
+<li><code>STRING</code>: A line of text. cmake-gui offers a text field or a drop-down selection if the STRINGS cache entry property has been set.</li>
+<li><code>INTERNAL</code> A line of text. cmake-gui does not show internal entries. They may be used to store variables persistently across runs. Use of this type implies <code>FORCE</code>.</li>
+</ul></li>
+<li><code>&lt;docstring&gt;</code> should be a line of text providing a quick summary of the option for presentation to cmake-gui users.</li>
+<li><code>FORCE</code> should be used when it's required to overwrite the value of this entry. Since cache entries are meant to provide user-settable values, this does not overwrite existing cache entries by default.</li>
+</ul>
+<div class="note info">
+            <p>if the <code>Type</code> is <code>PATH</code> or <code>FILEPATH</code> and the <code>value</code> provided is a relative path, the set command will treat the path as relative to the current working directory and convert it to an absolute path.</p>
+          </div>
+<h3 id="set-environment-variable">Set Environment Variable</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(ENV&#123;&lt;variable&gt;&#125; [&lt;value&gt;])</span><br></pre></td></tr></table></figure>
+<p>If more than one arguments passed, extras will be ignored and an author warning is issued.</p>
+<h3 id="unset-variables">Unset Variables</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unset</span>(&lt;variable&gt; [CACHE | PARENT_SCOPE])</span><br><span class="line"><span class="keyword">unset</span>(ENV&#123;&lt;variable&gt;&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="scope">Scope</h2>
+<p>Variables have dynamic scope. Each variable <code>set</code> or <code>unset</code> creates a binding in the corresponding scope.</p>
+<p>Each new directory or function creates a new scope. When evaluating the <code>variable references</code>, CMake first searches the function call stack: if a <code>set</code> binding is found, use it; Else if no binding or <code>unset</code> binding is found, searches the current directory scope, and the cache scope respectively. If there's no binding in all scopes, CMake evaluates it as an empty string.</p>
+<h3 id="function-scope">Function Scope</h3>
+<p>A variable <code>set</code> or <code>unset</code> binds in <code>function</code> is visible only within the current and nested functions.</p>
+<h3 id="directory-scope">Directory Scope</h3>
+<p>Each directory in the source tree has its own variable bindings. Before processing the CMakeLists.txt file for the directory, CMake copies all variable bindings defined in the parent directory, and initialize a new directory scope.</p>
+<p>A variable <code>set</code> or <code>unset</code> outside the functions binds to the current directory scope.</p>
+<h3 id="persistent-cache">Persistent Cache</h3>
+<p>CMake stores a separate set of <code>cache</code> variables that persist across multiple runs within a project build tree. Cache entries have an isolated binding scope and coule be modified only by explicit request.</p>
+<h2 id="variable-references">Variable References</h2>
+<h3 id="normal-variables">Normal Variables</h3>
+<p>A variable reference has the form <code>$&#123;&lt;variable&gt;&#125;</code>; When it appears inside a <code>Quoted Argument</code> or an <code>Unquoted Argument</code>, it is evaluated and replaced by the <code>value</code> of the variable, or by an <code>empty string</code> if it is not set. Variable references can <code>nest</code> and are evaluated from the inside out. For example</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(inner_var foo)</span><br><span class="line"><span class="keyword">set</span>(outer_foo_var <span class="number">999</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;nest variable value is :$&#123;outer_$&#123;inner_var&#125;_var&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>The output will be <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nest variable value is :<span class="number">999</span></span><br></pre></td></tr></table></figure></p>
+<div class="note warning">
+            <p>The <code>if()</code> command has a special condition syntax that allows for variable references in the short form <code>&lt;variable&gt;</code> instead of <code>${&lt;variable&gt;}</code>. However, environment and cache variables always need to be referenced as <code>$ENV{&lt;variable&gt;}</code> or <code>$CACHE{&lt;variable&gt;}</code>.</p>
+          </div>
+<h3 id="environment-variable-reference">Environment Variable Reference</h3>
+<p>Environment variable references have the form <code>$ENV&#123;&lt;variable&gt;&#125;</code>. Environment variables have global scope in a CMake process and never cached. <code>set()</code> and <code>unset()</code> commands only temporarily affect the running CMake process, without altering the actual system environment, the process called from current process or the environment of subsequent build or test process.</p>
+<h3 id="cache-variable-reference">Cache Variable Reference</h3>
+<p>A cache variable reference has the form <code>$CACHE&#123;&lt;variable&gt;&#125;</code>.</p>
+<h1 id="control-structures">Control Structures</h1>
+<h2 id="conditional-blocks">Conditional Blocks</h2>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(&lt;condition&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">elseif</span>(&lt;condition&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="conditions">Conditions</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type of Test</th>
+<th>Identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unary</td>
+<td><code>EXISTS</code>, <code>IS_DIRECTORY</code>, <code>IS_SYMLINK</code>, <code>IS_ABSOLUTE</code>, <code>COMMAND</code></td>
+</tr>
+<tr class="even">
+<td>Binary</td>
+<td><code>EQUAL</code>, <code>LESS</code>, <code>LESS_EQUAL</code>, <code>GREATER</code>, <code>GREATER_EQUAL</code>, <br><code>STREQUAL</code>, <code>STRLESS</code>, <code>STRLESS_EQUAL</code>, <code>STRGREATER</code>, <code>STRGREATER_EQUAL</code>, <br><code>VERSION_EQUAL</code>, <code>VERSION_LESS</code>, <code>VERSION_LESS_EQUAL</code>, <code>VERSION_GREATER</code>, <code>VERSION_GREATER_EQUAL</code>, <br><code>MATCHES</code></td>
+</tr>
+<tr class="odd">
+<td>Boolean</td>
+<td><code>NOT</code>, <code>AND</code>, <code>OR</code></td>
+</tr>
+</tbody>
+</table>
+<p>Behaviors of path cheking are well-defined only for <strong>full path</strong>.</p>
+<p>Other useful tests:</p>
+<ul>
+<li><code>if(TARGET target-name)</code> to check if the given name is an existing logical target name created by <code>add_executable()</code>, <code>add_library()</code>, or <code>add_custom_target()</code></li>
+<li><code>if(TEST test-name)</code> to check if the given name is an existing test name created by the <code>add_test()</code>.</li>
+<li><code>if(file1 IS_NEWER_THAN file2)</code> returns <code>True</code> if <code>file1</code> is newer than <code>file2</code> or if one of the two files doesn’t exist.</li>
+<li><code>if(&lt;variable|string&gt; IN_LIST &lt;variable&gt;)</code> to check if the given element is contained in the named list variable.</li>
+<li><code>if(DEFINED &lt;name&gt;|CACHE&#123;&lt;name&gt;&#125;|ENV&#123;&lt;name&gt;&#125;)</code> to check if the variable is defined.</li>
+</ul>
+<h3 id="variable-expansion">Variable Expansion</h3>
+<p>Normal variable evaluation with <code>$&#123;&#125;</code> applies before the <code>if</code> command even receives the arguments; Therefore, within condition statements that accepting <code>&lt;variable|string&gt;</code>, <code>automatic evaluation</code> is applied. Developers is instead excepted to pass the variable directly without <code>$&#123;&#125;</code> enclosed.</p>
+<h2 id="loops">Loops</h2>
+<p><code>break()</code>, <code>continue()</code></p>
+<h3 id="for-each">For Each</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt; &lt;items&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure>
+<p><code>&lt;items&gt;</code> is a list of items that are separated by <code>;</code> or <code></code>. At the beginning of each iteration, <code>loop_var</code> will be set to the value of the current item.</p>
+<h4 id="variants">Variants</h4>
+<ol type="1">
+<li><p>Iterate from <code>0</code> or <code>start</code> if set to stop (inclusive), with step: <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt; RANGE [&lt;start&gt;] &lt;stop&gt; [&lt;step&gt;])</span><br></pre></td></tr></table></figure></p></li>
+<li><p>Iterate over a list of items. <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt; IN LISTS [&lt;lists&gt;])</span><br></pre></td></tr></table></figure> <code>&lt;lists&gt;</code> is a whitespace or semicolon separated list of list-valued variables. For example, <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(A <span class="number">0</span>;<span class="number">1</span>)</span><br><span class="line"><span class="keyword">set</span>(B <span class="number">2</span> <span class="number">3</span>)</span><br><span class="line"><span class="keyword">set</span>(C <span class="string">&quot;4 5&quot;</span>)</span><br><span class="line"><span class="keyword">set</span>(D <span class="number">6</span>;<span class="number">7</span> <span class="number">8</span>)</span><br><span class="line"><span class="keyword">set</span>(E <span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="keyword">foreach</span>(X IN LISTS A B C D E)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;X&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure> This will print numbers from <code>1</code> to <code>8</code>.</p></li>
+<li>Iterate over multiple lists simultaneously <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt;... IN ZIP_LISTS &lt;lists&gt;)</span><br></pre></td></tr></table></figure> <code>&lt;lists&gt;</code> is also a whitespace or semicolon separated list of list-valued variables.
+<ul>
+<li>If only one <code>loop_var</code> given, then access the values via <code>loop_var_N</code> correspondingly;</li>
+<li>If multiple variable names passed, the number of variable and the number of lists should match;</li>
+<li>If any of the lists are shorter, the corresponding iteration variable become undefined. <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">list</span>(APPEND English one two three four)</span><br><span class="line"><span class="keyword">list</span>(APPEND Bahasa satu dua tiga)</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(num IN ZIP_LISTS English Bahasa)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;num_0&#125;, $&#123;num_1&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(en ba IN ZIP_LISTS English Bahasa)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;en&#125;, $&#123;ba&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure> Both yield <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- one, satu</span><br><span class="line">-- two, dua</span><br><span class="line">-- three, tiga</span><br><span class="line">-- four, </span><br></pre></td></tr></table></figure></li>
+</ul></li>
+</ol>
+<h3 id="while">While</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(&lt;condition&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endwhile</span>()</span><br></pre></td></tr></table></figure>
+<h1 id="function-and-macro">Function and Macro</h1>
+<p><code>macro</code> is very similar to <code>function</code>. They are defined by</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>(&lt;name&gt; [&lt;arg1&gt; ...])</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endfunction</span>()</span><br></pre></td></tr></table></figure>
+<p>and</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">macro</span>(&lt;name&gt; [&lt;arg1&gt; ...])</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endmacro</span>()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>The <code>name</code> of functions or marcros are case-insensitive.</li>
+<li>They could be invoked via <code>&lt;identifier&gt;([args])</code> or <code>cmake_language(CALL &lt;identifier&gt;)</code></li>
+<li>When a function or marcro is invoked, CMake first evaluates (<code>$&#123;arg1&#125;</code>, ...) with the arguments passed, and then invoked them as normal commands.</li>
+<li>For each invoking, there are some implicit variables available:
+<ul>
+<li><code>ARGC</code>: the number of arguments.</li>
+<li><code>ARGV</code> holds the list of all arguments passed to the function; Alternatively, the arguments could be accessed via <code>ARGV0</code>, <code>ARGV1</code> ...</li>
+</ul></li>
+<li>In a function, <code>ARGC</code>, <code>ARGV</code> and <code>ARGV0</code> are true variables; In a macro, they are not, they are string replacements.</li>
+<li>A function is executed by transferring control from the calling statement to the function body. A macro is executed as if the macro body were pasted in place of the calling statement. This has the consequence that a <code>return()</code> in a macro body does not just terminate execution of the macro but also the control from the scope of the macro call.</li>
+</ul>
+<h1 id="comments">Comments</h1>
+<h2 id="bracket-comment">Bracket Comment</h2>
+<p>Bracket Comments adapt the same syntax as bracket argument, with a <code>#</code> immediately ahead. It's helpful to construct multi-line comment or inline comments that terminated in the middle and followed by other arguments.</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#[[This is a bracket comment.</span></span><br><span class="line">It runs until the close bracket.]]</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;First Argument\n&quot;</span> <span class="comment">#[[Bracket Comment]] &quot;Second Argument&quot;)</span></span><br></pre></td></tr></table></figure>
+<p>The output will be</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">First Argument</span><br><span class="line">Second Argument</span><br></pre></td></tr></table></figure>
+<h2 id="line-comment">Line Comment</h2>
+<p>Line comments are the content between <code>#</code> and the end of the line.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CMake/" rel="tag"># CMake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/norm/" rel="prev" title="Norm">
+      <i class="fa fa-chevron-left"></i> Norm
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#command-invocations"><span class="nav-number">1.</span> <span class="nav-text">Command Invocations</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#argument"><span class="nav-number">2.</span> <span class="nav-text">Argument</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bracket-argument"><span class="nav-number">2.1.</span> <span class="nav-text">Bracket Argument</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#quoted-argument"><span class="nav-number">2.2.</span> <span class="nav-text">Quoted Argument</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unquoted-argument"><span class="nav-number">2.3.</span> <span class="nav-text">Unquoted Argument</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lists"><span class="nav-number">3.</span> <span class="nav-text">Lists</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#variable"><span class="nav-number">4.</span> <span class="nav-text">Variable</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#set-and-unset"><span class="nav-number">4.1.</span> <span class="nav-text">Set and Unset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#set-normal-variable"><span class="nav-number">4.1.1.</span> <span class="nav-text">Set Normal Variable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-cache-entry"><span class="nav-number">4.1.2.</span> <span class="nav-text">Set Cache Entry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-environment-variable"><span class="nav-number">4.1.3.</span> <span class="nav-text">Set Environment Variable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unset-variables"><span class="nav-number">4.1.4.</span> <span class="nav-text">Unset Variables</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scope"><span class="nav-number">4.2.</span> <span class="nav-text">Scope</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#function-scope"><span class="nav-number">4.2.1.</span> <span class="nav-text">Function Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#directory-scope"><span class="nav-number">4.2.2.</span> <span class="nav-text">Directory Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#persistent-cache"><span class="nav-number">4.2.3.</span> <span class="nav-text">Persistent Cache</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#variable-references"><span class="nav-number">4.3.</span> <span class="nav-text">Variable References</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#normal-variables"><span class="nav-number">4.3.1.</span> <span class="nav-text">Normal Variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#environment-variable-reference"><span class="nav-number">4.3.2.</span> <span class="nav-text">Environment Variable Reference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cache-variable-reference"><span class="nav-number">4.3.3.</span> <span class="nav-text">Cache Variable Reference</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#control-structures"><span class="nav-number">5.</span> <span class="nav-text">Control Structures</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#conditional-blocks"><span class="nav-number">5.1.</span> <span class="nav-text">Conditional Blocks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#conditions"><span class="nav-number">5.1.1.</span> <span class="nav-text">Conditions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#variable-expansion"><span class="nav-number">5.1.2.</span> <span class="nav-text">Variable Expansion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loops"><span class="nav-number">5.2.</span> <span class="nav-text">Loops</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for-each"><span class="nav-number">5.2.1.</span> <span class="nav-text">For Each</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#variants"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">Variants</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">5.2.2.</span> <span class="nav-text">While</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#function-and-macro"><span class="nav-number">6.</span> <span class="nav-text">Function and Macro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#comments"><span class="nav-number">7.</span> <span class="nav-text">Comments</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bracket-comment"><span class="nav-number">7.1.</span> <span class="nav-text">Bracket Comment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-comment"><span class="nav-number">7.2.</span> <span class="nav-text">Line Comment</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Misa XU"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Misa XU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Misa-Xu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Misa-Xu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:giokosan@gmail.com" title="E-Mail → mailto:giokosan@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-dragon"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misa XU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6f5c8bef0c06ea413171',
+      clientSecret: 'c859b172fcc560853c460394d80de30ee80bd7fa',
+      repo        : 'misa-xu.github.io',
+      owner       : 'Misa-XU',
+      admin       : ['Misa-XU'],
+      id          : 'd09c08d6288de07cb049ca952f27b180',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>cmake</title>
+    <title>Build using CMake on Windows</title>
     <url>/cmake/</url>
-    <content><![CDATA[
+    <content><![CDATA[<p><strong>Building</strong> is a fairly general term without strict definition; It usually refers to the <strong>whole</strong> process that outputing the final product (an executable or a library) from source materials. Depending on the requirements, <strong>building</strong> will involve several of the following: <em>pre-processing</em>, <em>compiling</em>, <em>linking</em>, <em>converting data files</em>, <em>automatically testing</em>, <em>packaging</em>.</p>
+<p>Among the tools that defining the building behaviors for <code>Platform Dependent</code> products whose programming language usually be <code>C</code> or <code>C++</code>, <strong>CMake</strong> is the most popular one as it is <strong>open-source and cross-platform</strong>. The building process with <strong>CMake</strong> takes place in two stages:</p>
+<ol type="1">
+<li>Given abstract, <code>platform and compiler independent</code> building procedures defined by developers, generating standard <code>Makefile</code> or <code>Project Files</code> for IDEs (Visual Studio, Xcode etc.) .</li>
+<li>Invoke the desired <code>native build tool</code> to undertake the actual building process.</li>
+</ol>
+<p>Here we introduce the usage of CMake. The environment of this tutorial is <code>Windows 10</code>; The output of each command will be different from that running on Linux. For the syntax of CMake Language, you may visit <a href="/cmake-syntax">CMake Syntax</a> for details.</p>
+<a id="more"></a>
+<h1 id="hello-world">Hello World</h1>
+<ol type="1">
+<li>Create a new folder <code>test</code>.</li>
+<li>Under the directory, create the source file <code>main.cpp</code>. <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello World from test Main!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>Create the CMake file named exactly <code>CMakeLists.txt</code> <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span>)</span><br><span class="line"><span class="keyword">project</span>(Main)</span><br><span class="line"><span class="keyword">add_executable</span>(Main main.cpp)</span><br></pre></td></tr></table></figure></li>
+<li>Run <code>cmake .</code> to generate native <code>project files</code>. Under <code>Windows</code>, CMake will generate a <code>Visual Studio</code> project by default. When finished, lots of contents created in the directory: <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">│  ALL_BUILD.vcxproj</span><br><span class="line">│  ALL_BUILD.vcxproj.filters</span><br><span class="line">│  CMakeCache.txt</span><br><span class="line">│  CMakeLists.txt</span><br><span class="line">│  cmake_install.cmake</span><br><span class="line">│  main.cpp</span><br><span class="line">│  Main.sln</span><br><span class="line">│  Main.vcxproj</span><br><span class="line">│  Main.vcxproj.filters</span><br><span class="line">│  ZERO_CHECK.vcxproj</span><br><span class="line">│  ZERO_CHECK.vcxproj.filters</span><br><span class="line">└─CMakeFiles/</span><br></pre></td></tr></table></figure></li>
+<li>Run <code>cmake --build . [--config Release|Debug]</code> to create executable; By default it will build in <code>Debug</code> mode. Depending on the configuration, you could find the <code>Main.exe</code> in <code>&lt;root-dir&gt;/Debug</code> or <code>&lt;root-dir&gt;/Release</code>. <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">│  ALL_BUILD.vcxproj</span><br><span class="line">│  ALL_BUILD.vcxproj.filters</span><br><span class="line">│  CMakeCache.txt</span><br><span class="line">│  CMakeLists.txt</span><br><span class="line">│  cmake_install.cmake</span><br><span class="line">│  main.cpp</span><br><span class="line">│  Main.sln</span><br><span class="line">│  Main.vcxproj</span><br><span class="line">│  Main.vcxproj.filters</span><br><span class="line">│  ZERO_CHECK.vcxproj</span><br><span class="line">│  ZERO_CHECK.vcxproj.filters</span><br><span class="line">├─CMakeFiles/</span><br><span class="line">├─Debug/</span><br><span class="line">│      Main.exe</span><br><span class="line">│      Main.ilk</span><br><span class="line">│      Main.pdb</span><br><span class="line">├─Main.dir/</span><br><span class="line">└─x64/</span><br></pre></td></tr></table></figure></li>
+<li>Run executable via <code>Debug\Main.exe</code>, and you will get <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Hello World from <span class="built_in">test</span> Main!</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
       <categories>
         <category>Tools</category>
       </categories>
       <tags>
-        <tag>cmake</tag>
-        <tag>VSCode</tag>
+        <tag>CMake</tag>
       </tags>
   </entry>
   <entry>
@@ -93,15 +108,46 @@ l &amp;= m - n \label{eq5}
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">plugins: hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
 <h3 id="usage-2">Usage</h3>
 <p>For each <code>generate</code> operation, a sitemap called <code>sitemap.xml</code> will be automatically created under <code>&lt;root-dir&gt;/public/</code></p>
-<h1 id="build-the-content">Build The Content</h1>
-<h2 id="catogories-tags-and-about">Catogories, Tags, and About</h2>
+<h1 id="create-content">Create Content</h1>
+<h2 id="create-new-page-1">Create New Page</h2>
+<p>One should run the following command to create new page.</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<p><code>layout</code> by default is <code>post</code>, which could be edited at <code>default_layout</code> in <code>_config.yml</code> under <code>&lt;root-dir&gt;</code>. Other layouts available are <code>page</code> and <code>draft</code>. If you don’t want your posts processed, you can set <code>layout: false</code> in front-matter. Depending on the type of layout, the page will be put into different folder:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Layout</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>post</td>
+<td><code>source/_posts/</code></td>
+</tr>
+<tr class="even">
+<td>page</td>
+<td><code>source/</code></td>
+</tr>
+<tr class="odd">
+<td>draft</td>
+<td><code>source/_drafts/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drafts">Drafts</h2>
+<h3 id="create-draft">Create Draft</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new draft &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="publish-draft">Publish Draft</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo publish draft &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="catogories-tags-and-about-page">Catogories, Tags, and About Page</h2>
 <h3 id="create">Create</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo new page <span class="string">&quot;categories&quot;</span></span><br><span class="line">hexo new page <span class="string">&quot;tags&quot;</span></span><br><span class="line">hexo new page <span class="string">&quot;about&quot;</span></span><br></pre></td></tr></table></figure>
 <p><img src="cattagabout.png" /></p>
 <h3 id="configurate-4">Configurate</h3>
 <p>And add the attribute <code>type</code> to each page in front matter.</p>
 <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: categories</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: about</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;about&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h3 id="usage-3">Usage</h3>
+<h2 id="front-matter">Front matter</h2>
 <p><strong>Front matter</strong> is a block enclosed by <code>---</code> at the beginning of the file that is used to configurate the articles. Besides <code>types</code>, <code>mathjax</code>, <code>comments</code> that mentioned above, <code>tags</code> and <code>categories</code> are also widely used attributes. For details, please visit https://hexo.io/docs/front-matter for your information.</p>
 <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">categories:</span><br><span class="line"><span class="bullet">  -</span> Tools</span><br><span class="line"><span class="bullet">  -</span> CS</span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">  -</span> Hexo</span><br></pre></td></tr></table></figure>
 <h2 id="add-images">Add Images</h2>
@@ -109,7 +155,7 @@ l &amp;= m - n \label{eq5}
 <h3 id="configurate-5">Configurate</h3>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">post_asset_folder: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>So once a new markdown file is created, a folder with same name would be created, too. Then we could put relevant images inside it.</p>
-<h3 id="usage-4">Usage</h3>
+<h3 id="usage-3">Usage</h3>
 <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">![<span class="string">alternative-name-if-failed-to-load</span>](<span class="link">image-name.suffix</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="qoute-block">Qoute Block</h2>
 <h3 id="center-block-qoute">Center Block Qoute</h3>
@@ -128,22 +174,22 @@ Hey Jude, Don't Be Afraid
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;% note &lt;type&gt; %&#125; Content &#123;% endnote %&#125;</span><br></pre></td></tr></table></figure>
 <p>Here <code>type</code> could be</p>
 <div class="note default">
-            <p><strong>Default</strong></p>
+            <p><strong>default</strong></p>
           </div>
 <div class="note primary">
-            <p><strong>Primary</strong></p>
+            <p><strong>primary</strong></p>
           </div>
 <div class="note success">
-            <p><strong>Success</strong> Could You See <span class="math inline">\(\sqrt{2}\)</span></p>
+            <p><strong>success</strong> Could You See <span class="math inline">\(\sqrt{2}\)</span></p>
           </div>
 <div class="note info">
-            <p><strong>Info</strong> <code>Code</code> Could Also Be Rendered</p>
+            <p><strong>info</strong> <code>Code</code> Could Also Be Rendered</p>
           </div>
 <div class="note warning">
-            <p><strong>Warning</strong> CAUTION!</p>
+            <p><strong>warning</strong> CAUTION!</p>
           </div>
 <div class="note danger">
-            <p><strong>Danger</strong> KEEP OUT!</p>
+            <p><strong>danger</strong> KEEP OUT!</p>
           </div>
 <h2 id="excerpt">Excerpt</h2>
 <p>Just add <code>&lt;!-- more --&gt;</code> after abstract.</p>
@@ -156,24 +202,6 @@ Hey Jude, Don't Be Afraid
       </categories>
       <tags>
         <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Norm</title>
-    <url>/norm/</url>
-    <content><![CDATA[<p>In mathematics, a norm is a function from a vector space over the real or complex numbers to the nonnegative real numbers that satisfies certain properties pertaining to scalability and additivity, and takes the value zero only if the input vector is zero.</p>
-<p>The Euclidean norm or 2-norm is a specific norm on a Euclidean vector space, that is strongly related to the Euclidean distance, and equals the square root of the inner product of a vector with itself.</p>
-<p>Given a vector space V over a field 𝔽 of the real numbers ℝ or complex numbers ℂ, a norm on V is a nonnegative-valued function p : V → ℝ with the following properties:[2]</p>
-<p>For all a ∈ 𝔽 and all u, v ∈ V,</p>
-<p>p(u + v) ≤ p(u) + p(v) (being subadditive or satisfying the triangle inequality). p(av) = |a| p(v) (being absolutely homogeneous or absolutely scalable). If p(v) = 0 then v = 0 is the zero vector (being positive definite or being point-separating).</p>
-]]></content>
-      <categories>
-        <category>Math</category>
-        <category>Linear Algebra</category>
-      </categories>
-      <tags>
-        <tag>Linear Algebra</tag>
-        <tag>Norm</tag>
       </tags>
   </entry>
   <entry>
@@ -894,6 +922,213 @@ Hey Jude, Don't Be Afraid
         <tag>Linear Algebra</tag>
         <tag>Eigen</tag>
         <tag>Computer Graphics</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Syntax of CMake</title>
+    <url>/cmake-syntax/</url>
+    <content><![CDATA[<p>This article is the supplementary material of <a href="cmake/">Build using CMake</a>.</p>
+<h1 id="command-invocations">Command Invocations</h1>
+<p>A CMake source file is just a sequence of <strong>Command Invocations</strong>. A <code>command invocation</code> is an identifier followed by paren-enclosed arguments. Arguments are seperated by <code>space</code>. For examlpe:</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(hello world.c)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="argument">Argument</h1>
+<p>There are three types of arguments. Brackets and Qouted Arguments are used for constructing long, usually multi-line arguments, typically, the text of message.</p>
+<h2 id="bracket-argument">Bracket Argument</h2>
+<p>This syntax is inspired by the <code>long bracket syntax</code> of <code>Lua</code>. The format of open bracket is <code>'[' '='* '['</code> whereas the format of close bracket is <code>']' '='*  ']'</code>. The <code>=</code> could repeat zero or multiple times; The bracket with same number of <code>=</code> will be paired together.</p>
+<p>All text between the paired brackets will be treated as exactly one bracket argument. No nest, No Evaluation will be performed. For example:</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">message</span>([=[</span><br><span class="line">No \-escape sequences <span class="keyword">or</span> <span class="variable">$&#123;variable&#125;</span> references are evaluated.</span><br><span class="line">This is always one argument even though it contains a ; character.</span><br><span class="line">The text does <span class="keyword">not</span> end <span class="keyword">on</span> a closing bracket of length <span class="number">0</span> like ]].</span><br><span class="line">]=])</span><br></pre></td></tr></table></figure>
+<h2 id="quoted-argument">Quoted Argument</h2>
+<p>A quoted argument is all the text between a pair of double-quote characters. Different from bracket argument, both <code>Escape Sequences</code> and <code>Variable References</code> will be evaluated here. The line continuation character <code>\</code> is optional here. For example:</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">message</span>(<span class="string">&quot;</span></span><br><span class="line"><span class="string">This is always one argument even though it contains a ; character. \</span></span><br><span class="line"><span class="string">Both \\-escape sequences and $&#123;variable&#125; references are evaluated.</span></span><br><span class="line"><span class="string">The text does not end on an escaped double-quote like \&quot;.</span></span><br><span class="line"><span class="string">&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="unquoted-argument">Unquoted Argument</h2>
+<p>An unquoted argument is not enclosed by any quoting syntax. It may not contain any whitespace, <code>(</code>, <code>)</code>, <code>#</code>, <code>&quot;</code>, or <code>\</code> except when escaped by a backslash. Both Escape Sequences and Variable References are evaluated. An unquoted argument may be treated as zero or a list arguments that splitted by <code>;</code> (not <code>\;</code>), which is same as <code>List</code>. For example:</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(arg</span><br><span class="line">    NoSpace</span><br><span class="line">    Escaped\ Space</span><br><span class="line">    This;Divides;Into;Five;Arguments</span><br><span class="line">    Escaped\;Semicolon</span><br><span class="line">    )</span><br><span class="line">  <span class="keyword">message</span>(<span class="string">&quot;$&#123;arg&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure>
+<p>The output will be <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">NoSpace</span><br><span class="line">Escaped Space</span><br><span class="line">This</span><br><span class="line">Divides</span><br><span class="line">Into</span><br><span class="line">Five</span><br><span class="line">Arguments</span><br><span class="line">Escaped;Semicolon</span><br></pre></td></tr></table></figure></p>
+<h1 id="lists">Lists</h1>
+<p>A list of elements is represented as a string by concatenating the elements separated by <code>;</code>. For example, the <code>set()</code> command stores multiple values into the destination variable as a list:</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(srcs a.c b.c c.c) <span class="comment"># sets &quot;srcs&quot; to &quot;a.c;b.c;c.c&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Lists are meant for simple use cases such as a list of source files and should not be used for complex data processing tasks. Most commands that construct lists do not escape ; characters in list elements, thus flattening nested lists:</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(x a <span class="string">&quot;b;c&quot;</span>) <span class="comment"># sets &quot;x&quot; to &quot;a;b;c&quot;, not &quot;a;b\;c&quot;</span></span><br></pre></td></tr></table></figure>
+<h1 id="variable">Variable</h1>
+<p>Variables are the basic unit of storage in the CMake Language. They are always of string type, though some commands may interpret them as values of other types. Variable are <code>case-sensitive</code>; It's recommended to use alphanumeric characters with <code>_</code> and <code>-</code> only.</p>
+<div class="note info">
+            <p><strong>Reserved Words</strong></p><ol type="1"><li>Begin with <code>CMAKE_</code> or <code>_CMAKE_</code> (upper-, lower-, or mixed-case)</li><li>Begin with <code>_</code> followed by the name of any CMake Command.</li></ol><p>Please visit <a href="https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html#manual:cmake-commands(7)" class="uri">https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html#manual:cmake-commands(7)</a> for the list of cmake commands.</p>
+          </div>
+<h2 id="set-and-unset">Set and Unset</h2>
+<p>Signatures <code>&lt;value&gt;...</code> expect zero or more arguments. Multiple arguments will be joined as a semicolon-separated list to form the actual variable value to be set. Zero arguments will cause normal variables to be unset.</p>
+<h3 id="set-normal-variable">Set Normal Variable</h3>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... [PARENT_SCOPE])</span><br></pre></td></tr></table></figure>
+<p>If the <code>PARENT_SCOPE</code> option is given, then the variable will be set in the scope above the current scope.</p>
+<h3 id="set-cache-entry">Set Cache Entry</h3>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(&lt;variable&gt; &lt;value&gt;... CACHE &lt;type&gt; &lt;docstring&gt; [FORCE])</span><br></pre></td></tr></table></figure>
+<p>Sets the given cache <variable> (cache entry). Since cache entries are meant to provide user-settable values this does not overwrite existing cache entries by default. Use the FORCE option to overwrite existing entries.</p>
+<ul>
+<li><code>Type</code> should be one of the following:
+<ul>
+<li><code>BOOL</code>: Boolean <strong>ON/OFF</strong> value. cmake-gui offers a <code>checkbox</code>.</li>
+<li><code>FILEPATH</code>: Path to a <strong>file</strong> on disk. cmake-gui offers a <code>file dialog</code>.</li>
+<li><code>PATH</code>: Path to a <strong>directory</strong> on disk. cmake-gui offers a <code>file dialog</code>.</li>
+<li><code>STRING</code>: A line of text. cmake-gui offers a text field or a drop-down selection if the STRINGS cache entry property has been set.</li>
+<li><code>INTERNAL</code> A line of text. cmake-gui does not show internal entries. They may be used to store variables persistently across runs. Use of this type implies <code>FORCE</code>.</li>
+</ul></li>
+<li><code>&lt;docstring&gt;</code> should be a line of text providing a quick summary of the option for presentation to cmake-gui users.</li>
+<li><code>FORCE</code> should be used when it's required to overwrite the value of this entry. Since cache entries are meant to provide user-settable values, this does not overwrite existing cache entries by default.</li>
+</ul>
+<div class="note info">
+            <p>if the <code>Type</code> is <code>PATH</code> or <code>FILEPATH</code> and the <code>value</code> provided is a relative path, the set command will treat the path as relative to the current working directory and convert it to an absolute path.</p>
+          </div>
+<h3 id="set-environment-variable">Set Environment Variable</h3>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(ENV&#123;&lt;variable&gt;&#125; [&lt;value&gt;])</span><br></pre></td></tr></table></figure>
+<p>If more than one arguments passed, extras will be ignored and an author warning is issued.</p>
+<h3 id="unset-variables">Unset Variables</h3>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">unset</span>(&lt;variable&gt; [CACHE | PARENT_SCOPE])</span><br><span class="line"><span class="keyword">unset</span>(ENV&#123;&lt;variable&gt;&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="scope">Scope</h2>
+<p>Variables have dynamic scope. Each variable <code>set</code> or <code>unset</code> creates a binding in the corresponding scope.</p>
+<p>Each new directory or function creates a new scope. When evaluating the <code>variable references</code>, CMake first searches the function call stack: if a <code>set</code> binding is found, use it; Else if no binding or <code>unset</code> binding is found, searches the current directory scope, and the cache scope respectively. If there's no binding in all scopes, CMake evaluates it as an empty string.</p>
+<h3 id="function-scope">Function Scope</h3>
+<p>A variable <code>set</code> or <code>unset</code> binds in <code>function</code> is visible only within the current and nested functions.</p>
+<h3 id="directory-scope">Directory Scope</h3>
+<p>Each directory in the source tree has its own variable bindings. Before processing the CMakeLists.txt file for the directory, CMake copies all variable bindings defined in the parent directory, and initialize a new directory scope.</p>
+<p>A variable <code>set</code> or <code>unset</code> outside the functions binds to the current directory scope.</p>
+<h3 id="persistent-cache">Persistent Cache</h3>
+<p>CMake stores a separate set of <code>cache</code> variables that persist across multiple runs within a project build tree. Cache entries have an isolated binding scope and coule be modified only by explicit request.</p>
+<h2 id="variable-references">Variable References</h2>
+<h3 id="normal-variables">Normal Variables</h3>
+<p>A variable reference has the form <code>$&#123;&lt;variable&gt;&#125;</code>; When it appears inside a <code>Quoted Argument</code> or an <code>Unquoted Argument</code>, it is evaluated and replaced by the <code>value</code> of the variable, or by an <code>empty string</code> if it is not set. Variable references can <code>nest</code> and are evaluated from the inside out. For example</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(inner_var foo)</span><br><span class="line"><span class="keyword">set</span>(outer_foo_var <span class="number">999</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;nest variable value is :$&#123;outer_$&#123;inner_var&#125;_var&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>The output will be <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">nest variable value is :<span class="number">999</span></span><br></pre></td></tr></table></figure></p>
+<div class="note warning">
+            <p>The <code>if()</code> command has a special condition syntax that allows for variable references in the short form <code>&lt;variable&gt;</code> instead of <code>${&lt;variable&gt;}</code>. However, environment and cache variables always need to be referenced as <code>$ENV{&lt;variable&gt;}</code> or <code>$CACHE{&lt;variable&gt;}</code>.</p>
+          </div>
+<h3 id="environment-variable-reference">Environment Variable Reference</h3>
+<p>Environment variable references have the form <code>$ENV&#123;&lt;variable&gt;&#125;</code>. Environment variables have global scope in a CMake process and never cached. <code>set()</code> and <code>unset()</code> commands only temporarily affect the running CMake process, without altering the actual system environment, the process called from current process or the environment of subsequent build or test process.</p>
+<h3 id="cache-variable-reference">Cache Variable Reference</h3>
+<p>A cache variable reference has the form <code>$CACHE&#123;&lt;variable&gt;&#125;</code>.</p>
+<h1 id="control-structures">Control Structures</h1>
+<h2 id="conditional-blocks">Conditional Blocks</h2>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(&lt;condition&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">elseif</span>(&lt;condition&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="conditions">Conditions</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type of Test</th>
+<th>Identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unary</td>
+<td><code>EXISTS</code>, <code>IS_DIRECTORY</code>, <code>IS_SYMLINK</code>, <code>IS_ABSOLUTE</code>, <code>COMMAND</code></td>
+</tr>
+<tr class="even">
+<td>Binary</td>
+<td><code>EQUAL</code>, <code>LESS</code>, <code>LESS_EQUAL</code>, <code>GREATER</code>, <code>GREATER_EQUAL</code>, <br><code>STREQUAL</code>, <code>STRLESS</code>, <code>STRLESS_EQUAL</code>, <code>STRGREATER</code>, <code>STRGREATER_EQUAL</code>, <br><code>VERSION_EQUAL</code>, <code>VERSION_LESS</code>, <code>VERSION_LESS_EQUAL</code>, <code>VERSION_GREATER</code>, <code>VERSION_GREATER_EQUAL</code>, <br><code>MATCHES</code></td>
+</tr>
+<tr class="odd">
+<td>Boolean</td>
+<td><code>NOT</code>, <code>AND</code>, <code>OR</code></td>
+</tr>
+</tbody>
+</table>
+<p>Behaviors of path cheking are well-defined only for <strong>full path</strong>.</p>
+<p>Other useful tests:</p>
+<ul>
+<li><code>if(TARGET target-name)</code> to check if the given name is an existing logical target name created by <code>add_executable()</code>, <code>add_library()</code>, or <code>add_custom_target()</code></li>
+<li><code>if(TEST test-name)</code> to check if the given name is an existing test name created by the <code>add_test()</code>.</li>
+<li><code>if(file1 IS_NEWER_THAN file2)</code> returns <code>True</code> if <code>file1</code> is newer than <code>file2</code> or if one of the two files doesn’t exist.</li>
+<li><code>if(&lt;variable|string&gt; IN_LIST &lt;variable&gt;)</code> to check if the given element is contained in the named list variable.</li>
+<li><code>if(DEFINED &lt;name&gt;|CACHE&#123;&lt;name&gt;&#125;|ENV&#123;&lt;name&gt;&#125;)</code> to check if the variable is defined.</li>
+</ul>
+<h3 id="variable-expansion">Variable Expansion</h3>
+<p>Normal variable evaluation with <code>$&#123;&#125;</code> applies before the <code>if</code> command even receives the arguments; Therefore, within condition statements that accepting <code>&lt;variable|string&gt;</code>, <code>automatic evaluation</code> is applied. Developers is instead excepted to pass the variable directly without <code>$&#123;&#125;</code> enclosed.</p>
+<h2 id="loops">Loops</h2>
+<p><code>break()</code>, <code>continue()</code></p>
+<h3 id="for-each">For Each</h3>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt; &lt;items&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure>
+<p><code>&lt;items&gt;</code> is a list of items that are separated by <code>;</code> or <code></code>. At the beginning of each iteration, <code>loop_var</code> will be set to the value of the current item.</p>
+<h4 id="variants">Variants</h4>
+<ol type="1">
+<li><p>Iterate from <code>0</code> or <code>start</code> if set to stop (inclusive), with step: <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt; RANGE [&lt;start&gt;] &lt;stop&gt; [&lt;step&gt;])</span><br></pre></td></tr></table></figure></p></li>
+<li><p>Iterate over a list of items. <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt; IN LISTS [&lt;lists&gt;])</span><br></pre></td></tr></table></figure> <code>&lt;lists&gt;</code> is a whitespace or semicolon separated list of list-valued variables. For example, <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span>(A <span class="number">0</span>;<span class="number">1</span>)</span><br><span class="line"><span class="keyword">set</span>(B <span class="number">2</span> <span class="number">3</span>)</span><br><span class="line"><span class="keyword">set</span>(C <span class="string">&quot;4 5&quot;</span>)</span><br><span class="line"><span class="keyword">set</span>(D <span class="number">6</span>;<span class="number">7</span> <span class="number">8</span>)</span><br><span class="line"><span class="keyword">set</span>(E <span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="keyword">foreach</span>(X IN LISTS A B C D E)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;X&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure> This will print numbers from <code>1</code> to <code>8</code>.</p></li>
+<li>Iterate over multiple lists simultaneously <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(&lt;loop_var&gt;... IN ZIP_LISTS &lt;lists&gt;)</span><br></pre></td></tr></table></figure> <code>&lt;lists&gt;</code> is also a whitespace or semicolon separated list of list-valued variables.
+<ul>
+<li>If only one <code>loop_var</code> given, then access the values via <code>loop_var_N</code> correspondingly;</li>
+<li>If multiple variable names passed, the number of variable and the number of lists should match;</li>
+<li>If any of the lists are shorter, the corresponding iteration variable become undefined. <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">list</span>(APPEND English one two three four)</span><br><span class="line"><span class="keyword">list</span>(APPEND Bahasa satu dua tiga)</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(num IN ZIP_LISTS English Bahasa)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;num_0&#125;, $&#123;num_1&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(en ba IN ZIP_LISTS English Bahasa)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;en&#125;, $&#123;ba&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure> Both yield <figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">-- one, satu</span><br><span class="line">-- two, dua</span><br><span class="line">-- three, tiga</span><br><span class="line">-- four, </span><br></pre></td></tr></table></figure></li>
+</ul></li>
+</ol>
+<h3 id="while">While</h3>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(&lt;condition&gt;)</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endwhile</span>()</span><br></pre></td></tr></table></figure>
+<h1 id="function-and-macro">Function and Macro</h1>
+<p><code>macro</code> is very similar to <code>function</code>. They are defined by</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span>(&lt;name&gt; [&lt;arg1&gt; ...])</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endfunction</span>()</span><br></pre></td></tr></table></figure>
+<p>and</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="keyword">macro</span>(&lt;name&gt; [&lt;arg1&gt; ...])</span><br><span class="line">  &lt;commands&gt;</span><br><span class="line"><span class="keyword">endmacro</span>()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>The <code>name</code> of functions or marcros are case-insensitive.</li>
+<li>They could be invoked via <code>&lt;identifier&gt;([args])</code> or <code>cmake_language(CALL &lt;identifier&gt;)</code></li>
+<li>When a function or marcro is invoked, CMake first evaluates (<code>$&#123;arg1&#125;</code>, ...) with the arguments passed, and then invoked them as normal commands.</li>
+<li>For each invoking, there are some implicit variables available:
+<ul>
+<li><code>ARGC</code>: the number of arguments.</li>
+<li><code>ARGV</code> holds the list of all arguments passed to the function; Alternatively, the arguments could be accessed via <code>ARGV0</code>, <code>ARGV1</code> ...</li>
+</ul></li>
+<li>In a function, <code>ARGC</code>, <code>ARGV</code> and <code>ARGV0</code> are true variables; In a macro, they are not, they are string replacements.</li>
+<li>A function is executed by transferring control from the calling statement to the function body. A macro is executed as if the macro body were pasted in place of the calling statement. This has the consequence that a <code>return()</code> in a macro body does not just terminate execution of the macro but also the control from the scope of the macro call.</li>
+</ul>
+<h1 id="comments">Comments</h1>
+<h2 id="bracket-comment">Bracket Comment</h2>
+<p>Bracket Comments adapt the same syntax as bracket argument, with a <code>#</code> immediately ahead. It's helpful to construct multi-line comment or inline comments that terminated in the middle and followed by other arguments.</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line"><span class="comment">#[[This is a bracket comment.</span></span><br><span class="line">It runs until the close bracket.]]</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;First Argument\n&quot;</span> <span class="comment">#[[Bracket Comment]] &quot;Second Argument&quot;)</span></span><br></pre></td></tr></table></figure>
+<p>The output will be</p>
+<figure class="highlight cmake"><table><tr><td class="code"><pre><span class="line">First Argument</span><br><span class="line">Second Argument</span><br></pre></td></tr></table></figure>
+<h2 id="line-comment">Line Comment</h2>
+<p>Line comments are the content between <code>#</code> and the end of the line.</p>
+]]></content>
+      <categories>
+        <category>Tools</category>
+      </categories>
+      <tags>
+        <tag>CMake</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Norm</title>
+    <url>/norm/</url>
+    <content><![CDATA[<p>In mathematics, a norm is a function from a vector space over the real or complex numbers to the nonnegative real numbers that satisfies certain properties pertaining to scalability and additivity, and takes the value zero only if the input vector is zero.</p>
+<p>The Euclidean norm or 2-norm is a specific norm on a Euclidean vector space, that is strongly related to the Euclidean distance, and equals the square root of the inner product of a vector with itself.</p>
+<p>Given a vector space V over a field 𝔽 of the real numbers ℝ or complex numbers ℂ, a norm on V is a nonnegative-valued function p : V → ℝ with the following properties:[2]</p>
+<p>For all a ∈ 𝔽 and all u, v ∈ V,</p>
+<p>p(u + v) ≤ p(u) + p(v) (being subadditive or satisfying the triangle inequality). p(av) = |a| p(v) (being absolutely homogeneous or absolutely scalable). If p(v) = 0 then v = 0 is the zero vector (being positive definite or being point-separating).</p>
+<p>Let E be a vector space over a field K, where K is either the field R of reals, or the field C of complex numbers. A norm on E is a function % %: E → R+, assigning a nonnegative real number %u% to any vector u ∈ E, and satisfying the following conditions for all x, y, z ∈ E</p>
+<p>(N1) %x% ≥ 0, and %x% =0iff x = 0. (positivity) (N2) %λx% = |λ| %x%. (scaling) (N3) %x + y%≤%x% + %y%. (triangle inequality) A vector space E together with a norm % % is called a normed vector space.</p>
+<p>Condition number is a measure for the sensitivity of the out-data with respect to perturbations in in-data.</p>
+<p>空间可以认为是人们在建立分析框架时所用的基础结构。这可以分为三个层次：你可以通过某些想法去建立一个空间、你能通过某些关系去描述这个空间、你能通过这空间上的函数去分析问题。1.你能建立这个空间。至少，你空间中的点需要是唯一的，即你不能有两个点搞的无法区分。这就是Hausdorff空间。2.你能描述这个空间你至少需要一个数去度量某些性质，且这个度量必须是有某些良好的性质，这就要求是赋范空间。度量一般需要一定的自洽性，即引申至度量空间。你需要连续性，则其需要完备或者稠密（即可以完备化），否则难以分析邻域。则这就出来Banach空间。3.你能利用这个空间进一步，如果你需要一定的对偶性质，即其上的函数可以比较有效的反映原空间的某些性质，如果考虑有界线性泛函，这就出来Hilbert空间，因为一般的Banach空间的对偶空间很难表征。若限制有限维，即只想分析一部分的变量，则得到欧氏空间。</p>
+<p>作者：jwars 链接：https://www.zhihu.com/question/27903807/answer/1267967915 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。、</p>
+<ol type="1">
+<li>从一点向另一点可以引一条直线。2. 任意线段能无限延伸成一条直线。3. 给定任意线段，可以以其一个端点作为圆心，该线段作为半径作一个圆。4. 所有直角都相等。5. 若两条直线都与第三条直线相交，并且在同一边的内角之和小于两个直角，则这两条直线在这一边必定相交。</li>
+</ol>
+<p>作者：周欣宇 链接：https://www.zhihu.com/question/27903807/answer/38585024 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>其中第五公理就是争议不断的“平行公理”。后来（大概是17世纪开始）反对平行公理的数学家们，只用前四条公理推出的、不满足第五条公理的空间（例如：过一条直线外一点有无数条平行线的空间、没有平行线的空间等）便是非欧空间。也就是说，在这帮伟（dao）大（luan）的数学家出现之前，根本就没有所谓的“非欧空间”，也自然没有“欧式空间”，人们都普遍认为世界上只有唯一一种组成空间的可能，就是我们所生活的符合经验的空间，也即欧式空间。（PS：其实我们生活的空间并非欧式空间，比如地球的经线，互相平行但却相交于两极，是非欧空间，只是我们察觉不到罢了。另外，经线也是非欧几何中黎曼几何（椭圆几何）里典型的“有限无尽直线”）（补充：欧式几何里的平行是这样的：第五公设里“若两条直线都与第三条直线相交，并且在同一边的内角之和小于两个直角” 称为两直线非平行。若内角和等于两个直角（180°），即为平行。经线与赤道的交线形成的角均为直角，根据定义是平行。）</p>
+<p>作者：周欣宇 链接：https://www.zhihu.com/question/27903807/answer/38585024 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>一句话总结：欧几里得空间就是在对现实空间的规则抽象和推广（从n&lt;=3推广到有限n维空间）。欧几里得几何就是中学学的平面几何、立体几何，在欧几里得几何中，平行线任何位置的间距相等。而中学学的几何空间一般是2维，3维（所以，我们讨论余弦值、点间的距离、内积都是在低纬空间总结的），如果将这些低维空间所总结的规律推广到有限的n维空间，那这些符合定义的空间则被统称为欧几里得空间（欧式空间，Euclidean Space）。而欧几里得空间主要是定义了内积、距离、角（没错，就是初中的那些定义），理解了这些再去理解数学定义就很明确了</p>
+<p>作者：恒仔 链接：https://www.zhihu.com/question/27903807/answer/699570097 来源：知乎 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<p>欧几里得几何就是我们中学学的平面几何、立体几何。在欧几里得几何中，平行线任何位置的间距都相等。 非欧几何，爱因斯坦曾经形象地说明过：假定存在一种二维扁平智能生物，但它们不是生活在绝对的平面上，而是生活在一个球面上，那么，当它们在小范围研究圆周率的时候，会跟我们一样发现圆周率是3.14159……可是，如果它们画一个很大的圆，去测量圆的周长和半径，就会发现周长小于2πr，圆越大，周长比2πr小得越多，为了能够适用于大范围的研究，它们就必须修正它们的几何方法。如果空间有四维，而我们生活在三维空间中，而这个三维空间在空间的第四个维度中发生了弯曲，我们的几何就会象那个球面上的扁平智能生物一样，感受不到第四维的存在，但我们的几何必须进行修正，这就是非欧几何。在非欧几何中，平行的直线只在局部平行，就象地球的经线只在赤道上平行。 闵可夫斯基空间属于欧几里得几何的扩展，它是把时间也作为一个维度进行量化，再添加光速系数，跟洛伦兹变换一样，使得不同惯性系中的运动问题计算得以简化。</p>
+<p>n维欧氏空间是在线性空间里定义了内积，内积这种东西非常好。有了它，可以诱导出范数，所以n维欧氏空间还是赋范线性空间，加上它的完备性，就构成Banach空间；内积还可以诱导出度量，因此它也是完备的度量空间。更重要的是，完备的内积空间叫Hilbert空间，这是一种最接近n维欧氏空间的无穷维空间，当然特殊一点n维欧氏空间本身就是内积空间，加上完备性就构成Hilbert空间。Hilbert空间有好多好的性质，对于内积这种结构，有了它，就有了正交（在R²上可以理解为两个平面向量垂直，即内积为零）和投影的概念，就可以在内积空间中建立起相应的几何学。另外，我们研究Hilbert空间上的连续线性泛函，有著名的里斯（F.Riesz）定理，研究Hilbert空间上的共轭算子、酉算子、自伴算子等等，它们都是n维欧氏空间上的矩阵的推广。准确的说应该是n维欧氏空间上线性变换的推广，在n维欧氏空间上，线性算子实际上就是线性变换，再利用线性变换和n级方阵的同构关系，我们说矩阵也没什么毛病。</p>
+<p>https://blog.csdn.net/lulu950817/article/details/80424288</p>
+]]></content>
+      <categories>
+        <category>Math</category>
+        <category>Linear Algebra</category>
+      </categories>
+      <tags>
+        <tag>Linear Algebra</tag>
+        <tag>Norm</tag>
       </tags>
   </entry>
 </search>

@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Times New Roman:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://misa-xu.github.io/hexo-next/local_search.png">
 <meta property="og:image" content="https://misa-xu.github.io/hexo-next/cattagabout.png">
 <meta property="article:published_time" content="2020-07-30T06:33:33.000Z">
-<meta property="article:modified_time" content="2020-08-03T05:36:09.328Z">
+<meta property="article:modified_time" content="2020-08-07T02:54:34.825Z">
 <meta property="article:author" content="Misa XU">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">7</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">4</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-03 13:36:09" itemprop="dateModified" datetime="2020-08-03T13:36:09+08:00">2020-08-03</time>
+                <time title="Modified: 2020-08-07 10:54:34" itemprop="dateModified" datetime="2020-08-07T10:54:34+08:00">2020-08-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -336,15 +336,46 @@ l &amp;= m - n \label{eq5}
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plugins: hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
 <h3 id="usage-2">Usage</h3>
 <p>For each <code>generate</code> operation, a sitemap called <code>sitemap.xml</code> will be automatically created under <code>&lt;root-dir&gt;/public/</code></p>
-<h1 id="build-the-content">Build The Content</h1>
-<h2 id="catogories-tags-and-about">Catogories, Tags, and About</h2>
+<h1 id="create-content">Create Content</h1>
+<h2 id="create-new-page-1">Create New Page</h2>
+<p>One should run the following command to create new page.</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<p><code>layout</code> by default is <code>post</code>, which could be edited at <code>default_layout</code> in <code>_config.yml</code> under <code>&lt;root-dir&gt;</code>. Other layouts available are <code>page</code> and <code>draft</code>. If you don’t want your posts processed, you can set <code>layout: false</code> in front-matter. Depending on the type of layout, the page will be put into different folder:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Layout</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>post</td>
+<td><code>source/_posts/</code></td>
+</tr>
+<tr class="even">
+<td>page</td>
+<td><code>source/</code></td>
+</tr>
+<tr class="odd">
+<td>draft</td>
+<td><code>source/_drafts/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="drafts">Drafts</h2>
+<h3 id="create-draft">Create Draft</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new draft &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="publish-draft">Publish Draft</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo publish draft &lt;title&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="catogories-tags-and-about-page">Catogories, Tags, and About Page</h2>
 <h3 id="create">Create</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo new page <span class="string">&quot;categories&quot;</span></span><br><span class="line">hexo new page <span class="string">&quot;tags&quot;</span></span><br><span class="line">hexo new page <span class="string">&quot;about&quot;</span></span><br></pre></td></tr></table></figure>
 <p><img src="cattagabout.png" /></p>
 <h3 id="configurate-4">Configurate</h3>
 <p>And add the attribute <code>type</code> to each page in front matter.</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: categories</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">title: about</span><br><span class="line">date: 2020-02-10 22:07:08</span><br><span class="line">type: &quot;about&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<h3 id="usage-3">Usage</h3>
+<h2 id="front-matter">Front matter</h2>
 <p><strong>Front matter</strong> is a block enclosed by <code>---</code> at the beginning of the file that is used to configurate the articles. Besides <code>types</code>, <code>mathjax</code>, <code>comments</code> that mentioned above, <code>tags</code> and <code>categories</code> are also widely used attributes. For details, please visit https://hexo.io/docs/front-matter for your information.</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">categories:</span><br><span class="line"><span class="bullet">  -</span> Tools</span><br><span class="line"><span class="bullet">  -</span> CS</span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">  -</span> Hexo</span><br></pre></td></tr></table></figure>
 <h2 id="add-images">Add Images</h2>
@@ -352,7 +383,7 @@ l &amp;= m - n \label{eq5}
 <h3 id="configurate-5">Configurate</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 <p>So once a new markdown file is created, a folder with same name would be created, too. Then we could put relevant images inside it.</p>
-<h3 id="usage-4">Usage</h3>
+<h3 id="usage-3">Usage</h3>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">alternative-name-if-failed-to-load</span>](<span class="link">image-name.suffix</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="qoute-block">Qoute Block</h2>
 <h3 id="center-block-qoute">Center Block Qoute</h3>
@@ -371,22 +402,22 @@ Hey Jude, Don't Be Afraid
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% note &lt;type&gt; %&#125; Content &#123;% endnote %&#125;</span><br></pre></td></tr></table></figure>
 <p>Here <code>type</code> could be</p>
 <div class="note default">
-            <p><strong>Default</strong></p>
+            <p><strong>default</strong></p>
           </div>
 <div class="note primary">
-            <p><strong>Primary</strong></p>
+            <p><strong>primary</strong></p>
           </div>
 <div class="note success">
-            <p><strong>Success</strong> Could You See <span class="math inline">\(\sqrt{2}\)</span></p>
+            <p><strong>success</strong> Could You See <span class="math inline">\(\sqrt{2}\)</span></p>
           </div>
 <div class="note info">
-            <p><strong>Info</strong> <code>Code</code> Could Also Be Rendered</p>
+            <p><strong>info</strong> <code>Code</code> Could Also Be Rendered</p>
           </div>
 <div class="note warning">
-            <p><strong>Warning</strong> CAUTION!</p>
+            <p><strong>warning</strong> CAUTION!</p>
           </div>
 <div class="note danger">
-            <p><strong>Danger</strong> KEEP OUT!</p>
+            <p><strong>danger</strong> KEEP OUT!</p>
           </div>
 <h2 id="excerpt">Excerpt</h2>
 <p>Just add <code>&lt;!-- more --&gt;</code> after abstract.</p>
@@ -474,7 +505,7 @@ Hey Jude, Don't Be Afraid
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#create-repository"><span class="nav-number">1.</span> <span class="nav-text">Create Repository</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#configurate-development-environment"><span class="nav-number">2.</span> <span class="nav-text">Configurate Development Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#commonly-used-commands"><span class="nav-number">3.</span> <span class="nav-text">Commonly-used Commands</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#create-new-page"><span class="nav-number">3.1.</span> <span class="nav-text">Create New Page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#run-website-locally"><span class="nav-number">3.2.</span> <span class="nav-text">Run Website Locally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generate-static-files"><span class="nav-number">3.3.</span> <span class="nav-text">Generate Static files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#clean-the-output"><span class="nav-number">3.4.</span> <span class="nav-text">Clean the output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deploy-to-github"><span class="nav-number">3.5.</span> <span class="nav-text">Deploy to Github</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#define-deploy-behavior-to-github"><span class="nav-number">3.5.1.</span> <span class="nav-text">Define Deploy Behavior to Github</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#install-library"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">Install Library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#configurate"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#basic-settings"><span class="nav-number">3.5.1.3.</span> <span class="nav-text">Basic Settings</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#skip-the-authentication-process"><span class="nav-number">3.5.1.4.</span> <span class="nav-text">Skip the Authentication Process</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#plugin-configuration"><span class="nav-number">4.</span> <span class="nav-text">Plugin Configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mathjax"><span class="nav-number">4.1.</span> <span class="nav-text">-MathJax</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-1"><span class="nav-number">4.1.1.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage"><span class="nav-number">4.1.2.</span> <span class="nav-text">Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#local-search"><span class="nav-number">4.2.</span> <span class="nav-text">Local Search</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install"><span class="nav-number">4.2.1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-2"><span class="nav-number">4.2.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#activate"><span class="nav-number">4.2.3.</span> <span class="nav-text">Activate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage-1"><span class="nav-number">4.2.4.</span> <span class="nav-text">Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sitemap"><span class="nav-number">4.3.</span> <span class="nav-text">SiteMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-1"><span class="nav-number">4.3.1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-3"><span class="nav-number">4.3.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage-2"><span class="nav-number">4.3.3.</span> <span class="nav-text">Usage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#build-the-content"><span class="nav-number">5.</span> <span class="nav-text">Build The Content</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#catogories-tags-and-about"><span class="nav-number">5.1.</span> <span class="nav-text">Catogories, Tags, and About</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#create"><span class="nav-number">5.1.1.</span> <span class="nav-text">Create</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-4"><span class="nav-number">5.1.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage-3"><span class="nav-number">5.1.3.</span> <span class="nav-text">Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-images"><span class="nav-number">5.2.</span> <span class="nav-text">Add Images</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-5"><span class="nav-number">5.2.1.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage-4"><span class="nav-number">5.2.2.</span> <span class="nav-text">Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#qoute-block"><span class="nav-number">5.3.</span> <span class="nav-text">Qoute Block</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#center-block-qoute"><span class="nav-number">5.3.1.</span> <span class="nav-text">Center Block Qoute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#note-block"><span class="nav-number">5.3.2.</span> <span class="nav-text">Note Block</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#excerpt"><span class="nav-number">5.4.</span> <span class="nav-text">Excerpt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tab"><span class="nav-number">5.5.</span> <span class="nav-text">Tab</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#create-repository"><span class="nav-number">1.</span> <span class="nav-text">Create Repository</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#configurate-development-environment"><span class="nav-number">2.</span> <span class="nav-text">Configurate Development Environment</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#commonly-used-commands"><span class="nav-number">3.</span> <span class="nav-text">Commonly-used Commands</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#create-new-page"><span class="nav-number">3.1.</span> <span class="nav-text">Create New Page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#run-website-locally"><span class="nav-number">3.2.</span> <span class="nav-text">Run Website Locally</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#generate-static-files"><span class="nav-number">3.3.</span> <span class="nav-text">Generate Static files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#clean-the-output"><span class="nav-number">3.4.</span> <span class="nav-text">Clean the output</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deploy-to-github"><span class="nav-number">3.5.</span> <span class="nav-text">Deploy to Github</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#define-deploy-behavior-to-github"><span class="nav-number">3.5.1.</span> <span class="nav-text">Define Deploy Behavior to Github</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#install-library"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">Install Library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#configurate"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#basic-settings"><span class="nav-number">3.5.1.3.</span> <span class="nav-text">Basic Settings</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#skip-the-authentication-process"><span class="nav-number">3.5.1.4.</span> <span class="nav-text">Skip the Authentication Process</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#plugin-configuration"><span class="nav-number">4.</span> <span class="nav-text">Plugin Configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mathjax"><span class="nav-number">4.1.</span> <span class="nav-text">-MathJax</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-1"><span class="nav-number">4.1.1.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage"><span class="nav-number">4.1.2.</span> <span class="nav-text">Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#local-search"><span class="nav-number">4.2.</span> <span class="nav-text">Local Search</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install"><span class="nav-number">4.2.1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-2"><span class="nav-number">4.2.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#activate"><span class="nav-number">4.2.3.</span> <span class="nav-text">Activate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage-1"><span class="nav-number">4.2.4.</span> <span class="nav-text">Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sitemap"><span class="nav-number">4.3.</span> <span class="nav-text">SiteMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-1"><span class="nav-number">4.3.1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-3"><span class="nav-number">4.3.2.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage-2"><span class="nav-number">4.3.3.</span> <span class="nav-text">Usage</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#create-content"><span class="nav-number">5.</span> <span class="nav-text">Create Content</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#create-new-page-1"><span class="nav-number">5.1.</span> <span class="nav-text">Create New Page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#drafts"><span class="nav-number">5.2.</span> <span class="nav-text">Drafts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#create-draft"><span class="nav-number">5.2.1.</span> <span class="nav-text">Create Draft</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#publish-draft"><span class="nav-number">5.2.2.</span> <span class="nav-text">Publish Draft</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#catogories-tags-and-about-page"><span class="nav-number">5.3.</span> <span class="nav-text">Catogories, Tags, and About Page</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#create"><span class="nav-number">5.3.1.</span> <span class="nav-text">Create</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-4"><span class="nav-number">5.3.2.</span> <span class="nav-text">Configurate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#front-matter"><span class="nav-number">5.4.</span> <span class="nav-text">Front matter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-images"><span class="nav-number">5.5.</span> <span class="nav-text">Add Images</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#configurate-5"><span class="nav-number">5.5.1.</span> <span class="nav-text">Configurate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usage-3"><span class="nav-number">5.5.2.</span> <span class="nav-text">Usage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#qoute-block"><span class="nav-number">5.6.</span> <span class="nav-text">Qoute Block</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#center-block-qoute"><span class="nav-number">5.6.1.</span> <span class="nav-text">Center Block Qoute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#note-block"><span class="nav-number">5.6.2.</span> <span class="nav-text">Note Block</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#excerpt"><span class="nav-number">5.7.</span> <span class="nav-text">Excerpt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tab"><span class="nav-number">5.8.</span> <span class="nav-text">Tab</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -490,7 +521,7 @@ Hey Jude, Don't Be Afraid
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -503,7 +534,7 @@ Hey Jude, Don't Be Afraid
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
