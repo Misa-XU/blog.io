@@ -29,7 +29,7 @@
 <meta property="og:description" content="This article is the supplementary material of Build using CMake. Command Invocations A CMake source file is just a sequence of Command Invocations. A command invocation is an identifier followed by">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-08-06T14:29:11.000Z">
-<meta property="article:modified_time" content="2020-08-06T14:36:51.732Z">
+<meta property="article:modified_time" content="2020-08-07T08:25:03.204Z">
 <meta property="article:author" content="Misa XU">
 <meta property="article:tag" content="CMake">
 <meta name="twitter:card" content="summary">
@@ -223,10 +223,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-08-06 22:29:11 / Modified: 22:36:51" itemprop="dateCreated datePublished" datetime="2020-08-06T22:29:11+08:00">2020-08-06</time>
+              <time title="Created: 2020-08-06 22:29:11" itemprop="dateCreated datePublished" datetime="2020-08-06T22:29:11+08:00">2020-08-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-07 16:25:03" itemprop="dateModified" datetime="2020-08-07T16:25:03+08:00">2020-08-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -404,7 +410,7 @@
 </ul>
 <h1 id="comments">Comments</h1>
 <h2 id="bracket-comment">Bracket Comment</h2>
-<p>Bracket Comments adapt the same syntax as bracket argument, with a <code>#</code> immediately ahead. It's helpful to construct multi-line comment or inline comments that terminated in the middle and followed by other arguments.</p>
+<p>Bracket Comments adopt the same syntax as bracket argument, with a <code>#</code> immediately ahead. It's helpful to construct multi-line comment or inline comments that terminated in the middle and followed by other arguments.</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#[[This is a bracket comment.</span></span><br><span class="line">It runs until the close bracket.]]</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;First Argument\n&quot;</span> <span class="comment">#[[Bracket Comment]] &quot;Second Argument&quot;)</span></span><br></pre></td></tr></table></figure>
 <p>The output will be</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">First Argument</span><br><span class="line">Second Argument</span><br></pre></td></tr></table></figure>
