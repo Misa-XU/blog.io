@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/m180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/m32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/m16.png">
+  <link rel="mask-icon" href="/images/m.svg" color="#222">
+  <meta name="google-site-verification" content="hHVOWX6ywxhEyB-iQlybbme_bBraiGIpQom994FhXWw">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="The impact of GIL Before talking about multi-threading in python, you must know the term GIL first. GIL, short for Global Interpreter Lock, is a mutex that allows only one thread to hold the control">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multi-threading in Python">
+<meta property="og:url" content="https://misa-xu.github.io/multithreading/index.html">
+<meta property="og:site_name" content="Яedσ З000">
+<meta property="og:description" content="The impact of GIL Before talking about multi-threading in python, you must know the term GIL first. GIL, short for Global Interpreter Lock, is a mutex that allows only one thread to hold the control">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://misa-xu.github.io/multithreading/cps.png">
+<meta property="article:published_time" content="2020-08-17T05:15:42.000Z">
+<meta property="article:modified_time" content="2020-08-18T13:45:43.243Z">
+<meta property="article:author" content="Misa XU">
+<meta property="article:tag" content="Multi-threading">
+<meta property="article:tag" content="Concurrent Programming">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://misa-xu.github.io/multithreading/cps.png">
+
+<link rel="canonical" href="https://misa-xu.github.io/multithreading/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Multi-threading in Python | Яedσ З000</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Яedσ З000</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Living so free is a tragedy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-code fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-bug fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-map-signs fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://misa-xu.github.io/multithreading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Misa XU">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Яedσ З000">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Multi-threading in Python
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-17 13:15:42" itemprop="dateCreated datePublished" datetime="2020-08-17T13:15:42+08:00">2020-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-18 21:45:43" itemprop="dateModified" datetime="2020-08-18T21:45:43+08:00">2020-08-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="the-impact-of-gil">The impact of GIL</h1>
+<p>Before talking about multi-threading in python, you must know the term <strong>GIL</strong> first. GIL, short for Global Interpreter Lock, is a mutex that allows only one thread to hold the control of the Python interpreter.</p>
+<p>GIL guarantees the thread-safty of <strong>Reference Counting</strong> ---- the memory management mechanism adoped by Python with low overhead and few performance loss of single-threaded programme. C libraries that are not thread-safe also become easier to integrate.</p>
+<p>However, the nature of GIL that prevents CPU-bound threads from executing in parellel results of a performance bottleneck of multi-threaded CPU-bound code.</p>
+<a id="more"></a>
+<h2 id="example">Example</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line">COUNT = <span class="number">50000000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">while</span> n&gt;<span class="number">0</span>:</span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">start = time.time()</span><br><span class="line">countdown(COUNT)</span><br><span class="line">end = time.time()</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;Time taken in seconds -&#x27;</span>, end - start)</span><br></pre></td></tr></table></figure>
+<p>The code above takes <code>6.20024037361145</code> seconds, whereas</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line">COUNT = <span class="number">50000000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span>(<span class="params">n</span>):</span></span><br><span class="line">    <span class="keyword">while</span> n&gt;<span class="number">0</span>:</span><br><span class="line">        n -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">t1 = Thread(target=countdown, args=(COUNT//<span class="number">2</span>,))</span><br><span class="line">t2 = Thread(target=countdown, args=(COUNT//<span class="number">2</span>,))</span><br><span class="line"></span><br><span class="line">start = time.time()</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t1.join()</span><br><span class="line">t2.join()</span><br><span class="line">end = time.time()</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;Time taken in seconds -&#x27;</span>, end - start)</span><br></pre></td></tr></table></figure>
+<p>takes <code>6.924342632293701</code> seconds. This increase is the result of acquire and release overheads added by the lock.</p>
+<h2 id="reference-counting">Reference Counting</h2>
+<p>In short, within Python, each object owns have a reference count variable that keeps track of the number of references that point to the object. When this count reaches zero, the memory occupied by the object is released. For example:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">a = []</span><br><span class="line">b = a</span><br><span class="line">sys.getrefcount(a)</span><br></pre></td></tr></table></figure>
+<p>In the above example, the reference count for the empty list <code>[]</code> was <strong>3</strong>, which are: <code>a</code>, <code>b</code> and the argument passed to <code>sys.getrefcount()</code>.</p>
+<p>Compared with other thread-safe memory management like garbage collection, reference counting produces lower overhead and makes few impact on the performance of single-threaded programme.</p>
+<h2 id="solution">Solution</h2>
+<p>The most popular way is to use a multi-processing approach instead of multi-threading, with more overheads of processing creating and context switching as trade-off. Each task then gets its own process, memory space and Python interpreter; the GIL won’t be a problem any more.</p>
+<p>Alternatively you may use other Python interpreters (Jython, IronPython and PyPy etc.) as GIL exists only in CPython.</p>
+<h1 id="concurrency-vs-parallelism">Concurrency vs Parallelism</h1>
+<p><strong>The Art of Concurrency</strong> defines the difference as</p>
+<blockquote>
+<p>A system is said to be <strong>concurrent</strong> if it can support two or more actions in progress at the same time. A system is said to be <strong>parallel</strong> if it can support two or more actions executing simultaneously.</p>
+</blockquote>
+<p><img src="cps.png" /></p>
+<h1 id="threading-module-in-python3">threading module in Python3</h1>
+<h2 id="threading">threading</h2>
+<p>This module defines the following functions:</p>
+<ul>
+<li><code>threading.active_count()</code>: Return the number of Thread objects currently alive.</li>
+<li><code>threading.current_thread()</code>: Return the current Thread object.</li>
+<li><code>threading.enumerate()</code> Return a list of all Thread objects (include dummy and deamon threads) currently alive.</li>
+<li><code>threading.main_thread()</code>: Return the main Thread object.</li>
+<li><code>threading.get_ident()</code>: Return the <strong>thread identifier</strong> of the current thread. It is a nonzero integer and may be recycled when a thread exits and another thread is created.</li>
+<li><code>threading.get_native_id()</code>: Return the native Thread ID of the current thread assigned by the Operating System.</li>
+</ul>
+<h2 id="threading.thread">threading.Thread</h2>
+<p>The constructor of threading.Thread is <code>class threading.Thread(group=None, target=None, name=None, args=(), kwargs=&#123;&#125;, *, daemon=None)</code>, where</p>
+<ul>
+<li><code>group</code> reserved for future extension for <code>ThreadGroup</code>.</li>
+<li><code>name</code> is the thread name. By default, it is of the form &quot;Thread-N&quot;.</li>
+<li><code>target</code> is the callable object to be invoked by the <code>run()</code> method.</li>
+<li><code>args</code> is the argument tuple for the target invocation.</li>
+<li><code>kwargs</code> is a dictionary of keyword arguments for the target invocation. Defaults to {}.</li>
+<li><code>daemon</code> should be a boolean or <code>None</code> (means inheriting from the current thread).</li>
+</ul>
+<h3 id="usage">Usage</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">x, y</span>):</span></span><br><span class="line">    print(x + y)</span><br><span class="line"></span><br><span class="line">t1 = threading.Thread(target = add, args = (<span class="number">1</span>, <span class="number">1</span>, )) <span class="comment"># pass as args list</span></span><br><span class="line">t2 = threading.Thread(target = add, kwargs = dict(x = <span class="number">1</span>, y = <span class="number">1</span>)) <span class="comment"># pass as kwargs</span></span><br></pre></td></tr></table></figure>
+<h3 id="life-cycle">Life Cycle</h3>
+<p>A thread is considered <strong>'alive'</strong> after <code>start()</code> and before terminated. It could be blocked by calling other thread's <code>join()</code> method or by synchronization mechanism introduced later.</p>
+<p>A thread can be flagged as a <strong>&quot;daemon thread&quot;</strong>. Python programme will terminate when only daemon threads are left. Since daemon threads may be abruptly stopped at shutdown, their resources may not be released properly. If you want the threads be stopped gracefully, make them non-daemonic and use a suitable signalling mechanism such as an Event.</p>
+<p>A <strong>&quot;Dummy thread&quot;</strong> is a thread of control started outside the threading module, such as directly from C code. They are always considered <strong>alive</strong> and <strong>daemonic</strong>, and cannot be <code>join()</code> since it is impossible to detect the termination of them.</p>
+<h4 id="deamon-vs-non-deamon">Deamon vs Non-Deamon</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">daemon</span>():</span></span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Starting&#x27;</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Exiting&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">non_daemon</span>():</span></span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Starting&#x27;</span>)</span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Exiting&#x27;</span>)</span><br><span class="line"></span><br><span class="line">d = threading.Thread(name = <span class="string">&#x27;daemon&#x27;</span>, target = daemon, daemon = <span class="literal">True</span>)</span><br><span class="line">t = threading.Thread(name = <span class="string">&#x27;non-daemon&#x27;</span>, target = non_daemon)</span><br><span class="line"></span><br><span class="line">d.start()</span><br><span class="line">t.start()</span><br><span class="line"></span><br><span class="line">print(threading.current_thread().name + <span class="string">&#x27; Exiting&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>Output will be</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">daemon Starting</span><br><span class="line">non-daemon Starting</span><br><span class="line">MainThread Exiting</span><br><span class="line">non-daemon Exiting</span><br></pre></td></tr></table></figure>
+<h4 id="join">Join</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">daemon</span>():</span></span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Starting&#x27;</span>)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Exiting&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">non_daemon</span>():</span></span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Starting&#x27;</span>)</span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Exiting&#x27;</span>)</span><br><span class="line"></span><br><span class="line">d = threading.Thread(name = <span class="string">&#x27;daemon&#x27;</span>, target = daemon, daemon = <span class="literal">True</span>)</span><br><span class="line">t = threading.Thread(name = <span class="string">&#x27;non-daemon&#x27;</span>, target = non_daemon)</span><br><span class="line"></span><br><span class="line">d.start()</span><br><span class="line">t.start()</span><br><span class="line"></span><br><span class="line">d.join()</span><br><span class="line">t.join()</span><br><span class="line"></span><br><span class="line">print(threading.current_thread().name + <span class="string">&#x27; Exiting&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>Output will be</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">daemon Starting</span><br><span class="line">non-daemon Starting</span><br><span class="line">non-daemon Exiting</span><br><span class="line">daemon Exiting</span><br><span class="line">MainThread Exiting</span><br></pre></td></tr></table></figure>
+<h3 id="api">API</h3>
+<ul>
+<li><code>.start()</code>: Start the thread. A <code>RuntimeError</code> will raise if the same thread object is called more than once.</li>
+<li><code>.run()</code>: The default <code>run()</code> will invoke the callable object passed to the <code>target</code>.</li>
+<li><code>.join(timeout=None)</code> Wait until the called thread terminates or TIMEOUT. The unit of<code>timeout</code> is second. <code>join()</code> always returns <code>None</code>; User could call <code>is_alive()</code> to check whether it is terminated or a timeout happened. <code>join()</code> will raise a <code>RuntimeError</code> if it will cause a <strong>deadlock</strong>. It is also an error to join() a thread before it has been started and attempts to do so raise the same exception.</li>
+<li><code>name</code>: Return the <strong>name</strong> of current thread. Multiple threads may be given the same name.</li>
+<li><code>ident</code>: Return the the <strong>thread identifier</strong> of this thread or None if the thread has not been started.</li>
+<li><code>native_id</code>: Return the native integral thread ID of this thread.</li>
+<li><code>is_alive()</code>: Return whether the thread is alive.</li>
+<li><code>daemon</code>: Return whether this thread is a daemon thread (True) or not (False). This must be set before <code>start()</code> is called.</li>
+</ul>
+<h2 id="subclassing-thread">Subclassing Thread</h2>
+<p>The subclass must override the function <code>run()</code>; If it's required to overrides the constructor, the base class constructor (Thread.__init__()) must be invoked before anything else.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThreadWithArgs</span>(<span class="params">threading.Thread</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, group=None, target=None, name=None, args=(<span class="params"></span>), kwargs=None</span>):</span></span><br><span class="line">        threading.Thread.__init__(self, group=group, target=target, name=name)</span><br><span class="line">        self.args = args</span><br><span class="line">        self.kwargs = kwargs</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(threading.current_thread().name + \</span><br><span class="line">        <span class="string">&#x27; running with &#123;0&#125; and &#123;1&#125;&#x27;</span>.format(self.args, self.kwargs))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    t = MyThreadWithArgs(args=(i, ), kwargs=&#123;<span class="string">&#x27;a&#x27;</span>:<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;b&#x27;</span>:<span class="string">&#x27;B&#x27;</span>&#125;)</span><br><span class="line">    t.start()</span><br></pre></td></tr></table></figure>
+<p>Output will be</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Thread<span class="number">-1</span> running <span class="keyword">with</span> (<span class="number">0</span>,) <span class="keyword">and</span> &#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;B&#x27;</span>&#125;</span><br><span class="line">Thread<span class="number">-2</span> running <span class="keyword">with</span> (<span class="number">1</span>,) <span class="keyword">and</span> &#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;B&#x27;</span>&#125;</span><br><span class="line">Thread<span class="number">-3</span> running <span class="keyword">with</span> (<span class="number">2</span>,) <span class="keyword">and</span> &#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;B&#x27;</span>&#125;</span><br><span class="line">Thread<span class="number">-4</span> running <span class="keyword">with</span> (<span class="number">3</span>,) <span class="keyword">and</span> &#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;B&#x27;</span>&#125;</span><br><span class="line">Thread<span class="number">-5</span> running <span class="keyword">with</span> (<span class="number">4</span>,) <span class="keyword">and</span> &#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;b&#x27;</span>: <span class="string">&#x27;B&#x27;</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="thread.timer">Thread.Timer</h2>
+<p><code>Timer</code> is a subclass of <code>Thread</code> with a constructor <code>class threading.Timer(interval, function, args=None, kwargs=None)</code>. A Timer starts its work after a delay, and can be stopped (even before its action has begun) by calling the <code>cancel()</code> method.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delayed</span>(<span class="params">t</span>):</span></span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Starting at time &#x27;</span> + str(t))</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    print(threading.current_thread().name + <span class="string">&#x27; Existing&#x27;</span>)</span><br><span class="line"></span><br><span class="line">t1 = threading.Timer(<span class="number">1</span>, delayed, args = (<span class="number">1</span>, ))</span><br><span class="line">t1.name = <span class="string">&#x27;t1&#x27;</span></span><br><span class="line">t2 = threading.Timer(<span class="number">3</span>, delayed, args = (<span class="number">3</span>, ))</span><br><span class="line">t2.name = <span class="string">&#x27;t2&#x27;</span></span><br><span class="line">t3 = threading.Timer(<span class="number">3</span>, delayed, args = (<span class="number">3</span>, ))</span><br><span class="line">t3.name = <span class="string">&#x27;t3&#x27;</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;starting timers&#x27;</span>)</span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br><span class="line">t3.start()</span><br><span class="line">print(<span class="string">&#x27;waiting before canceling &#123;0&#125;&#x27;</span>.format(t2.name))</span><br><span class="line">time.sleep(<span class="number">2</span>)</span><br><span class="line">print(<span class="string">&#x27;canceling &#123;0&#125;&#x27;</span>.format(t1.name))</span><br><span class="line">print(<span class="string">&#x27;canceling &#123;0&#125;&#x27;</span>.format(t2.name))</span><br><span class="line">t1.cancel()</span><br><span class="line">t2.cancel()</span><br><span class="line">print(<span class="string">&#x27;done&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>Output will be</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">starting timers</span><br><span class="line">waiting before canceling t2</span><br><span class="line">t1 Starting at time 1</span><br><span class="line">canceling t1</span><br><span class="line">canceling t2</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">t3 Starting at time 3</span><br><span class="line">t1 Existing</span><br><span class="line">t3 Existing</span><br></pre></td></tr></table></figure>
+<h1 id="synchronization">Synchronization</h1>
+<h2 id="lock">Lock</h2>
+<p>Lock is currently the lowest level synchronization primitive available. The code block surrounded by <code>.acquire()</code> and <code>.release()</code> is called the <strong>critical section</strong> and is protected to only run in one thread at a time.</p>
+<p>A primitive lock is in one of the two states: <code>&quot;locked&quot;</code> or <code>&quot;unlocked&quot;</code> and starts with a <code>unlocked</code> state, <code>.aquired()</code> will change an <code>unlocked</code> to <code>locked</code> and will be blocked by a <code>locked</code> lock. <code>.release()</code> will change a <code>locked</code> to <code>unlocked</code>. All methods are executed atomically.</p>
+<p><code>class threading.Lock</code></p>
+<ul>
+<li><code>.acquire(blocking=True, timeout=-1)</code> Acquire a lock, blocking or non-blocking.
+<ul>
+<li>When <code>blocking = True</code>, acquiring a <code>locked</code> lock will make the thread be blocked until the lock is released; then <code>.acquire()</code> will lock it and return <code>True</code>.</li>
+<li>When <code>blocking = False</code>, acquiring a <code>locked</code> lock will return <code>False</code> immediately without any blocking.</li>
+<li>The floating-point <code>timeout</code> should be used with <code>blocking = True</code>.</li>
+</ul></li>
+<li><code>.release()</code>: Release a lock. This can be called from any thread, not only the thread. Trying releasing an unlocked lock will cause a <code>RuntimeError</code>.</li>
+<li><code>.locked()</code>: Return whether the lock is locked.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading </span><br><span class="line"></span><br><span class="line">lock = threading.Lock()</span><br><span class="line">deposit = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_profit</span>():</span> </span><br><span class="line">    <span class="keyword">global</span> deposit</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line">        <span class="keyword">with</span> lock:</span><br><span class="line">            deposit += <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pay_bill</span>():</span> </span><br><span class="line">    <span class="keyword">global</span> deposit</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100000</span>):</span><br><span class="line">        <span class="keyword">with</span> lock:</span><br><span class="line">            deposit -= <span class="number">10</span></span><br><span class="line"></span><br><span class="line">thread1 = threading.Thread(target = add_profit, args = ())</span><br><span class="line">thread2 = threading.Thread(target = pay_bill, args = ())</span><br><span class="line"></span><br><span class="line">thread1.start() </span><br><span class="line">thread2.start() </span><br><span class="line"></span><br><span class="line">thread1.join()</span><br><span class="line">thread2.join()</span><br><span class="line"></span><br><span class="line">print(deposit)</span><br></pre></td></tr></table></figure>
+<h3 id="rlock">RLock</h3>
+<p>A reentrant lock must be released by the thread that acquired it. Once a thread has acquired a reentrant lock, the same thread may acquire it again without blocking; the thread must release it once for each time it has acquired it.</p>
+<h2 id="semaphore">Semaphore</h2>
+<p>Semaphore is one of the oldest synchronization primitives in the history of computer science. It manages an internal <strong>counter</strong> which is decremented by each <code>.acquire()</code> and incremented by <code>.release()</code>. When the counter become zero, <code>.acquire()</code> my block the thread and wait for a <code>.release()</code></p>
+<p><code>class threading.Semaphore(value=1)</code></p>
+<ul>
+<li><code>value</code> is the initial value of the counter. If the value given is less than 0, ValueError is raised.</li>
+<li><code>.acquire(blocking=True, timeout=None)</code> Acquire a semaphore.</li>
+<li><code>.release()</code> Release a semaphore.</li>
+<li><code>class threading.BoundedSemaphore(value=1)</code> is a subclass that at any time the value of counter will not exceed its initiali value otherwise <code>ValueError</code> will be raise.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadPool</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        super(ThreadPool, self).__init__()</span><br><span class="line">        self.active = []</span><br><span class="line">        self.lock = threading.Lock()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">makeActive</span>(<span class="params">self, name</span>):</span></span><br><span class="line">        <span class="keyword">with</span> self.lock:</span><br><span class="line">            self.active.append(name)</span><br><span class="line">            print(<span class="string">&#x27;Running: &#123;0&#125;&#x27;</span>.format(self.active))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">makeInactive</span>(<span class="params">self, name</span>):</span></span><br><span class="line">        <span class="keyword">with</span> self.lock:</span><br><span class="line">            self.active.remove(name)</span><br><span class="line">            print(<span class="string">&#x27;Running: &#123;0&#125;&#x27;</span>.format(self.active))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">s, pool</span>):</span></span><br><span class="line">    <span class="keyword">with</span> s:</span><br><span class="line">        name = threading.currentThread().getName()</span><br><span class="line">        pool.makeActive(name)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        pool.makeInactive(name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pool = ThreadPool()</span><br><span class="line">s = threading.Semaphore(<span class="number">3</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    t = threading.Thread(target=f, name=<span class="string">&#x27;thread_&#x27;</span>+str(i), args=(s, pool))</span><br><span class="line">    t.start()</span><br></pre></td></tr></table></figure>
+<p>Output</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Running: [<span class="string">&#x27;thread_0&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_0&#x27;</span>, <span class="string">&#x27;thread_1&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_0&#x27;</span>, <span class="string">&#x27;thread_1&#x27;</span>, <span class="string">&#x27;thread_2&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_1&#x27;</span>, <span class="string">&#x27;thread_2&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_1&#x27;</span>, <span class="string">&#x27;thread_2&#x27;</span>, <span class="string">&#x27;thread_3&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_1&#x27;</span>, <span class="string">&#x27;thread_3&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_3&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_3&#x27;</span>, <span class="string">&#x27;thread_4&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_3&#x27;</span>, <span class="string">&#x27;thread_4&#x27;</span>, <span class="string">&#x27;thread_5&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_4&#x27;</span>, <span class="string">&#x27;thread_5&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_4&#x27;</span>, <span class="string">&#x27;thread_5&#x27;</span>, <span class="string">&#x27;thread_6&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_4&#x27;</span>, <span class="string">&#x27;thread_6&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_6&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_6&#x27;</span>, <span class="string">&#x27;thread_7&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_6&#x27;</span>, <span class="string">&#x27;thread_7&#x27;</span>, <span class="string">&#x27;thread_8&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_7&#x27;</span>, <span class="string">&#x27;thread_8&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_7&#x27;</span>, <span class="string">&#x27;thread_8&#x27;</span>, <span class="string">&#x27;thread_9&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_8&#x27;</span>, <span class="string">&#x27;thread_9&#x27;</span>]</span><br><span class="line">Running: [<span class="string">&#x27;thread_9&#x27;</span>]</span><br><span class="line">Running: []</span><br></pre></td></tr></table></figure>
+<h2 id="condition-variable">Condition Variable</h2>
+<p>A condition variable allows one or more threads to wait until they are notified by another thread. It is always associated with a lock, whether be passed in initialization of be created by default. Passing one in is useful when several condition variables must share the same lock. <code>with</code> statement implicitly calls <code>.acquire()</code> and <code>release()</code> of the associated lock.</p>
+<p><code>wait()</code> will release the lock, and then block the thread until another thread invokes <code>notify()</code> or <code>notify_all()</code>. <code>notify()</code> and <code>notify_all()</code> will wake up one and all of the threads waiting for the condition variable respectively. They don’t actually release the lock.</p>
+<p><code>class threading.Condition(lock=None)</code></p>
+<ul>
+<li><code>lock</code> must be a Lock or RLock object. Otherwise, a new RLock object is created and used as the associated lock.</li>
+<li><code>acquire(*args)</code> Acquire the associated lock.</li>
+<li><code>release()</code> Release the associated lock.</li>
+<li><code>wait(timeout=None)</code> Release the associated lock, wait until notified or timeout. Once awakened or timed out, it re-acquires the lock and returns. It must be invoked after acquire the associated, otherwise a <code>RuntimeError</code> is raised.</li>
+<li><code>wait_for(predicate, timeout=None)</code> Equivalent to <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="keyword">not</span> predicate():</span><br><span class="line">    cv.wait()</span><br></pre></td></tr></table></figure></li>
+<li><code>notify(n=1)</code> Wake up at most <code>n</code> threas waiting for the condition variable. If the calling thread has not acquired the lock when this method is called, a RuntimeError is raised.</li>
+<li><code>notify_all()</code> Wake up all threads waiting on this condition. If the calling thread has not acquired the lock when this method is called, a RuntimeError is raised.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeItem</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.list = []</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">produce</span>(<span class="params">self, item</span>):</span></span><br><span class="line">        print(<span class="string">&quot;Producer add an item...&quot;</span>)</span><br><span class="line">        self.list.append(item)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">consume</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&quot;Consumer remove an item ...&quot;</span>)</span><br><span class="line">        self.list.pop(<span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isNotEmpty</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> len(self.list) &gt; <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span>(<span class="params">si, cond</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">        time.sleep(i)</span><br><span class="line">        print(<span class="string">&quot;Producer acquiring lock...&quot;</span>)</span><br><span class="line">        <span class="keyword">with</span> cond:</span><br><span class="line">            si.produce(i)</span><br><span class="line">            cond.notify()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span>(<span class="params">si, cond</span>):</span></span><br><span class="line">    print(<span class="string">&quot;Consumer acquiring lock...&quot;</span>)</span><br><span class="line">    <span class="keyword">with</span> cond:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            val = cond.wait_for(si.isNotEmpty, <span class="number">10</span>)</span><br><span class="line">            <span class="keyword">if</span> val:</span><br><span class="line">                si.consume()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">&quot;No further item to consume...&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">cond = threading.Condition()</span><br><span class="line">si = SomeItem()</span><br><span class="line">p = threading.Thread(target=producer, args=(si,cond,))</span><br><span class="line">p.start()</span><br><span class="line">c = threading.Thread(target=consumer, args=(si,cond,))</span><br><span class="line">c.start()</span><br><span class="line">p.join()</span><br><span class="line">c.join()</span><br><span class="line">print(<span class="string">&quot;Done&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="event">Event</h2>
+<p>An event object manages an internal flag that can be set to true with the <code>set()</code> method and reset to false with the <code>clear()</code> method. The <code>wait()</code> method blocks until the flag is true. The flag is initially false.</p>
+<p><code>class threading.Event</code></p>
+<ul>
+<li><code>is_set()</code></li>
+<li><code>set()</code> Set the internal flag to true. All threads waiting for will be awakened.</li>
+<li><code>clear()</code></li>
+<li><code>wait(timeout=None)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wait_for_event_timeout</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> e.isSet():</span><br><span class="line">        print(<span class="string">&#x27;Wait_for_event_timeout starting&#x27;</span>)</span><br><span class="line">        event_is_set = e.wait(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">if</span> event_is_set:</span><br><span class="line">            print(<span class="string">&#x27;Processing event&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">&#x27;Timeout, re-trying&#x27;</span>)</span><br><span class="line"></span><br><span class="line">e = threading.Event()</span><br><span class="line"></span><br><span class="line">t = threading.Thread(target=wait_for_event_timeout)</span><br><span class="line">t.start()</span><br><span class="line"></span><br><span class="line">print(<span class="string">&#x27;Waiting before calling Event.set()&#x27;</span>)</span><br><span class="line">time.sleep(<span class="number">3</span>)</span><br><span class="line">e.set()</span><br><span class="line">print(<span class="string">&#x27;Event is set&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>Output</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Wait_for_event_timeout starting</span><br><span class="line">Waiting before calling Event.set()</span><br><span class="line">Timeout, re-trying</span><br><span class="line">Wait_for_event_timeout starting</span><br><span class="line">Event is <span class="built_in">set</span></span><br><span class="line">Processing event</span><br></pre></td></tr></table></figure>
+<h2 id="barrier">Barrier</h2>
+<p>This class provides a simple synchronization primitive for use by a fixed number of threads that need to wait for each other. Each of the threads tries to pass the barrier by calling the <code>wait()</code> method and will block until all of the threads have made their <code>wait()</code> calls. At this point, the threads are released simultaneously.</p>
+<p>The barrier can be reused any number of times for the same number of threads.</p>
+<h3 id="constructor">Constructor</h3>
+<p><code>class threading.Barrier(n, action=None, timeout=None)</code></p>
+<ul>
+<li><code>n</code> Number of threads that required to pass the barrier.</li>
+<li><code>action</code> is a callable to be called by one of the threads when they are released.</li>
+<li><code>timeout</code> is the default timeout value.</li>
+</ul>
+<h3 id="api-1">API</h3>
+<ul>
+<li><code>.wait(timeout=None)</code> Wait to pass the barrier. When all the threads party to the barrier have called this function, they are all released simultaneously. The return value is an integer in the range <code>0</code> to <code>n – 1</code>. If the call times out, the barrier is put into the broken state and raise a <code>BrokenBarrierError</code> exception.</li>
+<li><code>.reset()</code> Reset the barrier to the default, empty state. Any threads waiting on it will receive the <code>BrokenBarrierError</code> exception.</li>
+<li><code>.abort()</code> Put the barrier into a broken state. This causes any active or future calls to wait() to fail with the <code>BrokenBarrierError</code> exception.</li>
+<li><code>.parties</code> The number of threads required to pass the barrier.</li>
+<li><code>.n_waiting</code> The number of threads currently waiting in the barrier.</li>
+<li><code>.broken</code> A boolean that is True if the barrier is in the broken state.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading </span><br><span class="line">  </span><br><span class="line">barrier = threading.Barrier(<span class="number">3</span>) </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span>():</span></span><br><span class="line">    print(threading.current_thread().name + <span class="string">&quot; is Waiting&quot;</span>) </span><br><span class="line">    barrier.wait() </span><br><span class="line">          </span><br><span class="line">t1 = threading.Thread(target = func)</span><br><span class="line">t2 = threading.Thread(target = func)</span><br><span class="line">  </span><br><span class="line">t1.start() </span><br><span class="line">t2.start() </span><br><span class="line"></span><br><span class="line">print(threading.current_thread().name + <span class="string">&quot;is Waiting&quot;</span>) </span><br><span class="line">barrier.wait() </span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;Exit\n&quot;</span>) </span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread-1 is Waiting</span><br><span class="line">Thread-2 is Waiting</span><br><span class="line">MainThreadis Waiting</span><br><span class="line">Exit</span><br></pre></td></tr></table></figure>
+<h2 id="queue">Queue</h2>
+<p>The queue module implements multi-producer, multi-consumer queues. The Queue class in this module implements all the required locking semantics.</p>
+<p>The module implements three types of queue, which differ only in the order in which the entries are retrieved. FIFO queue, LIFO queue, priority queue.</p>
+<h3 id="constructor-1">Constructor</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">queue</span>.<span class="title">Queue</span>(<span class="params">maxsize=<span class="number">0</span></span>) </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">queue</span>.<span class="title">LifoQueue</span>(<span class="params">maxsize=<span class="number">0</span></span>)</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">queue</span>.<span class="title">PriorityQueue</span>(<span class="params">maxsize=<span class="number">0</span></span>)</span></span><br></pre></td></tr></table></figure>
+<p>Where if <code>maxsize</code> is less than or equal to zero, the queue size is infinite.</p>
+<h3 id="exception">Exception</h3>
+<ul>
+<li><code>queue.Empty</code>: Be raised when non-blocking <code>get()</code> or <code>get_nowait()</code> is called on a empty queue.</li>
+<li><code>queue.Full</code>: Be raised when non-blocking <code>put()</code> or <code>put_nowait()</code> is called on a full queue.</li>
+</ul>
+<h3 id="api-2">API</h3>
+<ul>
+<li><code>.qsize()</code> Return the size of the queue, approximatly.</li>
+<li><code>.empty()</code> Return whether the queue is empty, approximatly.</li>
+<li><code>.full()</code> Return whether the queue is full, approximatly.</li>
+<li><code>.put(item, block=True, timeout=None)</code> Put item into the queue. By default if the queue is full, the thread will be blocked until a free slot is available.</li>
+<li><code>.put_nowait(item)</code> Equivalent to put(item, False).</li>
+<li><code>.get(block=True, timeout=None)</code> Remove and return an item from the queue. By default if the queue is empty, the thread will be blocked until an item is available.</li>
+<li><code>.get_nowait()</code> Equivalent to get(False).</li>
+<li><code>.task_done()</code> Indicate that a formerly enqueued task is complete. Used by queue consumer threads. Raises a ValueError if called more times than there were items placed in the queue.</li>
+<li><code>Queue.join()</code> Blocks until all items in the queue have been gotten and processed. The count of unfinished tasks goes up whenever an item is added to the queue and goes down whenever a consumer thread calls <code>task_done()</code>. When the count of unfinished tasks drops to zero, join() unblocks.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading, queue</span><br><span class="line"></span><br><span class="line">q = queue.Queue()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span>():</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        item = q.get()</span><br><span class="line">        print(<span class="string">f&#x27;Working on <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        print(<span class="string">f&#x27;Finished <span class="subst">&#123;item&#125;</span>&#x27;</span>)</span><br><span class="line">        q.task_done()</span><br><span class="line"></span><br><span class="line"><span class="comment"># turn-on the worker thread</span></span><br><span class="line">threading.Thread(target=worker, daemon=<span class="literal">True</span>).start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># send thirty task requests to the worker</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">30</span>):</span><br><span class="line">    q.put(item)</span><br><span class="line">print(<span class="string">&#x27;All task requests sent\n&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># block until all tasks are done</span></span><br><span class="line">q.join()</span><br><span class="line">print(<span class="string">&#x27;All work completed&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Multi-threading/" rel="tag"># Multi-threading</a>
+              <a href="/tags/Concurrent-Programming/" rel="tag"># Concurrent Programming</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/space/" rel="prev" title="From Vector Space to Euclidean Space">
+      <i class="fa fa-chevron-left"></i> From Vector Space to Euclidean Space
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-impact-of-gil"><span class="nav-number">1.</span> <span class="nav-text">The impact of GIL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#example"><span class="nav-number">1.1.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference-counting"><span class="nav-number">1.2.</span> <span class="nav-text">Reference Counting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#solution"><span class="nav-number">1.3.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#concurrency-vs-parallelism"><span class="nav-number">2.</span> <span class="nav-text">Concurrency vs Parallelism</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#threading-module-in-python3"><span class="nav-number">3.</span> <span class="nav-text">threading module in Python3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#threading"><span class="nav-number">3.1.</span> <span class="nav-text">threading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#threading.thread"><span class="nav-number">3.2.</span> <span class="nav-text">threading.Thread</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#usage"><span class="nav-number">3.2.1.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#life-cycle"><span class="nav-number">3.2.2.</span> <span class="nav-text">Life Cycle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#deamon-vs-non-deamon"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">Deamon vs Non-Deamon</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#join"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">Join</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#api"><span class="nav-number">3.2.3.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#subclassing-thread"><span class="nav-number">3.3.</span> <span class="nav-text">Subclassing Thread</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#thread.timer"><span class="nav-number">3.4.</span> <span class="nav-text">Thread.Timer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#synchronization"><span class="nav-number">4.</span> <span class="nav-text">Synchronization</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lock"><span class="nav-number">4.1.</span> <span class="nav-text">Lock</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rlock"><span class="nav-number">4.1.1.</span> <span class="nav-text">RLock</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#semaphore"><span class="nav-number">4.2.</span> <span class="nav-text">Semaphore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#condition-variable"><span class="nav-number">4.3.</span> <span class="nav-text">Condition Variable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#event"><span class="nav-number">4.4.</span> <span class="nav-text">Event</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#barrier"><span class="nav-number">4.5.</span> <span class="nav-text">Barrier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor"><span class="nav-number">4.5.1.</span> <span class="nav-text">Constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#api-1"><span class="nav-number">4.5.2.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#queue"><span class="nav-number">4.6.</span> <span class="nav-text">Queue</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-1"><span class="nav-number">4.6.1.</span> <span class="nav-text">Constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exception"><span class="nav-number">4.6.2.</span> <span class="nav-text">Exception</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#api-2"><span class="nav-number">4.6.3.</span> <span class="nav-text">API</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Misa XU"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Misa XU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Misa-Xu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Misa-Xu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:giokosan@gmail.com" title="E-Mail → mailto:giokosan@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-dragon"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misa XU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6f5c8bef0c06ea413171',
+      clientSecret: 'c859b172fcc560853c460394d80de30ee80bd7fa',
+      repo        : 'misa-xu.github.io',
+      owner       : 'Misa-XU',
+      admin       : ['Misa-XU'],
+      id          : 'e16660cb50c20651ab1fb0cdaaae9fdc',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
