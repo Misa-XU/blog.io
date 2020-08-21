@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/m180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/m32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/m16.png">
+  <link rel="mask-icon" href="/images/m.svg" color="#222">
+  <meta name="google-site-verification" content="hHVOWX6ywxhEyB-iQlybbme_bBraiGIpQom994FhXWw">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Graphics API Every graphics program needs to be able to use two related APIs: a graphics API for visual output and a user-interface API to get input from the user. In Java, the graphics and user-inte">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CG Notes --- 1. Graphics Pipeline">
+<meta property="og:url" content="https://misa-xu.github.io/cg1/index.html">
+<meta property="og:site_name" content="Яedσ З000">
+<meta property="og:description" content="Graphics API Every graphics program needs to be able to use two related APIs: a graphics API for visual output and a user-interface API to get input from the user. In Java, the graphics and user-inte">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/ppl.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/va.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/vs.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/mvp.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/lg.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/t.gif">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/cl.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/sm.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/fc.png">
+<meta property="og:image" content="https://misa-xu.github.io/cg1/r.png">
+<meta property="article:published_time" content="2020-08-18T16:03:40.000Z">
+<meta property="article:modified_time" content="2020-08-21T05:23:40.791Z">
+<meta property="article:author" content="Misa XU">
+<meta property="article:tag" content="Computer Graphics">
+<meta property="article:tag" content="Graphics Pipeline">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://misa-xu.github.io/cg1/ppl.png">
+
+<link rel="canonical" href="https://misa-xu.github.io/cg1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>CG Notes --- 1. Graphics Pipeline | Яedσ З000</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Яedσ З000</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Living so free is a tragedy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-code fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-bug fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-map-signs fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://misa-xu.github.io/cg1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Misa XU">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Яedσ З000">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CG Notes --- 1. Graphics Pipeline
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-19 00:03:40" itemprop="dateCreated datePublished" datetime="2020-08-19T00:03:40+08:00">2020-08-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 13:23:40" itemprop="dateModified" datetime="2020-08-21T13:23:40+08:00">2020-08-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Graphics/" itemprop="url" rel="index"><span itemprop="name">Computer Graphics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="graphics-api">Graphics API</h1>
+<p>Every graphics program needs to be able to use two related APIs: a <strong>graphics API</strong> for visual output and a <strong>user-interface</strong> API to get input from the user. In Java, the graphics and user-interface toolkits are integrated and fully supported as part of the language. In C++, graphics API like DirectX and OpenGL are used to draw shapes, whereas the user-interface API is an independent entity that vary from system to system. In this approach, it is problematic to write portable code, therefore it's common to adopt a third layer to encapsulate the system specific user-interface code.</p>
+<h1 id="graphics-pipeline">Graphics Pipeline</h1>
+<p>The graphics pipeline can be roughly divided into three part:</p>
+<ol type="1">
+<li>Vertex Processing</li>
+<li>Primitive Processing</li>
+<li>Fragment Processing</li>
+</ol>
+<a id="more"></a>
+<p><img src="ppl.png" /></p>
+<p>The inputs of the pipeline include</p>
+<ul>
+<li>A camera with position, orientation, focal length etc. specified</li>
+<li>Objects which points, lines, polygons, curves with their geometry and material properties etc.</li>
+<li>Light sources with direction, position, color, intensity etc. specified.</li>
+<li>Textures and maps that describe the color, normal, metalness etc. of the surfaces.</li>
+</ul>
+<p>and the output is the per-prxel color values that pass to the framebuffer.</p>
+<h2 id="vertex-processing">Vertex Processing</h2>
+<h3 id="vertex-assembly">Vertex Assembly</h3>
+<p>Vertex assembly pulling vertex attributes from different buffers.</p>
+<p><img src="va.png" /></p>
+<h3 id="vertex-shader">Vertex Shader</h3>
+<p>Vertex shader handles the processing of individual vertices. Formally, it called the <strong>Transform and Lighting</strong> stage, means that its mainly duty is to applys the transformation from <em>model</em> to <em>clip</em> coordinates and to performs additional per-vertex lighting-related computation.</p>
+<p><img src="vs.png" /></p>
+<h4 id="transformation">Transformation</h4>
+<p><span class="math inline">\(P_{clip} = (M_{model-view-projection})(P_{model}) = (M_{projection})(M_{view})(M_{model})(P_{model})\)</span></p>
+<p><img src="mvp.png" /></p>
+<h4 id="lighting">Lighting</h4>
+<ul>
+<li>Local illumination: The reflected light that dependent only on the surface and the direct light sources</li>
+<li>Global illumination: The reflected light that depend on the surface, direct light sources, and light reflected by other surfaces in the environment towards.</li>
+</ul>
+<p><img src="lg.png" /></p>
+<h3 id="tessellation">Tessellation</h3>
+<p>Tessellation is the Vertex Processing stage in the OpenGL rendering pipeline where patches of vertex data are subdivided into smaller Primitives.</p>
+<p><img src="t.gif" /></p>
+<h3 id="geometry-shader">Geometry Shader</h3>
+<p>Geometry Shader governs the processing of Primitives. It takes a single Primitive as input and may output zero or more primitives.</p>
+<h3 id="vertex-post-processing">Vertex Post-Processing</h3>
+<h4 id="transform-feedback">Transform Feedback</h4>
+<p>Transform Feedback is the process of capturing primitives generated by the previous step, recording data from those primitives into Buffer Objects.</p>
+<h4 id="clipping-perspective-division-and-viewport-transform">Clipping, Perspective Division, and Viewport Transform</h4>
+<ol type="1">
+<li>Clipping
+<ul>
+<li>3D clipping: eliminating all polygons that farther than the far plane or nearer than the near plane.</li>
+<li>2D clipping: eliminating the polygons and lines outside the image window.</li>
+<li>Other user-defined clipping <img src="cl.png" /></li>
+</ul></li>
+<li>Perspective Division <span class="math display">\[\begin{pmatrix}x_{ndc}\\y_{ndc}\\z_{ndc}\end{pmatrix} = \begin{pmatrix}{\frac {x_{c}}{w_{c}}}\\{\frac {y_{c}}{w_{c}}}\\{\frac {z_{c}}{w_{c}}}\end{pmatrix}\]</span> where <strong>ndc</strong> shorts for <strong>normalized device coordinates</strong>.</li>
+<li>Viewport Transform<br> Given <span class="math inline">\(x, y, width, height, nearVal, farVal\)</span>, the window-space coordinates become <span class="math display">\[\begin{pmatrix}x_{w}\\y_{w}\\z_{w}\end{pmatrix}=\begin{pmatrix}{\begin{aligned}{\frac {width}{2}}x_{ndc}&amp;+x+{\frac {width}{2}}\\{\frac {height}{2}}y_{ndc}&amp;+y+{\frac {height}{2}}\\{\frac{farVal-nearVal}{2}}z_{ndc}&amp;+{\frac{farVal+nearVal}{2}}\end{aligned}}\end{pmatrix}\]</span> <img src="sm.png" /></li>
+</ol>
+<h3 id="primitive-assembly-and-face-culling">Primitive assembly and Face Culling</h3>
+<p><strong>Primitive assembly</strong> is the step to convert a vertex stream into a sequence of base primitives which refers to the interpretation scheme to determine what a stream of vertices represents. For example, a line list of 12 vertices needs to generate 11 <strong>line base primitives</strong>. In OpenGL, the format of a primitive could be a point, line, triangle or quad.</p>
+<p><strong>Face Culling</strong> is the process to discard triangles based on their apparent facing which is defined by the winding order of the three points.</p>
+<p><img src="fc.png" /></p>
+<h3 id="rasterization">Rasterization</h3>
+<p>Rasterization is the step to determine which fragments(pixels) a primitive overlaps</p>
+<p><img src="r.png" /></p>
+<h3 id="fragment-shader">Fragment Shader</h3>
+<p>Fragment Shader is the step to assign final color to each fragment (texturing, shading). It may also involve per-fragment lighting.</p>
+<p>Lighting vs Shading:</p>
+<ul>
+<li>Lighting: interaction between light and surface. if per-vertex lighting: do lighting calculations here</li>
+<li>Shading: interpolating vertex attributes to all fragments assign final color to each fragment</li>
+</ul>
+<h3 id="per-fragment-processing">Per-fragment Processing</h3>
+<p>Per-sample processing operations may take place after or before (under some conditions) the Fragment Shader has executed, in the following order:</p>
+<ol type="1">
+<li><strong>Pixel ownership test</strong><br> The <strong>Default Framebuffer</strong> (this test only affects rendering to the default framebuffer) is owned by a resource external to OpenGL, so it is possible that particular pixels of the default framebuffer are not owned by OpenGL caused by being partially obscured by another window, such pixels will fail the ownership test and be discarded.</li>
+<li><strong>Scissor Test</strong><br> Determine whether given fragment falls outside a certen rectangular region; If so, it will be discarded.</li>
+<li><strong>Stencil Test</strong><br> Determine whether to discard given fragment based on a bitwise operation between the fragment's stencil value and the stencil value stored in the current Stencil Buffer at that fragment's sample position. It is used for used for various rendering effects like masking and shadows.</li>
+<li><strong>Depth test</strong><br> Compare depth value of given fragment and depth value of the framebuffer.</li>
+<li><strong>Blending</strong><br> Takes the fragment color outputs and combines them with the colors in the color buffers that these outputs map to.</li>
+<li><strong>Dithering</strong><br> Under the fact that there are only finite number of colors, dithering is to map color value to one of the nearest renderable colors.</li>
+<li><strong>Logic operation</strong> <br> A operation applied between the Fragment's color values and correspondings color values in the Framebuffer.</li>
+<li><strong>Write mask</strong><br> Determine whether allow or prevent color, depth, or stencil components from being written to the current framebuffer.</li>
+</ol>
+<h1 id="improvement-directions">Improvement Directions</h1>
+<ol type="1">
+<li>Performance
+<ul>
+<li>Triangles per second</li>
+<li>Pixels fragments per second</li>
+</ul></li>
+<li>Features
+<ul>
+<li>Hidden-surface elimination</li>
+<li>Image mapping</li>
+<li>Antialiasing</li>
+</ul></li>
+<li>Quality
+<ul>
+<li>Numeric representation</li>
+<li>Image filters</li>
+</ul></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Computer-Graphics/" rel="tag"># Computer Graphics</a>
+              <a href="/tags/Graphics-Pipeline/" rel="tag"># Graphics Pipeline</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/multithreading/" rel="prev" title="Multi-threading in Python">
+      <i class="fa fa-chevron-left"></i> Multi-threading in Python
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#graphics-api"><span class="nav-number">1.</span> <span class="nav-text">Graphics API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#graphics-pipeline"><span class="nav-number">2.</span> <span class="nav-text">Graphics Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vertex-processing"><span class="nav-number">2.1.</span> <span class="nav-text">Vertex Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-assembly"><span class="nav-number">2.1.1.</span> <span class="nav-text">Vertex Assembly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-shader"><span class="nav-number">2.1.2.</span> <span class="nav-text">Vertex Shader</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transformation"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">Transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lighting"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">Lighting</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tessellation"><span class="nav-number">2.1.3.</span> <span class="nav-text">Tessellation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#geometry-shader"><span class="nav-number">2.1.4.</span> <span class="nav-text">Geometry Shader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-post-processing"><span class="nav-number">2.1.5.</span> <span class="nav-text">Vertex Post-Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transform-feedback"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">Transform Feedback</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clipping-perspective-division-and-viewport-transform"><span class="nav-number">2.1.5.2.</span> <span class="nav-text">Clipping, Perspective Division, and Viewport Transform</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#primitive-assembly-and-face-culling"><span class="nav-number">2.1.6.</span> <span class="nav-text">Primitive assembly and Face Culling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rasterization"><span class="nav-number">2.1.7.</span> <span class="nav-text">Rasterization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fragment-shader"><span class="nav-number">2.1.8.</span> <span class="nav-text">Fragment Shader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#per-fragment-processing"><span class="nav-number">2.1.9.</span> <span class="nav-text">Per-fragment Processing</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#improvement-directions"><span class="nav-number">3.</span> <span class="nav-text">Improvement Directions</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Misa XU"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Misa XU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Misa-Xu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Misa-Xu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:giokosan@gmail.com" title="E-Mail → mailto:giokosan@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-dragon"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misa XU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6f5c8bef0c06ea413171',
+      clientSecret: 'c859b172fcc560853c460394d80de30ee80bd7fa',
+      repo        : 'misa-xu.github.io',
+      owner       : 'Misa-XU',
+      admin       : ['Misa-XU'],
+      id          : 'f9aeb7af53ebf8c891059e8c86718cec',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
