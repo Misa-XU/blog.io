@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/m32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/m16.png">
   <link rel="mask-icon" href="/images/m.svg" color="#222">
-  <meta name="google-site-verification" content="hHVOWX6ywxhEyB-iQlybbme_bBraiGIpQom994FhXWw">
+  <meta name="google-site-verification" content="l0XDECOmsvwwCO9VimxNpb_6-9bc2xoI-Hu9necbGWY">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -23,7 +23,7 @@
 
   <meta name="description" content="Graphics API Every graphics program needs to be able to use two related APIs: a graphics API for visual output and a user-interface API to get input from the user. In Java, the graphics and user-inte">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CG Notes --- 1. Graphics Pipeline">
+<meta property="og:title" content="CG Notes --- Cpt 1. Graphics Pipeline, Numerical issues">
 <meta property="og:url" content="https://misa-xu.github.io/cg1/index.html">
 <meta property="og:site_name" content="Яedσ З000">
 <meta property="og:description" content="Graphics API Every graphics program needs to be able to use two related APIs: a graphics API for visual output and a user-interface API to get input from the user. In Java, the graphics and user-inte">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://misa-xu.github.io/cg1/fc.png">
 <meta property="og:image" content="https://misa-xu.github.io/cg1/r.png">
 <meta property="article:published_time" content="2020-08-18T16:03:40.000Z">
-<meta property="article:modified_time" content="2020-08-21T05:23:40.791Z">
+<meta property="article:modified_time" content="2020-08-21T08:14:49.357Z">
 <meta property="article:author" content="Misa XU">
 <meta property="article:tag" content="Computer Graphics">
 <meta property="article:tag" content="Graphics Pipeline">
@@ -59,7 +59,7 @@
   };
 </script>
 
-  <title>CG Notes --- 1. Graphics Pipeline | Яedσ З000</title>
+  <title>CG Notes --- Cpt 1. Graphics Pipeline, Numerical issues | Яedσ З000</title>
   
 
 
@@ -140,17 +140,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">10</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">12</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">8</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">9</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">7</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">9</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -226,7 +226,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CG Notes --- 1. Graphics Pipeline
+          CG Notes --- Cpt 1. Graphics Pipeline, Numerical issues
         </h1>
 
         <div class="post-meta">
@@ -243,7 +243,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-21 13:23:40" itemprop="dateModified" datetime="2020-08-21T13:23:40+08:00">2020-08-21</time>
+                <time title="Modified: 2020-08-21 16:14:49" itemprop="dateModified" datetime="2020-08-21T16:14:49+08:00">2020-08-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -346,6 +346,107 @@
 <li><strong>Logic operation</strong> <br> A operation applied between the Fragment's color values and correspondings color values in the Framebuffer.</li>
 <li><strong>Write mask</strong><br> Determine whether allow or prevent color, depth, or stencil components from being written to the current framebuffer.</li>
 </ol>
+<h1 id="numerical-issues">Numerical Issues</h1>
+<p>It was very difficult to handle the edges cases and exceptions in a robust and portable manner until the establishment of IEEE floating-point standard in 1985. Consider about the equation: <span class="math display">\[a = \frac{1}{\frac{1}{b} + \frac{1}{c}}\]</span></p>
+<p>In the old days when divide-by-zero resulted in a crash, two <code>if</code> statements would be required to check for small or zero values of <code>b</code> or <code>c</code>. Instead, with IEEE floating-point, if <code>b</code> or <code>c</code> is <code>0</code>, it will assign <code>a</code> to be <code>0</code> as desired which avoids special checks.</p>
+<h2 id="special-values">Special Values</h2>
+<ol type="1">
+<li>Positive infinity <span class="math inline">\(\infty\)</span>: a number that larger than all <strong>other</strong> valid numbers.</li>
+<li>Negative infinity <span class="math inline">\(-\infty\)</span>: a number that smaller than all <strong>other</strong> valid numbers.</li>
+<li>Not a number <em>NaN</em>: a symbolic entity encoded in floating-point format with two types and two arithmetic rules:
+<ul>
+<li>Signalling <em>NaN</em> (NANS): a symbol which will signal an invalid operation exception</li>
+<li>Quiet <em>NaN</em> (NANQ): a symbol which will propagate the symbol without signalling an exception</li>
+<li>Any arithmetic expression that includes <code>NaN</code> results in <code>NaN</code>.</li>
+<li>Any Boolean expression involving <code>NaN</code> is <code>false</code>.</li>
+</ul></li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 35%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Special Value</th>
+<th>Float Representation</th>
+<th>Double Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Positive infinity</td>
+<td><code>7F800000</code></td>
+<td><code>7FF0000000000000</code></td>
+</tr>
+<tr class="even">
+<td>Negative infinity</td>
+<td><code>FF800000</code></td>
+<td><code>FFF0000000000000</code></td>
+</tr>
+<tr class="odd">
+<td>Signalling NaN</td>
+<td>Any bit pattern<br>between <code>7F800001</code> and <code>7FBFFFFF</code><br>or<br>between <code>FF800001</code> and <code>FFBFFFFF</code></td>
+<td>Any bit pattern<br>between <code>7FF0000000000001</code> and <code>7FF7FFFFFFFFFFFF</code><br>or<br>between <code>FFF0000000000001</code> and <code>FFF7FFFFFFFFFFFF</code></td>
+</tr>
+<tr class="even">
+<td>Quite NaN</td>
+<td>Any bit pattern<br>between <code>7FC00000</code> and <code>7FFFFFFF</code><br>or<br>between <code>FFC00000</code> and <code>FFFFFFFF</code></td>
+<td>Any bit pattern<br>between <code>7FF8000000000000</code> and <code>7FFFFFFFFFFFFFFF</code><br>or<br>between <code>FFF8000000000000</code> and <code>FFFFFFFFFFFFFFFF</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluation-of-expression">Evaluation of Expression</h2>
+<p>Suppose <code>a</code> is a real number, then</p>
+<table>
+<thead>
+<tr class="header">
+<th>Expression</th>
+<th>Evaluation</th>
+<th>Expression</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(a/\infty\)</span></td>
+<td><span class="math inline">\(+0\)</span></td>
+<td><span class="math inline">\(-a/\infty\)</span></td>
+<td><span class="math inline">\(-0\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(a/(-\infty)\)</span></td>
+<td><span class="math inline">\(-0\)</span></td>
+<td><span class="math inline">\(-a/(-\infty)\)</span></td>
+<td><span class="math inline">\(+0\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\infty+\infty\)</span></td>
+<td><span class="math inline">\(\infty\)</span></td>
+<td><span class="math inline">\(\infty-\infty\)</span></td>
+<td><em>NaN</em></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\infty\times\infty\)</span></td>
+<td><span class="math inline">\(\infty\)</span></td>
+<td><span class="math inline">\(\infty/\infty\)</span></td>
+<td><em>NaN</em></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\infty/a\)</span></td>
+<td><span class="math inline">\(\infty\)</span></td>
+<td><span class="math inline">\(\infty/0\)</span></td>
+<td><span class="math inline">\(/infty\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(a/(+0)\)</span></td>
+<td><span class="math inline">\(\infty\)</span></td>
+<td><span class="math inline">\(0/0\)</span></td>
+<td><em>NaN</em></td>
+</tr>
+</tbody>
+</table>
 <h1 id="improvement-directions">Improvement Directions</h1>
 <ol type="1">
 <li>Performance
@@ -364,6 +465,13 @@
 <li>Numeric representation</li>
 <li>Image filters</li>
 </ul></li>
+</ol>
+<h2 id="tips">Tips</h2>
+<ol type="1">
+<li>Pay more attention to memory access patterns than to operation counts. Compute intermediate results as needed on the fly rather than storing them.</li>
+<li>Compile in optimized mode.</li>
+<li>Use whatever profiling tools exist to find critical bottlenecks. If profiling reveals bottlenecks in numeric computations, examine the assembly code generated by the compiler for missed efficiencies.</li>
+<li>Use doubles for geometric computing and floats for color computing and storing.</li>
 </ol>
 
     </div>
@@ -387,7 +495,10 @@
     <a href="/multithreading/" rel="prev" title="Multi-threading in Python">
       <i class="fa fa-chevron-left"></i> Multi-threading in Python
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/cc/" rel="next" title="Camera Calibration">
+      Camera Calibration <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -447,7 +558,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#graphics-api"><span class="nav-number">1.</span> <span class="nav-text">Graphics API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#graphics-pipeline"><span class="nav-number">2.</span> <span class="nav-text">Graphics Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vertex-processing"><span class="nav-number">2.1.</span> <span class="nav-text">Vertex Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-assembly"><span class="nav-number">2.1.1.</span> <span class="nav-text">Vertex Assembly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-shader"><span class="nav-number">2.1.2.</span> <span class="nav-text">Vertex Shader</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transformation"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">Transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lighting"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">Lighting</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tessellation"><span class="nav-number">2.1.3.</span> <span class="nav-text">Tessellation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#geometry-shader"><span class="nav-number">2.1.4.</span> <span class="nav-text">Geometry Shader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-post-processing"><span class="nav-number">2.1.5.</span> <span class="nav-text">Vertex Post-Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transform-feedback"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">Transform Feedback</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clipping-perspective-division-and-viewport-transform"><span class="nav-number">2.1.5.2.</span> <span class="nav-text">Clipping, Perspective Division, and Viewport Transform</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#primitive-assembly-and-face-culling"><span class="nav-number">2.1.6.</span> <span class="nav-text">Primitive assembly and Face Culling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rasterization"><span class="nav-number">2.1.7.</span> <span class="nav-text">Rasterization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fragment-shader"><span class="nav-number">2.1.8.</span> <span class="nav-text">Fragment Shader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#per-fragment-processing"><span class="nav-number">2.1.9.</span> <span class="nav-text">Per-fragment Processing</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#improvement-directions"><span class="nav-number">3.</span> <span class="nav-text">Improvement Directions</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#graphics-api"><span class="nav-number">1.</span> <span class="nav-text">Graphics API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#graphics-pipeline"><span class="nav-number">2.</span> <span class="nav-text">Graphics Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vertex-processing"><span class="nav-number">2.1.</span> <span class="nav-text">Vertex Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-assembly"><span class="nav-number">2.1.1.</span> <span class="nav-text">Vertex Assembly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-shader"><span class="nav-number">2.1.2.</span> <span class="nav-text">Vertex Shader</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transformation"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">Transformation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lighting"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">Lighting</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tessellation"><span class="nav-number">2.1.3.</span> <span class="nav-text">Tessellation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#geometry-shader"><span class="nav-number">2.1.4.</span> <span class="nav-text">Geometry Shader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertex-post-processing"><span class="nav-number">2.1.5.</span> <span class="nav-text">Vertex Post-Processing</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#transform-feedback"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">Transform Feedback</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clipping-perspective-division-and-viewport-transform"><span class="nav-number">2.1.5.2.</span> <span class="nav-text">Clipping, Perspective Division, and Viewport Transform</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#primitive-assembly-and-face-culling"><span class="nav-number">2.1.6.</span> <span class="nav-text">Primitive assembly and Face Culling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rasterization"><span class="nav-number">2.1.7.</span> <span class="nav-text">Rasterization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fragment-shader"><span class="nav-number">2.1.8.</span> <span class="nav-text">Fragment Shader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#per-fragment-processing"><span class="nav-number">2.1.9.</span> <span class="nav-text">Per-fragment Processing</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#numerical-issues"><span class="nav-number">3.</span> <span class="nav-text">Numerical Issues</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#special-values"><span class="nav-number">3.1.</span> <span class="nav-text">Special Values</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#evaluation-of-expression"><span class="nav-number">3.2.</span> <span class="nav-text">Evaluation of Expression</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#improvement-directions"><span class="nav-number">4.</span> <span class="nav-text">Improvement Directions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tips"><span class="nav-number">4.1.</span> <span class="nav-text">Tips</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -463,20 +574,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

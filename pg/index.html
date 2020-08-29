@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/m180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/m32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/m16.png">
+  <link rel="mask-icon" href="/images/m.svg" color="#222">
+  <meta name="google-site-verification" content="l0XDECOmsvwwCO9VimxNpb_6-9bc2xoI-Hu9necbGWY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Projective geometry exists in \(\mathbb R^n\), same as Euclidean geometry. A projective line \(\cal P^{1}\) is analogous to a 1D Euclidean world; a projective plane \(\cal P^2\) corresponds to the Euc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Projective Geometry">
+<meta property="og:url" content="https://misa-xu.github.io/pg/index.html">
+<meta property="og:site_name" content="Яedσ З000">
+<meta property="og:description" content="Projective geometry exists in \(\mathbb R^n\), same as Euclidean geometry. A projective line \(\cal P^{1}\) is analogous to a 1D Euclidean world; a projective plane \(\cal P^2\) corresponds to the Euc">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://misa-xu.github.io/pg/relation.png">
+<meta property="og:image" content="https://misa-xu.github.io/pg/it.png">
+<meta property="og:image" content="https://misa-xu.github.io/pg/us.gif">
+<meta property="og:image" content="https://misa-xu.github.io/pg/aap.gif">
+<meta property="og:image" content="https://misa-xu.github.io/pg/cr.png">
+<meta property="og:image" content="https://misa-xu.github.io/pg/d.png">
+<meta property="article:published_time" content="2020-08-25T09:34:53.000Z">
+<meta property="article:modified_time" content="2020-08-29T16:46:14.244Z">
+<meta property="article:author" content="Misa XU">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://misa-xu.github.io/pg/relation.png">
+
+<link rel="canonical" href="https://misa-xu.github.io/pg/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Projective Geometry | Яedσ З000</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Яedσ З000</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Living so free is a tragedy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-code fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-bug fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-map-signs fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://misa-xu.github.io/pg/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Misa XU">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Яedσ З000">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Projective Geometry
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-25 17:34:53" itemprop="dateCreated datePublished" datetime="2020-08-25T17:34:53+08:00">2020-08-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-30 00:46:14" itemprop="dateModified" datetime="2020-08-30T00:46:14+08:00">2020-08-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Projective geometry exists in <span class="math inline">\(\mathbb R^n\)</span>, same as Euclidean geometry. A <strong>projective line</strong> <span class="math inline">\(\cal P^{1}\)</span> is analogous to a <strong>1D Euclidean world</strong>; a <em>projective plane</em> <span class="math inline">\(\cal P^2\)</span> corresponds to the <strong>Euclidean plane</strong> and a <strong>projective</strong> space <span class="math inline">\(\cal P^{3}\)</span> is related to a <strong>3D Euclidean space</strong>. Under such notions, imaging could be treated as a process that projecting from <span class="math inline">\(\cal P^3\)</span> to <span class="math inline">\(\cal P^2\)</span>.</p>
+<p><strong>Euclidean geometry</strong> is actually a subset of <strong>projective geometry</strong>. And there are two geometries between them: <em>similarity</em> and <em>affine</em>. Projective geometry models well the imaging process of a camera because it allows a much larger class of transformations than others mentioned above. As tradeoff, the drawback is that fewer measures are preserved -- certainly not lengths, angles, or parallelism. Projective transformations preserve type (e.g. points remain points and lines remain lines), <strong>incidence</strong> (e.g. whether a point lies on a line), and <strong>cross ratio</strong> only.</p>
+<a id="more"></a>
+<p>Relationship between transformation, geometry, and preserved property: <img src="relation.png" /></p>
+<h1 id="the-projective-plane">The Projective Plane</h1>
+<h2 id="four-models">Four Models</h2>
+<h3 id="homogeneous-coordinates">Homogeneous coordinates</h3>
+<p>A point in an <strong>n</strong>-dimensional Euclidean space is represented as a point in an (<strong>n+1</strong>)-dimensional projective space.</p>
+<p>Assume a point <span class="math inline">\([x, y]^T\)</span> in Euclidean plane, the same point in the projective plane will be <span class="math inline">\([\alpha x, \alpha y, \alpha]^T \quad \forall \alpha \ne 0\)</span>. This also indicates that <span class="math inline">\([X,Y,W]^T = [\alpha X, \alpha Y, \alpha W]^T \quad \forall \alpha \ne 0\)</span>. Thus the point <span class="math inline">\([0, 0, 0]^T\)</span> is undefined in projective plane.</p>
+<p>For a point <span class="math inline">\([X,Y,W]^T\)</span> in the projective plane, the corresponding point in Euclidean plane is <span class="math inline">\([X/W,Y/W]^T\)</span>. As scaling preserves the position of the point in Euclidean plane. Therefore <span class="math inline">\([X,Y,W]^T\)</span> is called the <strong>homogeneous coordinate</strong> of a point.</p>
+<p>The projective plane contains more points than the Euclidean plane (not all points could be transformed back): <span class="math inline">\(W = 0\)</span> make the transform undefined. Points with the form <span class="math inline">\([X, Y, 0]^T\)</span> are called <strong>ideal points</strong>, or <strong>points at infinity</strong>. All the ideal points lie on a line, called the <strong>ideal line</strong>, or <strong>the line at infinity</strong>. Ideal line is represented as <span class="math inline">\([0,0,1]^T\)</span>. Ideal points or lines are considered just like any other points or lines without any special treatment.</p>
+<h4 id="dot-product">Dot Product</h4>
+<p>The line <span class="math inline">\(ax + by + c = 0\)</span> in Euclidean plane could be expressed as <span class="math inline">\(aX + bY + cW = 0\)</span> where <span class="math inline">\(Wx = X, Wy = Y\)</span>. The parameters of the line keeps invariant: <span class="math inline">\(-a/b\)</span> is the <strong>slope</strong>, <span class="math inline">\(-c/a\)</span> is the <strong>x-intercept</strong>, and <span class="math inline">\(-c/b\)</span> is the <strong>y-intercept</strong>.</p>
+<p>The line could be re-written as the format of dot product <span class="math inline">\(\mathbf{u}^T \mathbf{p} = 0\)</span> where <span class="math inline">\(\mathbf{u} = [a, b, c]^T\)</span> and <span class="math inline">\(\mathbf{p} = [X,Y,W]^T\)</span>.</p>
+<p>We see that points and lines have the same representation in the projective plane.</p>
+<h4 id="cross-product">Cross Product</h4>
+<p>Given two lines <span class="math inline">\(\mathbf{u}_1=[a_1,b_1,c_1]^T\)</span> and <span class="math inline">\(\mathbf{u}_2=[a_2,b_2,c_2]^T\)</span>, the intersection is <span class="math inline">\(\mathbf{p}=\mathbf{u}_1\times\mathbf{u}_2\)</span>. If the two lines are parallel, the intersection is simply <span class="math inline">\([b_1c_2-b_2c_1,a_2c_1-a_1c_2,0]^T\)</span>, which is the ideal point associated with the direction whose slope is <span class="math inline">\(-a_1/b_1\)</span>. Similarly, given two points <span class="math inline">\(\mathbf{p}_1\)</span> and <span class="math inline">\(\mathbf{p}_2\)</span>, the equation of the line passing through them is <span class="math inline">\(\mathbf{u}=\mathbf{p}_1\times\mathbf{p}_2\)</span>.</p>
+<p><img src="it.png" /></p>
+<p>Similarly, if three points lie on the same line:</p>
+<p><span class="math display">\[\begin{vmatrix}\mathbf{p}_1 &amp; \mathbf{p}_2 &amp; \mathbf{p}_3 \end{vmatrix} = 0\]</span></p>
+<p>If three lines intersect at the same point:</p>
+<p><span class="math display">\[\begin{vmatrix}\mathbf{u}_1 &amp; \mathbf{u}_2 &amp; \mathbf{u}_3 \end{vmatrix} = 0\]</span></p>
+<h4 id="duality">Duality</h4>
+<p>The similarities between points and lines are striking: Their representations are identical; The formula for the intersection of two lines is the same as the formula for the connecting line between two points. The duality exists between points and lines in the projective plane. Any theorem or statement that is true for the projective plane can be reworded by substituting points for lines and lines for points.</p>
+<h3 id="ray-space">Ray space</h3>
+<p>A point <span class="math inline">\([x, y]^T\)</span> in Euclidean plane could be transformed into <span class="math inline">\([X, Y, W]^T\)</span> in projective plane where <span class="math inline">\(X = Wx, Y = Wy\)</span> which can be visualized as a line in three-dimensional space passing through the origin and the point <span class="math inline">\([X, Y, W]^T\)</span> (exclude the origin). This three-dimensional space is known as the <strong>ray space</strong>. Similarly, a line <span class="math inline">\(\mathbf{u}=[a,b,c]^T\)</span> can be visualized as a plane perpendicular to it as well as passing through the origin (exclude the origin). The ideal line is the horizontal <span class="math inline">\(W=0\)</span> plane, and the ideal points are lines in this plane.</p>
+<h3 id="the-unit-sphere">The unit sphere</h3>
+<p><span class="math inline">\(\cal P^2\)</span> is actual a two-dimensional space, which is topologically equivalent to a sphere. A point <span class="math inline">\(\mathbf{p}=[X,Y,W]^T\)</span> can be projected onto the unit sphere to obtain the point <span class="math inline">\(\frac{1}{\sqrt{X^2+Y^2+W^2}}[X,Y,W]^T\)</span>. A line <span class="math inline">\(\mathbf{u}=[a,b,c]^T\)</span> is the great circle perpendicular to it. The ideal line is the great circle around the horizontal midsection of the sphere, and the ideal points lie on this circle.</p>
+<p><img src="us.gif" /></p>
+<h3 id="augmented-affine-plane">Augmented affine plane</h3>
+<p>Explicitly, it is defined by the projection from the unit sphere onto the plane <span class="math inline">\(W=1\)</span>. Each point <span class="math inline">\([X,Y,W]\)</span> is thus mapped to the point <span class="math inline">\([\frac{X}{W},\frac{Y}{W},1]\)</span>. Lines return to lines after that. Ideal points and the ideal line are projected, respectively, to points at infinity (one for each direction) and the line at infinity.</p>
+<p><img src="aap.gif" /></p>
+<h2 id="pencil-of-lines">Pencil of lines</h2>
+<p>A set of lines passing through the same point, is a one-dimensional projective space called a pencil of lines.</p>
+<h2 id="cross-ratio">Cross Ratio</h2>
+<p>Given four collinear points <span class="math inline">\(A, B, C, D\)</span> in <span class="math inline">\(\cal P^2\)</span>, one definition of the cross ratio is the following:</p>
+<p><span class="math display">\[(A,B;C,D)={\frac {AC\cdot BD}{BC\cdot AD}}\]</span></p>
+<p>where <span class="math inline">\(AC, BD, BC, AD\)</span> is the Euclidean distance between the corresponding points. Given two points <span class="math inline">\(P=[X_i,Y_i,W_i]^T\)</span>, <span class="math inline">\(Q=[X_j,Y_j,W_j]^T\)</span>, then <span class="math display">\[PQ = \sqrt{(\frac{X_i}{W_i}-\frac{X_j}{W_j})^2+(\frac{Y_i}{W_i}-\frac{Y_j}{W_j})^2}\]</span></p>
+<p><img src="cr.png" /></p>
+<p>If one of the points has a zero entry, simply cancel the terms containing the point. For example, if <span class="math inline">\(W_B=0, W_A,W_C,W_D \ne0\)</span>, then <span class="math inline">\(BC = BD = \infty\)</span>, which cancel each other, i.e. <span class="math inline">\((A,B;C,D)={\frac {AC}{BC}}\)</span></p>
+<h3 id="proof-of-invariance-under-projective-transformation">Proof of Invariance under projective transformation</h3>
+<p><img src="d.png" /></p>
+<p><span class="math display">\[\begin{aligned}
+\frac{AC}{BC} \cdot \frac{BD}{AD} &amp;= \frac{S_{AOC}}{S_{BOC}} \cdot \frac{S_{BOD}}{S_{AOD}} \\
+&amp;= \frac{\sin \theta_{AOC} \cdot OA \cdot OC} {\sin \theta_{BOC} \cdot OB \cdot OC} \cdot \frac{\sin \theta_{BOD} \cdot OB \cdot OD}{\sin \theta_{AOD} \cdot OA \cdot OD} \\
+&amp;= \frac{\sin \theta_{AOC}}{\sin \theta_{BOC}} \cdot \frac{\sin \theta_{BOD}}{\sin \theta_{AOD}}
+\end{aligned}\]</span></p>
+<h3 id="properties">Properties</h3>
+<ol type="1">
+<li><span class="math inline">\((A, B; C, D) &lt; 0\)</span> if and only if exactly one of the points <span class="math inline">\(C, D\)</span> lies between the points <span class="math inline">\(A, B\)</span></li>
+<li><span class="math inline">\((A, B; C, D) = 1 / (A, B; D, C)\)</span></li>
+<li><span class="math inline">\((A, B; C, D) = (C, D; A, B)\)</span></li>
+<li><span class="math inline">\((A, C; B, D) = 1 - (A, B; C, D)\)</span></li>
+<li><span class="math inline">\((A, B; C, D) ≠ (A, B; C, E) \Leftrightarrow D \ne E\)</span></li>
+</ol>
+<h2 id="conics">Conics</h2>
+<p>The second-order conic sections (ellipses, parabolas, and hyperbolas) lose their distinction in projective geometry because they are all projectively equivalent.</p>
+<p>The equation of a conic is given by: <span class="math display">\[\mathbf{p}^TC\mathbf{p} = 0\]</span> or <span class="math display">\[c_{11}X^2 + c_{22}Y^2 + c_{33}W_2 + 2 \cdot c_{12}XY + 2 \cdot c_{13}XW + 2 \cdot c_{23}YW=0\]</span></p>
+<p>where <span class="math inline">\(\mathbf{p}\)</span> is a <span class="math inline">\(3 \times 1\)</span> vector and <span class="math inline">\(C\)</span> is a symmetric <span class="math inline">\(3 \times 3\)</span> matrix.</p>
+<p>A conic is a self-dual figure: it can be considered as an envelope of tangent lines and the equation for the envelope of lines is <span class="math inline">\(\mathbf{u}^T\frac{C^{-1}}{|C|}\mathbf{u}\)</span>.</p>
+<h2 id="absolute-points">Absolute Points</h2>
+<p>A circle is a conic satisifies <span class="math inline">\(X^2 + Y^2 + W^2 = 0\)</span>, which intersects the ideal line <span class="math inline">\(W=0\)</span> at <span class="math inline">\(X^2 + Y^2 = 0\)</span>. This equation has two complex roots <span class="math inline">\([1, i, 0]^T\)</span> and <span class="math inline">\([1, -i, 0]^T\)</span>, known as the <strong>absolute points</strong>. Later will show you the absolute points remain invariant under similarity transformations, which makes them useful for determining the angle between two lines.</p>
+<h2 id="similarity-transformation">Similarity Transformation</h2>
+<p>A transformation is a similarity transformation if and only if it preserves the absolute points, <span class="math inline">\([1, \pm i, 0]^T\)</span>, which is in the form</p>
+<p><span class="math display">\[T_{similarity} = \begin{bmatrix}\cos\theta&amp;\sin\theta&amp;t_{13}\\-\sin\theta&amp;\cos\theta&amp;t_{23}\\0&amp;0&amp;t_{33}\end{bmatrix}\]</span></p>
+<p>Note that uniform scaling is unimportant, which could be cancelled by dividing <span class="math inline">\(t_{13}, t_{23}, t_{33}\)</span> with the scalar.</p>
+<h3 id="proof">Proof</h3>
+<ol type="1">
+<li>The &quot;only if&quot; is obvious. Given absolute point <span class="math inline">\(\mathbf{p} = [1, i, 0]^T\)</span>: <span class="math display">\[\begin{aligned}T_{similarity}\mathbf{p}&amp;=[\cos\theta+\sin\theta i,-\sin\theta+\cos \theta, 0]\\&amp;=e^{i\theta}[1, i, 0]^T\end{aligned}\]</span> which is equivalent because the scale factor is ignored. Similarly for <span class="math inline">\([1, -i, 0]^T\)</span></li>
+<li>The &quot;if&quot; starts with the unrestricted equation for <span class="math inline">\(T\)</span>. Given absolute point <span class="math inline">\(\mathbf{p} = [1, i, 0]^T\)</span>: <span class="math display">\[T\mathbf{p}=T\begin{bmatrix}1\\i\\0\end{bmatrix}=\begin{bmatrix}t_{11}+t_{12}i\\t_{21}+t_{22}i\\t_{31}+t_{32}i\end{bmatrix}=\begin{bmatrix}1\\i\\0\end{bmatrix}\]</span> which yields <span class="math display">\[\begin{aligned}
+\frac{t_{11}+t_{12}i}{t_{21}+t_{22}i} &amp;= \frac{1}{i} \\
+t_{31} + t_{32}i &amp;= 0
+\end{aligned}\]</span> Since elements of <span class="math inline">\(T\)</span> are real number, we get the following constraints: <span class="math display">\[\begin{aligned}
+t_{11} &amp;= t_{22} \\
+t_{12} &amp;= - t_{21} \\
+t_{31} = t_{32} &amp;= 0
+\end{aligned}\]</span> Given two arbitrary <span class="math inline">\(t_{11}, t_{12}\)</span>, we can always reparameterize them as <span class="math inline">\(t_{11} = k\cos \theta\)</span> and <span class="math inline">\(t_{12} = k\sin \theta\)</span>, where <span class="math inline">\(\theta\)</span> is an angle and k is a scalar. Multiplying the previous equation by <span class="math inline">\(1/k\)</span>, we then get the similarity matrix.</li>
+</ol>
+<h2 id="laguerre-formula----angle-and-cross-ratio">Laguerre formula -- Angle and Cross-ratio</h2>
+<p>Given two lines <span class="math inline">\(\mathbf{u}_1\)</span> and <span class="math inline">\(\mathbf{u}_2\)</span> which intersect the ideal line at two points, <span class="math inline">\(\mathbf{p}_1\)</span>, <span class="math inline">\(\mathbf{u}_2\)</span>, the cross ratio between these two points and the two absolute points <span class="math inline">\(\mathbf{i}\)</span> and <span class="math inline">\(\mathbf{j}\)</span> yields the directed angle <span class="math inline">\(\theta\)</span> from the second line to the first:</p>
+<p><span class="math display">\[\theta = \frac{1}{2i}\log{(\mathbf{p}_1,\mathbf{p}_2;\mathbf{i},\mathbf{j})}\]</span></p>
+<h3 id="proof-1">Proof</h3>
+<p>Given two lines <span class="math inline">\(\mathbf{u}_1 = [a_1, b_1, c_1]^T\)</span>, <span class="math inline">\(\mathbf{u}_2 = [a_2, b_2, c_2]^T\)</span>, the tangent of the angle between is</p>
+<p><span class="math display">\[\begin{aligned}
+\tan\theta &amp;= \frac{\sin\theta}{\cos\theta} \\
+&amp;= \frac{\begin{bmatrix}\frac{a_1}{c_1}\\\frac{b_1}{c_1}\end{bmatrix}\times\begin{bmatrix}\frac{a_2}{c_2}\\\frac{b_2}{c_2}\end{bmatrix}}{\begin{bmatrix}\frac{a_1}{c_1}\\\frac{b_1}{c_1}\end{bmatrix}\cdot\begin{bmatrix}\frac{a_2}{c_2}\\\frac{b_2}{c_2}\end{bmatrix}} \\
+&amp;= \frac{a_1b_2 - a_2b_1}{a_1a_2 + b_1b_2}
+\end{aligned}\]</span></p>
+<p>In projective plane. the intersections with the ideal line <span class="math inline">\([0, 0, 1]^T\)</span> are <span class="math inline">\(\mathbf{p}_1 = [1, -\frac{a_1}{b_1}, 0]^T\)</span> and <span class="math inline">\(\mathbf{p}_2 = [1, -\frac{a_2}{b_2}, 0]^T\)</span> (via cross product). Then</p>
+<p><span class="math display">\[\begin{aligned}
+(\mathbf{p}_1,\mathbf{p}_2;\mathbf{i},\mathbf{j}) &amp;= \frac{\frac{a_1}{b_1} + i}{\frac{a_1}{b_1} - i} \cdot \frac{\frac{a_2}{b_2} - i}{\frac{a_2}{b_2} + i} \\
+&amp;= \frac{(a_1a_2 + b_1b_2) + (a_2b_1 - a_1b_2)i}{(a_1a_2 + b_1b_2) + (a_1b_2 - a_2b_1)i} \\
+&amp;= e^{2i \arctan \tan\theta}
+\end{aligned}\]</span></p>
+<h2 id="collineations">Collineations</h2>
+<p>A collineation of <span class="math inline">\(\cal P^2\)</span> is a <strong>transformation</strong> from the plane to itself where the collinearity of any set of points is preserved. It can be achieved by multiplicating with a <span class="math inline">\(3 \times 3\)</span> matrix <span class="math inline">\(T\)</span> such that <span class="math inline">\(\mathbf{p} &#39; = T \mathbf{p}\)</span></p>
+<p>Only eight elements of <span class="math inline">\(T\)</span> are independent as <strong>scaling is unimportant</strong>; Four pairs of corresponding points are necessary to determine <span class="math inline">\(T\)</span>.</p>
+<p>When transforming a line <span class="math inline">\(\mathbf{u}\)</span> to a line <span class="math inline">\(\mathbf{u}&#39;\)</span>, the collinearity must be preserved, that is, if a point <span class="math inline">\(\mathbf{p}\)</span> lies on the line <span class="math inline">\(\mathbf{u}\)</span>, then <span class="math inline">\(\mathbf{u}&#39;\)</span> must lie on <span class="math inline">\(\mathbf{u}&#39;\)</span>. Given <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(T\)</span>, the points on <span class="math inline">\(\mathbf{u}\)</span> satisify <span class="math inline">\(\mathbf{u}^T\mathbf{p} = 0\)</span>, then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{p}^T\mathbf{u} = ({T^{-1}\mathbf{p}}^T)(\mathbf{p}&#39;) = (\mathbf{p}^T)(T^{-T}\mathbf{u}) &amp;= 0 \\
+\mathbf{u}&#39; &amp;= T^{-T}\mathbf{u}
+\end{aligned}
+\]</span></p>
+<p>Similarly, a point conic <span class="math inline">\(C\)</span> transforms to <span class="math inline">\(T^{-T}CT^{-1}\)</span>, and a line conic <span class="math inline">\(\frac{|C|}{C^{-1}}\)</span> transforms to <span class="math inline">\(T\frac{C^{-1}}{|C|}T^T\)</span>.</p>
+<h2 id="affine-transformation">Affine Transformation</h2>
+<p><span class="math display">\[
+T_{projective} = \begin{bmatrix}t_{11} &amp; t_{12} &amp; t_{13} \\
+t_{21} &amp; t_{22} &amp; t_{23} \\
+0 &amp; 0 &amp; t_{33}\end{bmatrix}
+\]</span></p>
+<p>The affine plane is just the projective plane minus the ideal line, i.e. the ideal line and the ideal points are preserved:</p>
+<p><span class="math display">\[\alpha\begin{bmatrix}X \\ Y \\ 0\end{bmatrix} = T\begin{bmatrix}X \\ Y \\ 0\end{bmatrix}\]</span></p>
+<p>where once again only six of these parameters are independent; The <strong>scale is unimportant</strong>.</p>
+<h1 id="projective-space">Projective Space</h1>
+<p>All of the concepts that we have discussed for the projective plane have analogies in projective space:</p>
+<ol type="1">
+<li>There is a <strong>duality</strong> between <strong>points</strong> and <strong>planes</strong>, lines are <strong>self-dual</strong>.</li>
+<li>A <strong>pencil</strong> of planes is a two-dimensional projective space.</li>
+<li>The cross ratio between planes is invariant.</li>
+<li>Quadrics play the same role as conics, the absolute conic remains invariant under. similarity transformations, and the Laguerre formula can be used to find the angle between two projection rays.</li>
+<li>A point in <span class="math inline">\(\cal P^3\)</span> is represented by a 4-tuple <span class="math inline">\(\mathbf{p} = (X,Y,Z,W)\)</span>, and similarly for a plane <span class="math inline">\(\mathbf n\)</span>. Not surprisingly, a point lies in a plane if and only if <span class="math inline">\(\mathbf{p}^T\mathbf{n}=0\)</span>.</li>
+</ol>
+<h2 id="line-representation-the-plücker-relations">Line Representation: The Plücker relations</h2>
+<p>Given two points <span class="math inline">\(\mathbf{p}_1 = [X_1, Y_1, Z_1, W_1]^T\)</span> and <span class="math inline">\(\mathbf{p}_2 = [X_2, Y_2, Z_2, W_2]^T\)</span>, in Euclidean space, their representation are <span class="math inline">\(\bar{\mathbf{p}}_1 = [X_1/W_1, Y_1/W_1, Z_1/W_1]^T\)</span> and <span class="math inline">\(\bar{\mathbf{p}}_2 = [X_2/W_2, Y_2/W_2, Z_2/W_2]^T\)</span> respectively, and the line passes through these two could be defined by the direction <span class="math inline">\(\bar{\mathbf{p}}_2-\bar{\mathbf{p}}_1\)</span> and the distance from the line to the origin <span class="math inline">\(\bar{\mathbf{p}}_2\times\bar{\mathbf{p}}_1\)</span>. Therefore, we could find <span class="math inline">\(\mathbf{u}=(l_{41}, l_{42},l_{43},l_{23},l_{31},l_{12})\)</span> such that<br />
+</p>
+<p><span class="math display">\[
+\begin{bmatrix} l_{41}\\ l_{42}\\ l_{43}\\ \hline l_{23}\\ l_{31}\\ l_{12} \end{bmatrix} = \begin{bmatrix} \bar{\mathbf{p}}_2-\bar{\mathbf{p}}_1 \\ \hline \bar{\mathbf{p}}_2\times\bar{\mathbf{p}}_1 \end{bmatrix} = \begin{bmatrix} \frac{X_2}{W_2} - \frac{X_1}{W_1} \\ \frac{Y_2}{W_2} - \frac{Y_1}{W_1} \\ \frac{Z_2}{W_2} - \frac{Z_1}{W_1} \\ \hline \frac{Y_1Z_2 - Y_2Z_1}{W_1W_2} \\ \frac{Z_1X_2 - Z_2X_1}{W_1W_2} \\ \frac{X_1Y_2 - X_2Y_1}{W_1W_2} \end{bmatrix} = \frac{1}{W_1W_2} \begin{bmatrix} W_1X_2 - W_2X_1 \\ W_1Y_2 - W_2Y_1 \\ W_1Z_2 - W_2Z_1 \\ \hline Y_1Z_2 - Y_2Z_1\\ Z_1X_2 - Z_2X_1 \\ X_1Y_2 - X_2Y_1 \end{bmatrix}\]</span></p>
+<p>It's clear that <span class="math inline">\(l_{ij}\)</span> is determined by the determinant of the i_th and j_th rows of the two points. And the six parameters are not independent to each other as <span class="math inline">\((\bar{\mathbf{p}}_2-\bar{\mathbf{p}}_1) \cdot (\bar{\mathbf{p}}_2\times\bar{\mathbf{p}}_1) = 0\)</span></p>
+<h2 id="line-intersection">Line Intersection</h2>
+<p>Given two lines <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{u}&#39;\)</span>, two points <span class="math inline">\(\mathbf{p}_1\)</span>, <span class="math inline">\(\mathbf{p}_2\)</span> lie on <span class="math inline">\(\mathbf{u}\)</span> and two points <span class="math inline">\(\mathbf{p}_1&#39;\)</span>, <span class="math inline">\(\mathbf{p}_2&#39;\)</span> lie on <span class="math inline">\(\mathbf{u}&#39;\)</span>, the two line intersect if and only if the <span class="math inline">\(4\times4\)</span> determinant <span class="math inline">\(\begin{vmatrix} \mathbf{p}_1 &amp;\mathbf{p}_2 &amp; \mathbf{p}_1&#39; &amp; \mathbf{p}_2&#39; \end{vmatrix}\)</span> is zero. (They could define a plane, equivalently, <span class="math inline">\(\mathbf{u}\cdot(\mathbf{p}_2&#39;\times\mathbf{p}_1&#39;) = \mathbf{u}&#39;\cdot(\mathbf{p}_2\times\mathbf{p}_1)\)</span>). Under the Plücker coordinates it will be <span class="math display">\[(l_{41}l_{23}&#39;+l_{41}&#39;l_{23}) + (l_{42}l_{31}&#39;+l_{42}&#39;l_{31}) + (l_{43}l_{12}&#39;+l_{43}&#39;l_{12}) = 0\]</span></p>
+<h1 id="projective-geometry-applied-to-computer-vision">Projective Geometry Applied to Computer Vision</h1>
+<p>The main areas of the application of projective geometry are those in which image formation and/or invariant descriptions between images are important, such as camera calibration, stereo, object recognition, scene reconstruction, mosaicing, image synthesis, and the analysis of shadows. This latter application arises from the fact that the composition of two <strong>perspective projections</strong> is not necessarily a <strong>perspective projection</strong> but is definitely a <strong>projective transformation</strong>; that is, projective transformations form a group, whereas perspective projections do not.</p>
+<h2 id="perspective-projection-vs.-perspective-transformation">Perspective Projection vs. Perspective Transformation</h2>
+<ol type="1">
+<li>Perspective Projection calculates the perspective view of a 3D object onto a 2D projection plane.</li>
+<li>Perspective Transformation allows: how the perspectively foreshortened and projected polygons will overlap, without discarding the z-values.</li>
+</ol>
+<p>The following three sections contain the image formation equations, detailed derivations of the Essential and Fundamental matrices, and an interesting discussion of the interpretation of vanishing points.</p>
+<h2 id="image-formation">Image Formation</h2>
+<p>Image formation involves the projection of points in <span class="math inline">\(\cal P^3\)</span> (the world) to points in <span class="math inline">\(\cal P^2\)</span> (the image plane). Given the point <span class="math inline">\((X,Y,Z)\)</span> in the <strong>Euclidean</strong> space, the perspective projection equation that forms a point <span class="math inline">\((x,y)\)</span> on the <strong>Euclidean</strong> plane is, <span class="math display">\[\begin{aligned}
+x &amp;= -f\frac{X}{Z} \\
+y &amp;= -f\frac{Y}{Z}
+\end{aligned}\]</span></p>
+<p>It is obviously non-linear. Converting to homogeneous coordinates makes it linear.</p>
+<p>Given <span class="math inline">\(\mathbf{p}&#39;=[x, y, w]^T\)</span> and <span class="math inline">\(\mathbf{p} = [X, Y, Z, W]\)</span>, the perspective projection matrix T is given by: <span class="math display">\[\mathbf{p}&#39;=T_{perspective}\mathbf{p} = \begin{bmatrix} -f &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; -f &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0
+\end{bmatrix}\mathbf{p}\]</span></p>
+<p>The entire image formation process includes perspective projection, along with matrices for internal and external calibration:</p>
+<p><span class="math display">\[\tilde{P} = T_{internal} T_{perspective} T_{external} = \begin{bmatrix}k_u&amp;k_c&amp;u_0\\0&amp;k_v&amp;v_0\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}-f&amp;0&amp;0\\0&amp;-f&amp;0\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}R &amp; \mathbf{t}\end{bmatrix}\]</span></p>
+<p>where <span class="math inline">\((u_0,v_0)\)</span> is the principal point, <span class="math inline">\(R\)</span> is the <span class="math inline">\(3\times3\)</span> rotation matrix, $ is the <span class="math inline">\(3\times1\)</span> translation vector, <span class="math inline">\(k_u, k_v\)</span> are focal length, <span class="math inline">\(k_c\)</span> is the skew parameter.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/cc/" rel="prev" title="Camera Calibration">
+      <i class="fa fa-chevron-left"></i> Camera Calibration
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-projective-plane"><span class="nav-number">1.</span> <span class="nav-text">The Projective Plane</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#four-models"><span class="nav-number">1.1.</span> <span class="nav-text">Four Models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#homogeneous-coordinates"><span class="nav-number">1.1.1.</span> <span class="nav-text">Homogeneous coordinates</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dot-product"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">Dot Product</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cross-product"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">Cross Product</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#duality"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">Duality</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ray-space"><span class="nav-number">1.1.2.</span> <span class="nav-text">Ray space</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-unit-sphere"><span class="nav-number">1.1.3.</span> <span class="nav-text">The unit sphere</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#augmented-affine-plane"><span class="nav-number">1.1.4.</span> <span class="nav-text">Augmented affine plane</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pencil-of-lines"><span class="nav-number">1.2.</span> <span class="nav-text">Pencil of lines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cross-ratio"><span class="nav-number">1.3.</span> <span class="nav-text">Cross Ratio</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-of-invariance-under-projective-transformation"><span class="nav-number">1.3.1.</span> <span class="nav-text">Proof of Invariance under projective transformation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#properties"><span class="nav-number">1.3.2.</span> <span class="nav-text">Properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conics"><span class="nav-number">1.4.</span> <span class="nav-text">Conics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#absolute-points"><span class="nav-number">1.5.</span> <span class="nav-text">Absolute Points</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#similarity-transformation"><span class="nav-number">1.6.</span> <span class="nav-text">Similarity Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof"><span class="nav-number">1.6.1.</span> <span class="nav-text">Proof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#laguerre-formula----angle-and-cross-ratio"><span class="nav-number">1.7.</span> <span class="nav-text">Laguerre formula -- Angle and Cross-ratio</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-1"><span class="nav-number">1.7.1.</span> <span class="nav-text">Proof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collineations"><span class="nav-number">1.8.</span> <span class="nav-text">Collineations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#affine-transformation"><span class="nav-number">1.9.</span> <span class="nav-text">Affine Transformation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#projective-space"><span class="nav-number">2.</span> <span class="nav-text">Projective Space</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#line-representation-the-pl%C3%BCcker-relations"><span class="nav-number">2.1.</span> <span class="nav-text">Line Representation: The Plücker relations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-intersection"><span class="nav-number">2.2.</span> <span class="nav-text">Line Intersection</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#projective-geometry-applied-to-computer-vision"><span class="nav-number">3.</span> <span class="nav-text">Projective Geometry Applied to Computer Vision</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#perspective-projection-vs.-perspective-transformation"><span class="nav-number">3.1.</span> <span class="nav-text">Perspective Projection vs. Perspective Transformation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#image-formation"><span class="nav-number">3.2.</span> <span class="nav-text">Image Formation</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Misa XU"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Misa XU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Misa-Xu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Misa-Xu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:giokosan@gmail.com" title="E-Mail → mailto:giokosan@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-dragon"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misa XU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6f5c8bef0c06ea413171',
+      clientSecret: 'c859b172fcc560853c460394d80de30ee80bd7fa',
+      repo        : 'misa-xu.github.io',
+      owner       : 'Misa-XU',
+      admin       : ['Misa-XU'],
+      id          : 'eac57e83d96ca257b991f1efd511567e',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
