@@ -34,10 +34,12 @@
 <meta property="og:image" content="https://misa-xu.github.io/pg/aap.gif">
 <meta property="og:image" content="https://misa-xu.github.io/pg/cr.png">
 <meta property="og:image" content="https://misa-xu.github.io/pg/d.png">
-<meta property="og:image" content="https://misa-xu.github.io/pg/ep.png">
 <meta property="article:published_time" content="2020-08-25T09:34:53.000Z">
-<meta property="article:modified_time" content="2020-08-29T17:12:54.913Z">
+<meta property="article:modified_time" content="2020-08-30T16:40:39.490Z">
 <meta property="article:author" content="Misa XU">
+<meta property="article:tag" content="Computer Vision">
+<meta property="article:tag" content="Computer Graphics">
+<meta property="article:tag" content="Math">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://misa-xu.github.io/pg/relation.png">
 
@@ -145,7 +147,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">9</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-sitemap">
@@ -238,8 +240,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-30 01:12:54" itemprop="dateModified" datetime="2020-08-30T01:12:54+08:00">2020-08-30</time>
+                <time title="Modified: 2020-08-31 00:40:39" itemprop="dateModified" datetime="2020-08-31T00:40:39+08:00">2020-08-31</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/" itemprop="url" rel="index"><span itemprop="name">Math</span></a>
+                </span>
+            </span>
 
           
 
@@ -383,31 +394,6 @@ t_{21} &amp; t_{22} &amp; t_{23} \\
 <p>It's clear that <span class="math inline">\(l_{ij}\)</span> is determined by the determinant of the i_th and j_th rows of the two points. And the six parameters are not independent to each other as <span class="math inline">\((\bar{\mathbf{p}}_2-\bar{\mathbf{p}}_1) \cdot (\bar{\mathbf{p}}_2\times\bar{\mathbf{p}}_1) = 0\)</span></p>
 <h2 id="line-intersection">Line Intersection</h2>
 <p>Given two lines <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{u}&#39;\)</span>, two points <span class="math inline">\(\mathbf{p}_1\)</span>, <span class="math inline">\(\mathbf{p}_2\)</span> lie on <span class="math inline">\(\mathbf{u}\)</span> and two points <span class="math inline">\(\mathbf{p}_1&#39;\)</span>, <span class="math inline">\(\mathbf{p}_2&#39;\)</span> lie on <span class="math inline">\(\mathbf{u}&#39;\)</span>, the two line intersect if and only if the <span class="math inline">\(4\times4\)</span> determinant <span class="math inline">\(\begin{vmatrix} \mathbf{p}_1 &amp;\mathbf{p}_2 &amp; \mathbf{p}_1&#39; &amp; \mathbf{p}_2&#39; \end{vmatrix}\)</span> is zero. (They could define a plane, equivalently, <span class="math inline">\(\mathbf{u}\cdot(\mathbf{p}_2&#39;\times\mathbf{p}_1&#39;) = \mathbf{u}&#39;\cdot(\mathbf{p}_2\times\mathbf{p}_1)\)</span>). Under the Plücker coordinates it will be <span class="math display">\[(l_{41}l_{23}&#39;+l_{41}&#39;l_{23}) + (l_{42}l_{31}&#39;+l_{42}&#39;l_{31}) + (l_{43}l_{12}&#39;+l_{43}&#39;l_{12}) = 0\]</span></p>
-<h1 id="projective-geometry-applied-to-computer-vision">Projective Geometry Applied to Computer Vision</h1>
-<p>The main areas of the application of projective geometry are those in which image formation and/or invariant descriptions between images are important, such as camera calibration, stereo, object recognition, scene reconstruction, mosaicing, image synthesis, and the analysis of shadows. This latter application arises from the fact that the composition of two <strong>perspective projections</strong> is not necessarily a <strong>perspective projection</strong> but is definitely a <strong>projective transformation</strong>; that is, projective transformations form a group, whereas perspective projections do not.</p>
-<h2 id="perspective-projection-vs.-perspective-transformation">Perspective Projection vs. Perspective Transformation</h2>
-<ol type="1">
-<li>Perspective Projection calculates the perspective view of a 3D object onto a 2D projection plane.</li>
-<li>Perspective Transformation allows: how the perspectively foreshortened and projected polygons will overlap, without discarding the z-values.</li>
-</ol>
-<p>The following three sections contain the image formation equations, detailed derivations of the Essential and Fundamental matrices, and an interesting discussion of the interpretation of vanishing points.</p>
-<h2 id="image-formation">Image Formation</h2>
-<p>Image formation involves the projection of points in <span class="math inline">\(\cal P^3\)</span> (the world) to points in <span class="math inline">\(\cal P^2\)</span> (the image plane). Given the point <span class="math inline">\((X,Y,Z)\)</span> in the <strong>Euclidean</strong> space, the perspective projection equation that forms a point <span class="math inline">\((x,y)\)</span> on the <strong>Euclidean</strong> plane is, <span class="math display">\[\begin{aligned}
-x &amp;= -f\frac{X}{Z} \\
-y &amp;= -f\frac{Y}{Z}
-\end{aligned}\]</span></p>
-<p>It is obviously non-linear. Converting to homogeneous coordinates makes it linear.</p>
-<p>Given <span class="math inline">\(\mathbf{p}&#39;=[x, y, w]^T\)</span> and <span class="math inline">\(\mathbf{p} = [X, Y, Z, W]\)</span>, the perspective projection matrix T is given by: <span class="math display">\[\mathbf{p}&#39;=T_{perspective}\mathbf{p} = \begin{bmatrix} -f &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; -f &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0
-\end{bmatrix}\mathbf{p}\]</span></p>
-<p>The entire image formation process includes perspective projection, along with matrices for internal and external calibration:</p>
-<p><span class="math display">\[\tilde{P} = T_{internal} T_{perspective} T_{external} = \begin{bmatrix}k_u&amp;k_c&amp;u_0\\0&amp;k_v&amp;v_0\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}-f&amp;0&amp;0\\0&amp;-f&amp;0\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}R &amp; \mathbf{t}\end{bmatrix}\]</span></p>
-<p>where <span class="math inline">\((u_0,v_0)\)</span> is the principal point, <span class="math inline">\(R\)</span> is the <span class="math inline">\(3\times3\)</span> rotation matrix, $ is the <span class="math inline">\(3\times1\)</span> translation vector, <span class="math inline">\(k_u, k_v\)</span> are focal length, <span class="math inline">\(k_c\)</span> is the skew parameter.</p>
-<h2 id="essential-and-fundamental-matrices">Essential and fundamental matrices</h2>
-<p>Under homogeneous coordinates, given a point <span class="math inline">\(\mathbf{M}\)</span>(<span class="math inline">\(4\times1\)</span>) viewed and projected by a stereo pair of cameras onto corresponding image planes at position <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> (<span class="math inline">\(3\times1\)</span>), the epipolar constraint says that, the vector from the first camera's optical center to the first imaged point, the vector from the second optical center to the second imaged point, and the vector from one optical center to the other are all coplanar. In normalized coordinates, this constraint can be expressed simply as</p>
-<p><img src="ep.png" /></p>
-<ol type="1">
-<li>Calibrated Cameras<br> In such case, <span class="math inline">\(\bar{m}_1\)</span> and <span class="math inline">\(\bar{m}_2\)</span> are given in <strong>normalized coordinates</strong>, that is, each is given with respect to its camera's coordinate frame. Given <span class="math inline">\(R\)</span> and <span class="math inline">\(\mathbf{t}\)</span> as the rotation and translation between the two cameras' coordinate frames, the constrain could be expressed as the equation <span class="math display">\[\bar{m}_2^T(t\times R\bar{m}_1)=0\]</span></li>
-</ol>
 
     </div>
 
@@ -416,6 +402,11 @@ y &amp;= -f\frac{Y}{Z}
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Computer-Vision/" rel="tag"># Computer Vision</a>
+              <a href="/tags/Computer-Graphics/" rel="tag"># Computer Graphics</a>
+              <a href="/tags/Math/" rel="tag"># Math</a>
+          </div>
 
         
 
@@ -423,10 +414,13 @@ y &amp;= -f\frac{Y}{Z}
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/cc/" rel="prev" title="Camera Calibration">
-      <i class="fa fa-chevron-left"></i> Camera Calibration
+    <a href="/cg1/" rel="prev" title="CG Notes --- Cpt 1. Graphics Pipeline, Numerical issues">
+      <i class="fa fa-chevron-left"></i> CG Notes --- Cpt 1. Graphics Pipeline, Numerical issues
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/eg/" rel="next" title="Epipolar geometry">
+      Epipolar geometry <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -486,7 +480,7 @@ y &amp;= -f\frac{Y}{Z}
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-projective-plane"><span class="nav-number">1.</span> <span class="nav-text">The Projective Plane</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#four-models"><span class="nav-number">1.1.</span> <span class="nav-text">Four Models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#homogeneous-coordinates"><span class="nav-number">1.1.1.</span> <span class="nav-text">Homogeneous coordinates</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dot-product"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">Dot Product</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cross-product"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">Cross Product</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#duality"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">Duality</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ray-space"><span class="nav-number">1.1.2.</span> <span class="nav-text">Ray space</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-unit-sphere"><span class="nav-number">1.1.3.</span> <span class="nav-text">The unit sphere</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#augmented-affine-plane"><span class="nav-number">1.1.4.</span> <span class="nav-text">Augmented affine plane</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pencil-of-lines"><span class="nav-number">1.2.</span> <span class="nav-text">Pencil of lines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cross-ratio"><span class="nav-number">1.3.</span> <span class="nav-text">Cross Ratio</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-of-invariance-under-projective-transformation"><span class="nav-number">1.3.1.</span> <span class="nav-text">Proof of Invariance under projective transformation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#properties"><span class="nav-number">1.3.2.</span> <span class="nav-text">Properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conics"><span class="nav-number">1.4.</span> <span class="nav-text">Conics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#absolute-points"><span class="nav-number">1.5.</span> <span class="nav-text">Absolute Points</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#similarity-transformation"><span class="nav-number">1.6.</span> <span class="nav-text">Similarity Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof"><span class="nav-number">1.6.1.</span> <span class="nav-text">Proof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#laguerre-formula----angle-and-cross-ratio"><span class="nav-number">1.7.</span> <span class="nav-text">Laguerre formula -- Angle and Cross-ratio</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-1"><span class="nav-number">1.7.1.</span> <span class="nav-text">Proof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collineations"><span class="nav-number">1.8.</span> <span class="nav-text">Collineations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#affine-transformation"><span class="nav-number">1.9.</span> <span class="nav-text">Affine Transformation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#projective-space"><span class="nav-number">2.</span> <span class="nav-text">Projective Space</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#line-representation-the-pl%C3%BCcker-relations"><span class="nav-number">2.1.</span> <span class="nav-text">Line Representation: The Plücker relations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-intersection"><span class="nav-number">2.2.</span> <span class="nav-text">Line Intersection</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#projective-geometry-applied-to-computer-vision"><span class="nav-number">3.</span> <span class="nav-text">Projective Geometry Applied to Computer Vision</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#perspective-projection-vs.-perspective-transformation"><span class="nav-number">3.1.</span> <span class="nav-text">Perspective Projection vs. Perspective Transformation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#image-formation"><span class="nav-number">3.2.</span> <span class="nav-text">Image Formation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#essential-and-fundamental-matrices"><span class="nav-number">3.3.</span> <span class="nav-text">Essential and fundamental matrices</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-projective-plane"><span class="nav-number">1.</span> <span class="nav-text">The Projective Plane</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#four-models"><span class="nav-number">1.1.</span> <span class="nav-text">Four Models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#homogeneous-coordinates"><span class="nav-number">1.1.1.</span> <span class="nav-text">Homogeneous coordinates</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dot-product"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">Dot Product</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cross-product"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">Cross Product</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#duality"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">Duality</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ray-space"><span class="nav-number">1.1.2.</span> <span class="nav-text">Ray space</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-unit-sphere"><span class="nav-number">1.1.3.</span> <span class="nav-text">The unit sphere</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#augmented-affine-plane"><span class="nav-number">1.1.4.</span> <span class="nav-text">Augmented affine plane</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pencil-of-lines"><span class="nav-number">1.2.</span> <span class="nav-text">Pencil of lines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cross-ratio"><span class="nav-number">1.3.</span> <span class="nav-text">Cross Ratio</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-of-invariance-under-projective-transformation"><span class="nav-number">1.3.1.</span> <span class="nav-text">Proof of Invariance under projective transformation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#properties"><span class="nav-number">1.3.2.</span> <span class="nav-text">Properties</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conics"><span class="nav-number">1.4.</span> <span class="nav-text">Conics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#absolute-points"><span class="nav-number">1.5.</span> <span class="nav-text">Absolute Points</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#similarity-transformation"><span class="nav-number">1.6.</span> <span class="nav-text">Similarity Transformation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof"><span class="nav-number">1.6.1.</span> <span class="nav-text">Proof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#laguerre-formula----angle-and-cross-ratio"><span class="nav-number">1.7.</span> <span class="nav-text">Laguerre formula -- Angle and Cross-ratio</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof-1"><span class="nav-number">1.7.1.</span> <span class="nav-text">Proof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collineations"><span class="nav-number">1.8.</span> <span class="nav-text">Collineations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#affine-transformation"><span class="nav-number">1.9.</span> <span class="nav-text">Affine Transformation</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#projective-space"><span class="nav-number">2.</span> <span class="nav-text">Projective Space</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#line-representation-the-pl%C3%BCcker-relations"><span class="nav-number">2.1.</span> <span class="nav-text">Line Representation: The Plücker relations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#line-intersection"><span class="nav-number">2.2.</span> <span class="nav-text">Line Intersection</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -502,7 +496,7 @@ y &amp;= -f\frac{Y}{Z}
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/m180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/m32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/m16.png">
+  <link rel="mask-icon" href="/images/m.svg" color="#222">
+  <meta name="google-site-verification" content="l0XDECOmsvwwCO9VimxNpb_6-9bc2xoI-Hu9necbGWY">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Comic Sans MS:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"misa-xu.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="In real cameras, the image plane is actually behind the focal center, and produces an image that is symmetric about the focal center of the lens. The problem is usually simplified by placing a virtual">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Epipolar geometry">
+<meta property="og:url" content="https://misa-xu.github.io/eg/index.html">
+<meta property="og:site_name" content="Яedσ З000">
+<meta property="og:description" content="In real cameras, the image plane is actually behind the focal center, and produces an image that is symmetric about the focal center of the lens. The problem is usually simplified by placing a virtual">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://misa-xu.github.io/eg/ep.png">
+<meta property="article:published_time" content="2020-08-25T09:46:52.000Z">
+<meta property="article:modified_time" content="2020-09-01T09:41:25.458Z">
+<meta property="article:author" content="Misa XU">
+<meta property="article:tag" content="Computer Vision">
+<meta property="article:tag" content="epipolar geometry">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://misa-xu.github.io/eg/ep.png">
+
+<link rel="canonical" href="https://misa-xu.github.io/eg/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Epipolar geometry | Яedσ З000</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Яedσ З000</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Living so free is a tragedy</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-code fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-bug fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-cookie-bite fa-fw"></i>Tags<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-list fa-fw"></i>Categories<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-book-dead fa-fw"></i>Archives<span class="badge">10</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-map-signs fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://misa-xu.github.io/eg/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Misa XU">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Яedσ З000">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Epipolar geometry
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-08-25 17:46:52" itemprop="dateCreated datePublished" datetime="2020-08-25T17:46:52+08:00">2020-08-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-01 17:41:25" itemprop="dateModified" datetime="2020-09-01T17:41:25+08:00">2020-09-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index"><span itemprop="name">Computer Vision</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>In real cameras, the image plane is actually behind the focal center, and produces an image that is symmetric about the focal center of the lens. The problem is usually simplified by placing a <strong>virtual image</strong> plane in front of the focal center. <a id="more"></a> <img src="ep.png" /></p>
+<h1 id="notion">Notion</h1>
+<p>Points, as entities in their own right, will be denoted in italics. When such points are expressed in Euclidean coordinates, we will use bold notation, and when they are expressed in projective coordinates, they will be bold with a tilde. Thus a point M in three space might be imaged at m, and m might have coordinates <span class="math inline">\({\bf m} = (u, v)\)</span> or <span class="math inline">\(\tilde{\bf m} = (u, v, 1)\)</span>.Of course, image points can also be expressed in the camera coordinate system. When we do this we will write m as <span class="math inline">\({\bf x} = (u - u_c, v - v_c)\)</span> or <span class="math inline">\(\tilde{\bf x} = (u - u_c, v - v_c, 1)\)</span>.</p>
+<p>Moreover, as with the last lecture, much of the development in this lecture is done in the setting of projective geometry, which was first introduced in Lecture 1. There is one result which we will use constantly, so it is important to have it clearly understood.</p>
+<p>The standard epipolar geometry setup involves a 3D point <span class="math inline">\(\mathbf{M}\)</span> and two optical center <span class="math inline">\(C_1, C_2\)</span>. The projection of <span class="math inline">\(\mathbf{M}\)</span> in each of the image planes is located at <span class="math inline">\(\mathbf{m}_1, \mathbf{m}_2\)</span> respectively.</p>
+<p>The line between two optical centers <span class="math inline">\(C_1, C_2\)</span> is referred to as the <strong>baseline</strong>.</p>
+<p>Each optical center <span class="math inline">\(C_1, C_2\)</span> projects onto a distinct point into the other camera's image plane, as <span class="math inline">\(e_2\)</span> and <span class="math inline">\(e_1\)</span>, respectively. Such points are called <strong>epipole</strong> or <strong>epipolar point</strong>. Alternatively, <strong>epipoles</strong> are also defined by the intersection of baseline and corresponding image planes.</p>
+<p>An <strong>epipolar plane</strong> is defined by the two optical center <span class="math inline">\(C_1, C_2\)</span> and the point <span class="math inline">\(M\)</span>.</p>
+<p>An <strong>epipolar line</strong> is a function of the position of point <span class="math inline">\(M\)</span>. The two points that define the line are the epipole and the projection of <span class="math inline">\(M\)</span> on the image plane. For example, <span class="math inline">\(\mathbf{e}_2\mathbf{m}_2, \mathbf{e}_1\mathbf{m}_1\)</span> are epipolar lines.</p>
+<p><strong>All</strong> epipolar lines in one image contain the epipole. Epipolar line is the intersection of epipolar plane and corresponding image plane. <strong>All</strong> epipolar planes intersect at the epipolar line.</p>
+<p>Epipolar constraint and triangulation:</p>
+<ol type="1">
+<li>All points lie on <span class="math inline">\(C_1M\)</span> will be projected onto <span class="math inline">\(e_2m_2\)</span></li>
+<li>Suppose <span class="math inline">\(m_1, m_2\)</span> correspond the same point on 3D space, <span class="math inline">\(M\)</span> will be the intersection of these two projection line</li>
+</ol>
+<h1 id="essential-and-fundamental-matrices">Essential and fundamental matrices</h1>
+<p>Under homogeneous coordinates, given a <span class="math inline">\(4\times1\)</span> point <span class="math inline">\(\mathbf{M}\)</span> viewed and projected by a stereo pair of cameras onto image planes at <span class="math inline">\(3\times1\)</span> normalized coordinates (each point is given with respect to its camera's coordinate frame.) <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> correspondingly, the epipolar constraint says that, the vector from the first camera's optical center to the first imaged point, the vector from the second optical center to the second imaged point, and the vector from one optical center to the other are all coplanar. Given <span class="math inline">\(R\)</span> and <span class="math inline">\(\mathbf{t}\)</span> as the rotation and translation between the two cameras' coordinate frames, the constrain could be expressed as <span class="math display">\[\bar{m}_2^T(\mathbf{t}\times R\bar{m}_1)=0\]</span></p>
+<p>Let's define the notion <span class="math inline">\([\mathbf{t}]_x\)</span> as the matrix such that <span class="math inline">\([\mathbf{t}]_x \mathbf{y} = \mathbf{t}\times\mathbf{y}\)</span> for any given <span class="math inline">\(\mathbf{y}\)</span>, then the equation could be re-written as <span class="math display">\[\bar{m}_2^T([\mathbf{t}]_xR\bar{m}_1)=\bar{m}_2^TE\bar{m}_1=0\]</span> where <span class="math inline">\(E = [\mathbf{t}]_xR\)</span> is called the <strong>Essential matrix</strong>.</p>
+<p>If the cameras are uncalibrated, that is, the mapping from pixel coordinate to normalized coordinate is unknown, then <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> are unknown. We need to define the mapping explicitly as <span class="math inline">\(A_1, A_2\)</span> such that <span class="math inline">\(A = T_{internal}T_{perspective}\)</span>, then given <span class="math inline">\(m_1, m_2\)</span> in pixel coordinates, we could get the <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> by <span class="math display">\[\begin{aligned}
+m_1 &amp;= A_1\bar{m}_1 \\
+m_2 &amp;= A_2\bar{m}_2
+\end{aligned}\]</span></p>
+<p>Then the equation defined by epipilar constraint could be written as <span class="math display">\[\mathbf{m}_2^T A_2^{-T}(t\times R)A_1^{-1}\mathbf{m}_1 =m_2^TFm_1=0\]</span> where <span class="math inline">\(F = A_2^{-T}EA_1^{-1}\)</span> is called <strong>Fundamental matrix</strong>.</p>
+<h3 id="proof">Proof</h3>
+<h4 id="algebraic-approach">Algebraic Approach</h4>
+<p>Assume that <span class="math inline">\(\mathbf{M}\)</span> is given with respect to the first camera's coordinate frame to yield the following two imaging equations:</p>
+<p><span class="math display">\[\begin{aligned}
+\lambda_1 m_1 &amp;= A_1 \begin{bmatrix}\mathbf{I}&amp;\mathbf{0}\end{bmatrix}\mathbf{M}\\
+\lambda_2 m_2 &amp;= A_2 \begin{bmatrix}\mathbf{R}&amp;\mathbf{t}\end{bmatrix}\mathbf{M}
+\end{aligned}\]</span></p>
+<h4 id="geometric-approach">Geometric Approach</h4>
+<p>The epipolar line corresponding to <span class="math inline">\(m_1\)</span> contains two points: the epipole <span class="math inline">\(\mathbf{e}\)</span> (the projection of the first camera's optical center into the second camera) and the point at infinity associated with <span class="math inline">\(m_1\)</span>, then it could be defined as <span class="math inline">\(\mathbf{l}=\mathbf{e}\times \mathbf{m}_\infty\)</span>. Since <span class="math inline">\(m_2\)</span> must lie on the epipolar line corresponding to <span class="math inline">\(m_1\)</span>: <span class="math display">\[\mathbf{m}_2^T\mathbf{l} = 0\]</span></p>
+<p>The Essential matrix contains five parameters (three for rotation and two for the direction of translation -- the magnitude of translation cannot be recovered due to the depth/speed ambiguity) and has two constraints: (1) its determinant is zero, and (2) its two non-zero singular values are equal. The Fundamental matrix contains seven parameters (two for each of the epipoles and three for the homography between the two pencils of epipolar lines) and its rank is always two.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Computer-Vision/" rel="tag"># Computer Vision</a>
+              <a href="/tags/epipolar-geometry/" rel="tag"># epipolar geometry</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/pg/" rel="prev" title="Projective Geometry">
+      <i class="fa fa-chevron-left"></i> Projective Geometry
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/cc1/" rel="next" title="Camera Calibration">
+      Camera Calibration <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#notion"><span class="nav-number">1.</span> <span class="nav-text">Notion</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#essential-and-fundamental-matrices"><span class="nav-number">2.</span> <span class="nav-text">Essential and fundamental matrices</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#proof"><span class="nav-number">2.0.1.</span> <span class="nav-text">Proof</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#algebraic-approach"><span class="nav-number">2.0.1.1.</span> <span class="nav-text">Algebraic Approach</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#geometric-approach"><span class="nav-number">2.0.1.2.</span> <span class="nav-text">Geometric Approach</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Misa XU"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Misa XU</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Misa-Xu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Misa-Xu" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:giokosan@gmail.com" title="E-Mail → mailto:giokosan@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-dragon"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misa XU</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '6f5c8bef0c06ea413171',
+      clientSecret: 'c859b172fcc560853c460394d80de30ee80bd7fa',
+      repo        : 'misa-xu.github.io',
+      owner       : 'Misa-XU',
+      admin       : ['Misa-XU'],
+      id          : 'aec52e32206ebd0126cbeb781780843e',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

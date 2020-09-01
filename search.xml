@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Camera Calibration</title>
-    <url>/cc/</url>
-    <content><![CDATA[
-]]></content>
-      <categories>
-        <category>Computer Vision</category>
-      </categories>
-      <tags>
-        <tag>Computer Vision</tag>
-        <tag>Camera Calibration</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CG Notes --- Cpt 1. Graphics Pipeline, Numerical issues</title>
     <url>/cg1/</url>
     <content><![CDATA[<h1 id="graphics-api">Graphics API</h1>
@@ -1773,32 +1760,15 @@ t_{21} &amp; t_{22} &amp; t_{23} \\
 <p>It's clear that <span class="math inline">\(l_{ij}\)</span> is determined by the determinant of the i_th and j_th rows of the two points. And the six parameters are not independent to each other as <span class="math inline">\((\bar{\mathbf{p}}_2-\bar{\mathbf{p}}_1) \cdot (\bar{\mathbf{p}}_2\times\bar{\mathbf{p}}_1) = 0\)</span></p>
 <h2 id="line-intersection">Line Intersection</h2>
 <p>Given two lines <span class="math inline">\(\mathbf{u}\)</span> and <span class="math inline">\(\mathbf{u}&#39;\)</span>, two points <span class="math inline">\(\mathbf{p}_1\)</span>, <span class="math inline">\(\mathbf{p}_2\)</span> lie on <span class="math inline">\(\mathbf{u}\)</span> and two points <span class="math inline">\(\mathbf{p}_1&#39;\)</span>, <span class="math inline">\(\mathbf{p}_2&#39;\)</span> lie on <span class="math inline">\(\mathbf{u}&#39;\)</span>, the two line intersect if and only if the <span class="math inline">\(4\times4\)</span> determinant <span class="math inline">\(\begin{vmatrix} \mathbf{p}_1 &amp;\mathbf{p}_2 &amp; \mathbf{p}_1&#39; &amp; \mathbf{p}_2&#39; \end{vmatrix}\)</span> is zero. (They could define a plane, equivalently, <span class="math inline">\(\mathbf{u}\cdot(\mathbf{p}_2&#39;\times\mathbf{p}_1&#39;) = \mathbf{u}&#39;\cdot(\mathbf{p}_2\times\mathbf{p}_1)\)</span>). Under the Plücker coordinates it will be <span class="math display">\[(l_{41}l_{23}&#39;+l_{41}&#39;l_{23}) + (l_{42}l_{31}&#39;+l_{42}&#39;l_{31}) + (l_{43}l_{12}&#39;+l_{43}&#39;l_{12}) = 0\]</span></p>
-<h1 id="projective-geometry-applied-to-computer-vision">Projective Geometry Applied to Computer Vision</h1>
-<p>The main areas of the application of projective geometry are those in which image formation and/or invariant descriptions between images are important, such as camera calibration, stereo, object recognition, scene reconstruction, mosaicing, image synthesis, and the analysis of shadows. This latter application arises from the fact that the composition of two <strong>perspective projections</strong> is not necessarily a <strong>perspective projection</strong> but is definitely a <strong>projective transformation</strong>; that is, projective transformations form a group, whereas perspective projections do not.</p>
-<h2 id="perspective-projection-vs.-perspective-transformation">Perspective Projection vs. Perspective Transformation</h2>
-<ol type="1">
-<li>Perspective Projection calculates the perspective view of a 3D object onto a 2D projection plane.</li>
-<li>Perspective Transformation allows: how the perspectively foreshortened and projected polygons will overlap, without discarding the z-values.</li>
-</ol>
-<p>The following three sections contain the image formation equations, detailed derivations of the Essential and Fundamental matrices, and an interesting discussion of the interpretation of vanishing points.</p>
-<h2 id="image-formation">Image Formation</h2>
-<p>Image formation involves the projection of points in <span class="math inline">\(\cal P^3\)</span> (the world) to points in <span class="math inline">\(\cal P^2\)</span> (the image plane). Given the point <span class="math inline">\((X,Y,Z)\)</span> in the <strong>Euclidean</strong> space, the perspective projection equation that forms a point <span class="math inline">\((x,y)\)</span> on the <strong>Euclidean</strong> plane is, <span class="math display">\[\begin{aligned}
-x &amp;= -f\frac{X}{Z} \\
-y &amp;= -f\frac{Y}{Z}
-\end{aligned}\]</span></p>
-<p>It is obviously non-linear. Converting to homogeneous coordinates makes it linear.</p>
-<p>Given <span class="math inline">\(\mathbf{p}&#39;=[x, y, w]^T\)</span> and <span class="math inline">\(\mathbf{p} = [X, Y, Z, W]\)</span>, the perspective projection matrix T is given by: <span class="math display">\[\mathbf{p}&#39;=T_{perspective}\mathbf{p} = \begin{bmatrix} -f &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; -f &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0
-\end{bmatrix}\mathbf{p}\]</span></p>
-<p>The entire image formation process includes perspective projection, along with matrices for internal and external calibration:</p>
-<p><span class="math display">\[\tilde{P} = T_{internal} T_{perspective} T_{external} = \begin{bmatrix}k_u&amp;k_c&amp;u_0\\0&amp;k_v&amp;v_0\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}-f&amp;0&amp;0\\0&amp;-f&amp;0\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}R &amp; \mathbf{t}\end{bmatrix}\]</span></p>
-<p>where <span class="math inline">\((u_0,v_0)\)</span> is the principal point, <span class="math inline">\(R\)</span> is the <span class="math inline">\(3\times3\)</span> rotation matrix, $ is the <span class="math inline">\(3\times1\)</span> translation vector, <span class="math inline">\(k_u, k_v\)</span> are focal length, <span class="math inline">\(k_c\)</span> is the skew parameter.</p>
-<h2 id="essential-and-fundamental-matrices">Essential and fundamental matrices</h2>
-<p>Under homogeneous coordinates, given a point <span class="math inline">\(\mathbf{M}\)</span>(<span class="math inline">\(4\times1\)</span>) viewed and projected by a stereo pair of cameras onto corresponding image planes at position <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> (<span class="math inline">\(3\times1\)</span>), the epipolar constraint says that, the vector from the first camera's optical center to the first imaged point, the vector from the second optical center to the second imaged point, and the vector from one optical center to the other are all coplanar. In normalized coordinates, this constraint can be expressed simply as</p>
-<p><img src="ep.png" /></p>
-<ol type="1">
-<li>Calibrated Cameras<br> In such case, <span class="math inline">\(\bar{m}_1\)</span> and <span class="math inline">\(\bar{m}_2\)</span> are given in <strong>normalized coordinates</strong>, that is, each is given with respect to its camera's coordinate frame. Given <span class="math inline">\(R\)</span> and <span class="math inline">\(\mathbf{t}\)</span> as the rotation and translation between the two cameras' coordinate frames, the constrain could be expressed as the equation <span class="math display">\[\bar{m}_2^T(t\times R\bar{m}_1)=0\]</span></li>
-</ol>
 ]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>Computer Vision</tag>
+        <tag>Computer Graphics</tag>
+        <tag>Math</tag>
+      </tags>
   </entry>
   <entry>
     <title>From Vector Space to Euclidean Space</title>
@@ -2261,5 +2231,228 @@ y &amp;= -f\frac{Y}{Z}
         <tag>Math</tag>
         <tag>Space</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Epipolar geometry</title>
+    <url>/eg/</url>
+    <content><![CDATA[<p>In real cameras, the image plane is actually behind the focal center, and produces an image that is symmetric about the focal center of the lens. The problem is usually simplified by placing a <strong>virtual image</strong> plane in front of the focal center. <a id="more"></a> <img src="ep.png" /></p>
+<h1 id="notion">Notion</h1>
+<p>Points, as entities in their own right, will be denoted in italics. When such points are expressed in Euclidean coordinates, we will use bold notation, and when they are expressed in projective coordinates, they will be bold with a tilde. Thus a point M in three space might be imaged at m, and m might have coordinates <span class="math inline">\({\bf m} = (u, v)\)</span> or <span class="math inline">\(\tilde{\bf m} = (u, v, 1)\)</span>.Of course, image points can also be expressed in the camera coordinate system. When we do this we will write m as <span class="math inline">\({\bf x} = (u - u_c, v - v_c)\)</span> or <span class="math inline">\(\tilde{\bf x} = (u - u_c, v - v_c, 1)\)</span>.</p>
+<p>Moreover, as with the last lecture, much of the development in this lecture is done in the setting of projective geometry, which was first introduced in Lecture 1. There is one result which we will use constantly, so it is important to have it clearly understood.</p>
+<p>The standard epipolar geometry setup involves a 3D point <span class="math inline">\(\mathbf{M}\)</span> and two optical center <span class="math inline">\(C_1, C_2\)</span>. The projection of <span class="math inline">\(\mathbf{M}\)</span> in each of the image planes is located at <span class="math inline">\(\mathbf{m}_1, \mathbf{m}_2\)</span> respectively.</p>
+<p>The line between two optical centers <span class="math inline">\(C_1, C_2\)</span> is referred to as the <strong>baseline</strong>.</p>
+<p>Each optical center <span class="math inline">\(C_1, C_2\)</span> projects onto a distinct point into the other camera's image plane, as <span class="math inline">\(e_2\)</span> and <span class="math inline">\(e_1\)</span>, respectively. Such points are called <strong>epipole</strong> or <strong>epipolar point</strong>. Alternatively, <strong>epipoles</strong> are also defined by the intersection of baseline and corresponding image planes.</p>
+<p>An <strong>epipolar plane</strong> is defined by the two optical center <span class="math inline">\(C_1, C_2\)</span> and the point <span class="math inline">\(M\)</span>.</p>
+<p>An <strong>epipolar line</strong> is a function of the position of point <span class="math inline">\(M\)</span>. The two points that define the line are the epipole and the projection of <span class="math inline">\(M\)</span> on the image plane. For example, <span class="math inline">\(\mathbf{e}_2\mathbf{m}_2, \mathbf{e}_1\mathbf{m}_1\)</span> are epipolar lines.</p>
+<p><strong>All</strong> epipolar lines in one image contain the epipole. Epipolar line is the intersection of epipolar plane and corresponding image plane. <strong>All</strong> epipolar planes intersect at the epipolar line.</p>
+<p>Epipolar constraint and triangulation:</p>
+<ol type="1">
+<li>All points lie on <span class="math inline">\(C_1M\)</span> will be projected onto <span class="math inline">\(e_2m_2\)</span></li>
+<li>Suppose <span class="math inline">\(m_1, m_2\)</span> correspond the same point on 3D space, <span class="math inline">\(M\)</span> will be the intersection of these two projection line</li>
+</ol>
+<h1 id="essential-and-fundamental-matrices">Essential and fundamental matrices</h1>
+<p>Under homogeneous coordinates, given a <span class="math inline">\(4\times1\)</span> point <span class="math inline">\(\mathbf{M}\)</span> viewed and projected by a stereo pair of cameras onto image planes at <span class="math inline">\(3\times1\)</span> normalized coordinates (each point is given with respect to its camera's coordinate frame.) <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> correspondingly, the epipolar constraint says that, the vector from the first camera's optical center to the first imaged point, the vector from the second optical center to the second imaged point, and the vector from one optical center to the other are all coplanar. Given <span class="math inline">\(R\)</span> and <span class="math inline">\(\mathbf{t}\)</span> as the rotation and translation between the two cameras' coordinate frames, the constrain could be expressed as <span class="math display">\[\bar{m}_2^T(\mathbf{t}\times R\bar{m}_1)=0\]</span></p>
+<p>Let's define the notion <span class="math inline">\([\mathbf{t}]_x\)</span> as the matrix such that <span class="math inline">\([\mathbf{t}]_x \mathbf{y} = \mathbf{t}\times\mathbf{y}\)</span> for any given <span class="math inline">\(\mathbf{y}\)</span>, then the equation could be re-written as <span class="math display">\[\bar{m}_2^T([\mathbf{t}]_xR\bar{m}_1)=\bar{m}_2^TE\bar{m}_1=0\]</span> where <span class="math inline">\(E = [\mathbf{t}]_xR\)</span> is called the <strong>Essential matrix</strong>.</p>
+<p>If the cameras are uncalibrated, that is, the mapping from pixel coordinate to normalized coordinate is unknown, then <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> are unknown. We need to define the mapping explicitly as <span class="math inline">\(A_1, A_2\)</span> such that <span class="math inline">\(A = T_{internal}T_{perspective}\)</span>, then given <span class="math inline">\(m_1, m_2\)</span> in pixel coordinates, we could get the <span class="math inline">\(\bar{m}_1, \bar{m}_2\)</span> by <span class="math display">\[\begin{aligned}
+m_1 &amp;= A_1\bar{m}_1 \\
+m_2 &amp;= A_2\bar{m}_2
+\end{aligned}\]</span></p>
+<p>Then the equation defined by epipilar constraint could be written as <span class="math display">\[\mathbf{m}_2^T A_2^{-T}(t\times R)A_1^{-1}\mathbf{m}_1 =m_2^TFm_1=0\]</span> where <span class="math inline">\(F = A_2^{-T}EA_1^{-1}\)</span> is called <strong>Fundamental matrix</strong>.</p>
+<h3 id="proof">Proof</h3>
+<h4 id="algebraic-approach">Algebraic Approach</h4>
+<p>Assume that <span class="math inline">\(\mathbf{M}\)</span> is given with respect to the first camera's coordinate frame to yield the following two imaging equations:</p>
+<p><span class="math display">\[\begin{aligned}
+\lambda_1 m_1 &amp;= A_1 \begin{bmatrix}\mathbf{I}&amp;\mathbf{0}\end{bmatrix}\mathbf{M}\\
+\lambda_2 m_2 &amp;= A_2 \begin{bmatrix}\mathbf{R}&amp;\mathbf{t}\end{bmatrix}\mathbf{M}
+\end{aligned}\]</span></p>
+<h4 id="geometric-approach">Geometric Approach</h4>
+<p>The epipolar line corresponding to <span class="math inline">\(m_1\)</span> contains two points: the epipole <span class="math inline">\(\mathbf{e}\)</span> (the projection of the first camera's optical center into the second camera) and the point at infinity associated with <span class="math inline">\(m_1\)</span>, then it could be defined as <span class="math inline">\(\mathbf{l}=\mathbf{e}\times \mathbf{m}_\infty\)</span>. Since <span class="math inline">\(m_2\)</span> must lie on the epipolar line corresponding to <span class="math inline">\(m_1\)</span>: <span class="math display">\[\mathbf{m}_2^T\mathbf{l} = 0\]</span></p>
+<p>The Essential matrix contains five parameters (three for rotation and two for the direction of translation -- the magnitude of translation cannot be recovered due to the depth/speed ambiguity) and has two constraints: (1) its determinant is zero, and (2) its two non-zero singular values are equal. The Fundamental matrix contains seven parameters (two for each of the epipoles and three for the homography between the two pencils of epipolar lines) and its rank is always two.</p>
+]]></content>
+      <categories>
+        <category>Computer Vision</category>
+      </categories>
+      <tags>
+        <tag>Computer Vision</tag>
+        <tag>epipolar geometry</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Camera Calibration</title>
+    <url>/cc1/</url>
+    <content><![CDATA[<h1 id="camera-model">Camera Model</h1>
+<h2 id="pinhole-camera">Pinhole Camera</h2>
+<p>This pinhole camera system consists of a <strong>barrier</strong> and a small <strong>aperture</strong> between the 3D object and a photographic <strong>film</strong>/<strong>image plane</strong>. <span class="math inline">\(f\)</span> is the <strong>focal length</strong> that between the pinhole and the film; <span class="math inline">\(O\)</span> is the <strong>aperture</strong>/<strong>center of the camera</strong>. Sometimes, the image plane is placed between <span class="math inline">\(O\)</span> and the 3D object at a distance <span class="math inline">\(f\)</span> from <span class="math inline">\(O\)</span>. In this case, it is called the <strong>virtual image</strong>. <a id="more"></a> <img src="ph.png" style="width:70.0%" /></p>
+<p>Given a point <span class="math inline">\(P = [x, y, z]^T\)</span> from a 3D object visible to the pinhole camera, the projection on the image plane <span class="math inline">\(\Pi&#39;\)</span> is the intersection of image plane <span class="math inline">\(\Pi&#39;\)</span> and the line <span class="math inline">\(PO\)</span>, written as <span class="math inline">\(P&#39; = [x&#39;, y&#39;]^T\)</span>. The pinhole itself will also be projected onto the image plane at <span class="math inline">\(C&#39;\)</span>. With the notions above, then we can define a coordinate system <span class="math inline">\([i, j, k]\)</span> centered at <span class="math inline">\(O\)</span> and aligned the axis <span class="math inline">\(k\)</span> with <span class="math inline">\(OC&#39;\)</span>. Such coordinate system is known as the <strong>camera coordinate system</strong>. The line <span class="math inline">\(OC&#39;\)</span> is called the <strong>optical axis</strong> of the camera system.</p>
+<p><img src="phm.png" /></p>
+<p>Using the law of similar triangles we get</p>
+<p><span class="math display">\[\begin{aligned}
+x&#39; &amp;= f\frac{x}{z} \\
+y&#39; &amp;= f\frac{y}{z}
+\end{aligned}\]</span></p>
+<h3 id="influence-of-aperture">Influence of Aperture</h3>
+<ol type="1">
+<li>Each point on the 3D object emits <strong>multiple rays</strong> of light outwards.</li>
+<li>With a large aperture, every point on the film will be influenced by light rays emitted from multiple points on the 3D object, which causes <strong>blurring</strong>.</li>
+<li>With a smaller aperture, only one (or a few) of these rays of light passes through the aperture and hits the film. Then we may assume a one-to-one mapping between points on the 3D object and the film.</li>
+<li>A smaller aperture size causes less light rays to pass through, resulting in crisper but darker images.</li>
+</ol>
+<table>
+<tbody>
+<tr class="odd">
+<td><img src="slc.png" /></td>
+<td><img src="ap.png" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="paraxial-refraction-model">Paraxial refraction model</h2>
+<p>The fundamental problem presented by the pinhole formulation is: How to develop cameras that take crisp and bright images?</p>
+<p>In modern cameras, the problem is solved by focusing or dispersing light by lens. Ideally, all rays of light emitted by point <span class="math inline">\(P\)</span> will be refracted and converge to a single point <span class="math inline">\(P&#39;\)</span>.</p>
+<p><img src="lense.png" /></p>
+<p>The figure above shows that given a specific setting, some specific point will converge properly on the image plane. However, others that be closer or further from the image plane than <span class="math inline">\(P\)</span> will converge in back or front of image plane respectively. As a result, on the image plane, the corresponding projection will be <strong>blurred</strong> or <strong>out of focus</strong>. The range of distance of each lens that makes objects &quot;in focus&quot; is called <strong>depth of field</strong>.</p>
+<p><img src="para.png" /></p>
+<p>Another important property of lens is: All light rays parallel to the optical axis will intersect with optical axis at the <strong>same</strong> point after passing through the lens (and vise versa, according to the reversibility of optical path); The point then is known as the <strong>focal point</strong>. The focal length in this model is referred to the distance between the focal point and the center of the lens.</p>
+<p><img src="prm.png" /></p>
+<p>Again, using the law of similar triangles we get</p>
+<p><span class="math display">\[\begin{aligned}
+x&#39; &amp;= z&#39;\frac{x}{z} \\
+y&#39; &amp;= z&#39;\frac{y}{z}
+\end{aligned}\]</span> where <span class="math inline">\(z&#39; = f + z_0\)</span></p>
+<h3 id="lens-equation">Lens Equation</h3>
+<p><span class="math display">\[\frac{1}{z&#39;} - \frac{1}{z} = \frac{1}{f}\]</span></p>
+<p>Where <span class="math inline">\(z\)</span> is negative and <span class="math inline">\(-z\)</span> represents the distance between object and optical origin. When <span class="math inline">\(z \to \infty\)</span>, <span class="math inline">\(z&#39; \to f\)</span></p>
+<h3 id="lens-distortion">Lens Distortion</h3>
+<p>In optics, a thin lens is a lens with a negligible thickness. In real life, different portions of the lens have differing focal lengths, the artifacts caused by it is called <strong>Radial distortion</strong>.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Normal</th>
+<th>Pincushion</th>
+<th>Barrel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="n.png" /></td>
+<td><img src="p.png" /></td>
+<td><img src="b.png" /></td>
+</tr>
+<tr class="even">
+<td>Invariant</td>
+<td>Image magnification <strong>increase</strong> with the distance from the optical axis</td>
+<td>Image magnification <strong>decrease</strong> with the distance from the optical axis</td>
+</tr>
+</tbody>
+</table>
+<h1 id="image-formation">Image Formation</h1>
+<p>Given the point <span class="math inline">\(\mathbf{p} = [X,Y,Z]^T\)</span> in the <strong>Euclidean</strong> space, the perspective projection equation that forms a point <span class="math inline">\(\mathbf{p}&#39; = [x,y]^T\)</span> on the <strong>Euclidean</strong> plane is, <span class="math display">\[\begin{aligned}
+x &amp;= f\frac{X}{Z} \\
+y &amp;= f\frac{Y}{Z}
+\end{aligned}\]</span></p>
+<p>In projective space, it is represented as <span class="math display">\[\begin{bmatrix}x_h\\y_h\\w_h\end{bmatrix}=\begin{bmatrix}f&amp;0&amp;0&amp;0\\0&amp;f&amp;0&amp;0\\0&amp;0&amp;1&amp;0\end{bmatrix}\begin{bmatrix}X\\Y\\Z\\1\end{bmatrix}\]</span></p>
+<p>And <span class="math display">\[\begin{aligned}
+x &amp;= \frac{x_h}{w_h} = f\frac{X}{Z} \\
+y &amp;= \frac{y_h}{w_h} = f\frac{Y}{Z}
+\end{aligned}\]</span></p>
+<h2 id="other-projection">Other Projection</h2>
+<h3 id="weak-perspective-projection">Weak perspective projection</h3>
+<p>When the relative scene <strong>depth</strong> is small compared to its distance from the camera, we could treat the depth of all 3D point as <span class="math inline">\(Z_0\)</span> uniformly, that is</p>
+<p><span class="math display">\[\begin{aligned}
+x &amp;= \frac{f}{Z_0}X \\
+y &amp;= \frac{f}{Z_0}Y
+\end{aligned}\]</span></p>
+<p>In projective space, it is represented as <span class="math display">\[\begin{bmatrix}x_h\\y_h\\w_h\end{bmatrix}=\begin{bmatrix}f&amp;0&amp;0&amp;0\\0&amp;f&amp;0&amp;0\\0&amp;0&amp;0&amp;Z_0\end{bmatrix}\begin{bmatrix}X\\Y\\Z\\1\end{bmatrix}\]</span></p>
+<table>
+<thead>
+<tr class="header">
+<th>Normal Perspective Projection</th>
+<th>Weak Perspective Projection</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="np.png" /></td>
+<td><img src="wp.png" /></td>
+</tr>
+</tbody>
+</table>
+<h3 id="orthographic-affine-projection">Orthographic (affine) projection</h3>
+<p><img src="o.png" /></p>
+<p><span class="math display">\[\begin{aligned}
+x &amp;= X \\
+y &amp;= Y
+\end{aligned}\]</span></p>
+<p>In projective space, it is represented as <span class="math display">\[\begin{bmatrix}x_h\\y_h\\w_h\end{bmatrix}=\begin{bmatrix}f&amp;0&amp;0&amp;0\\0&amp;f&amp;0&amp;0\\0&amp;0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}X\\Y\\Z\\1\end{bmatrix}\]</span></p>
+<h3 id="perspective-projection-vs.-perspective-transformation">Perspective Projection vs. Perspective Transformation</h3>
+<ol type="1">
+<li><strong>Perspective Projection</strong> calculates the perspective view of a 3D object onto a 2D projection plane.</li>
+<li><strong>Perspective Transformation</strong> calculates how the perspectively foreshortened and projected polygons will overlap, without discarding the z-values.</li>
+<li><strong>Perspective projections</strong> is not necessarily a <strong>perspective projection</strong> but is definitely a <strong>projective transformation</strong>; that is, projective transformations form a group, whereas perspective projections do not.</li>
+</ol>
+<p>However, the coordinates on the image plane does not directly correspond to the coordinates on the actual digital images. <img src="fn.png" style="width:70.0%" /></p>
+<h2 id="camera-coordinate-system-to-pixel-coordinate">Camera Coordinate System to Pixel Coordinate</h2>
+<ol type="1">
+<li>A digital images typically have their origin at the lower-left corner. Thus, we need to introduce a translation vector <span class="math inline">\(c_x, c_y\)</span> to shift the origin back. then <span class="math display">\[\begin{aligned}
+x &amp;= f\frac{X}{Z} + c_x\\
+y &amp;= f\frac{Y}{Z} + c_y
+\end{aligned}\]</span></li>
+<li>Digital image are expressed in pixels, while focal length and points in image plane are represented in physical measurements (e.g. centimeters). So we must introduce two new parameters <span class="math inline">\(k\)</span> and <span class="math inline">\(l\)</span> that give us the relationship to transfer the physical measurement into pixel of two directions respectively, with the unit like <span class="math inline">\(\frac{\text{pixels}}{\text{cm}}\)</span>, then <span class="math display">\[\begin{aligned}
+x &amp;= k \cdot f\frac{X}{Z} + c_x = \alpha \frac{X}{Z} + c_x\\
+y &amp;= l \cdot f\frac{Y}{Z} + c_y = \beta \frac{Y}{Z} + c_y
+\end{aligned}\]</span></li>
+<li>An image is called <strong>skewed</strong> when the camera coordinate system is skewed i.e. the angle between the two axes are slightly larger or smaller than 90 degrees. Most cameras have zero-skew, but some degree of skewness may occur because of sensor manufacturing errors. Note that skew should be applied before the scaling, then</li>
+</ol>
+<p><span class="math display">\[\begin{aligned}
+x &amp;= \alpha (\frac{X}{Z} - \cot(\theta) \frac{Y}{Z}) + c_x\\
+y &amp;= \frac{\beta}{\sin(\theta)} \frac{Y}{Z} + c_y
+\end{aligned}\]</span></p>
+<table>
+<thead>
+<tr class="header">
+<th>Normal</th>
+<th>Skewed</th>
+<th>Combined</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="norm.png" /></td>
+<td><img src="skew.png" /></td>
+<td><img src="combine.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>It's useful to represent the transformation in a linear form instead of non-linear form. Then we apply the transformation in the homogeneous coordinates. Then the image formation involves the projection of points in <span class="math inline">\(\cal P^3\)</span> (the world) to points in <span class="math inline">\(\cal P^2\)</span> (the image plane). Given <span class="math inline">\(P&#39;_h = [x, y, w], P_h = [X, Y, Z, 1]\)</span>, the transformation could be written as</p>
+<p><span class="math display">\[P&#39;_h = \begin{bmatrix} x\\y\\w\\ \end{bmatrix} = \begin{bmatrix}\alpha &amp; -\cot(\theta) &amp; c_x &amp; 0 \\ 0 &amp; \frac{\beta}{\sin(\theta)} &amp; c_y &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \end{bmatrix} \begin{bmatrix} X\\Y\\Z\\1 \end{bmatrix} = \begin{bmatrix}\alpha&amp;-\cot(\theta)&amp;c_x\\0&amp;\frac{\beta}{\sin(\theta)}&amp;c_y\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}\mathbf{I}&amp;\mathbf{0}\end{bmatrix}P_h = K\begin{bmatrix}\mathbf{I}&amp;\mathbf{0}\end{bmatrix}P_h\]</span></p>
+<p>where <span class="math inline">\(K\)</span> is often referred to as the <strong>camera matrix</strong>. <span class="math inline">\(K\)</span> has 5 degrees of freedom: 2 for focal length, 2 for offset, and 1 for skewness.</p>
+<p>Finally, in pixel coordinates, <span class="math inline">\(P&#39;_i = [\frac{x}{w}, \frac{y}{w}]^T\)</span></p>
+<h2 id="world-reference-system-to-camera-reference-system">World Reference System to Camera Reference System</h2>
+<p>The calculation above based on an assumption that the coordinate of <span class="math inline">\(P\)</span> is given in the camera reference system. So we may need to explicitly transform the coordinates in the world reference system as <span class="math inline">\(P_w\)</span> to camera reference system as <span class="math inline">\(P\)</span>. Given a <span class="math inline">\(3\times 3\)</span> rotation <span class="math inline">\(R\)</span> and translation <span class="math inline">\(3\times 1\)</span> <span class="math inline">\(\mathbf{t}\)</span>, for each <span class="math inline">\(P_w\)</span>, the corresponding point in camera reference system will be <span class="math display">\[P_h = \begin{bmatrix} \mathbf{R} &amp; \mathbf{t} \\ \mathbf{0} &amp; 1\end{bmatrix} P_w\]</span></p>
+<p>The complete mapping from a 3D point <span class="math inline">\(P\)</span> in world reference system to the homogeneous pixel coordinate is: <span class="math display">\[P&#39;_h = K \begin{bmatrix} R &amp; t \end{bmatrix} P_w = MP_w\]</span></p>
+<p>Given <span class="math inline">\(P&#39;_h = [x, y, w]\)</span>, then <span class="math inline">\(P&#39;_i = [\frac{x}{w}, \frac{y}{w}]^T\)</span> is the position on the digital image.</p>
+<p>The <span class="math inline">\(3\times4\)</span> projection matrix <span class="math inline">\(M\)</span> has <strong>11</strong> degrees of freedom totally: 5 from intrinsic matrix, 3 from extrinsic rotation, 3 from extrinsic translation. And the scaling is unimportant. <span class="math inline">\(M\)</span> could also be treat as three row vectors <span class="math inline">\(M = \begin{bmatrix}--\mathbf{m}_1--\\--\mathbf{m}_2--\\--\mathbf{m}_3--\end{bmatrix}\)</span> ,then given <span class="math inline">\(P&#39;_h = \begin{bmatrix}x\\y\\w \end{bmatrix}MP_w\)</span>, <span class="math display">\[P&#39;_i = \begin{bmatrix}\frac{x}{w}\\\frac{y}{w}\end{bmatrix} = \begin{bmatrix}\frac{\mathbf{m}_1\cdot P_w}{\mathbf{m}_3\cdot P_w}\\\frac{\mathbf{m}_2\cdot P_w}{\mathbf{m}_3\cdot P_w}\end{bmatrix}\]</span></p>
+<h1 id="camera-calibration">Camera Calibration</h1>
+<p>This problem of estimating the extrinsic and intrinsic camera parameters is known as <strong>camera calibration</strong>.</p>
+<p><img src="cr.png" /></p>
+<p>We can describe this problem in the context of a <strong>calibration rig</strong>. The rig usually consists of a simple pattern with known dimensions. It defines the origin <span class="math inline">\(O_w\)</span> and axis <span class="math inline">\(i_w, j_w, k_w\)</span> of the world reference frame. Given the known points <span class="math inline">\(P_{w1}, ..., P_{wn}\)</span> in world reference frame, and the corresponding points in pixel coordinate <span class="math inline">\(P_{i1}&#39;, ..., P_{in}&#39;\)</span>, we could estimate the mapping between them. Since <span class="math inline">\(M\)</span> has 11 degrees of freedom, we need at least 11 equations, therefore at least 6 correspondence between points.</p>
+<p>For each point in pixel coordinate <span class="math inline">\([u_i, v_i]\)</span>, and the corresponding point in world reference frame <span class="math inline">\(P_{i}\)</span>, <strong>here <span class="math inline">\(i\)</span> is the index</strong>, we have the equation: <span class="math display">\[\begin{aligned}
+- \mathbf{m}_1\cdot P_{i} + \mathbf{m}_3\cdot P_i \cdot u_i &amp;= 0\\
+- \mathbf{m}_2\cdot P_{i} + \mathbf{m}_3\cdot P_i \cdot v_i &amp;= 0
+\end{aligned}\]</span></p>
+<p>Then the n points will form a linear system <span class="math display">\[\begin{aligned}
+- \mathbf{m}_1\cdot P_{1} + \mathbf{m}_3\cdot P_1 \cdot u_1 &amp;= 0\\
+- \mathbf{m}_2\cdot P_{1} + \mathbf{m}_3\cdot P_1 \cdot v_1 &amp;= 0\\
+\vdots&amp;=\vdots\\
+- \mathbf{m}_1\cdot P_{n} + \mathbf{m}_3\cdot P_n \cdot u_n &amp;= 0\\
+- \mathbf{m}_2\cdot P_{n} + \mathbf{m}_3\cdot P_n \cdot v_n &amp;= 0
+\end{aligned}\]</span></p>
+<p>This can be formatted as a matrix-vector product shown below: <span class="math display">\[\begin{bmatrix} - P^T_{1} &amp; \mathbf{0}^T &amp; u_1 \cdot P^T_1 \\ \mathbf{0}^T &amp; - P^T_{1} &amp; v_1 \cdot P^T_1 \\ \vdots \\
+- P^T_{n} &amp; \mathbf{0}^T &amp; u_n \cdot P^T_n \\ \mathbf{0}^T &amp; - P^T_{n} &amp; v_n \cdot P^T_n \\ \end{bmatrix} \begin{bmatrix} \mathbf{m}^T_1 \\ \mathbf{m}^T_2 \\ \mathbf{m}^T_3 \end{bmatrix} = Tm = \mathbf{0} \]</span></p>
+]]></content>
   </entry>
 </search>
